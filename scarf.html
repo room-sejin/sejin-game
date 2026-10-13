@@ -133,8 +133,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   for(const n of notes){if(n.l!==l||n.hit||n.miss)continue;const d=Math.abs(n.t-t);if(d<bd){bd=d;best=n;}if(n.t-t>GOOD*2)break;}
   if(!best||bd>GOOD){stray(l);return;}
   best.hit=true;best.state=1;const perfect=bd<=PERFECT;
-  if(perfect){counts.p++;rows+=2;say('완벽!','#ffd23f');window.SejinSfx&&SejinSfx.play('ok');}
-  else{counts.g++;rows+=1;say('좋아요','#8fd3a0');window.SejinSfx&&SejinSfx.play('pop');}
+  if(perfect){counts.p++;rows+=2;say('완벽!','#ffd23f');}
+  else{counts.g++;rows+=1;say('좋아요','#8fd3a0');}
   combo++;maxCombo=Math.max(maxCombo,combo);burst(l,perfect?'#fff3a8':'#cfeacb');head();
  }
  // 구슬이 없는 곳을 누르면(박자 없이 마구 누르기 방지) 콤보가 끊기고 한 줄이 풀린다
@@ -160,9 +160,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   for(const n of notes){
    if(n.hit&&n.h>0&&n.state===1){   // long yarn: keep holding until its end
     if(down[n.l]){n.held+=dt*1000;}
-    if(t>=n.t+n.h){n.state=2;if(n.held>=n.h*.75){rows+=2;say('쭉 이어졌어요! +2','#ffd23f');window.SejinSfx&&SejinSfx.play('chime');burst(n.l,'#fff3a8');head();}else{say('끊겼어요','#f2a7b5');combo=0;}}
+    if(t>=n.t+n.h){n.state=2;if(n.held>=n.h*.75){rows+=2;say('쭉 이어졌어요! +2','#ffd23f');burst(n.l,'#fff3a8');head();}else{say('끊겼어요','#f2a7b5');combo=0;}}
    }
-   if(!n.hit&&!n.miss&&t-n.t>GOOD){n.miss=true;counts.m++;combo=0;lives--;rows=Math.max(0,rows-1);say('엉켰어요!','#ff8a8a');window.SejinSfx&&SejinSfx.play('wrong');head();if(lives<=0)return finish(false);}
+   if(!n.hit&&!n.miss&&t-n.t>GOOD){n.miss=true;counts.m++;combo=0;lives--;rows=Math.max(0,rows-1);say('엉켰어요!','#ff8a8a');head();if(lives<=0)return finish(false);}
   }
   const end=notes.length?notes[notes.length-1].t+notes[notes.length-1].h+900:0;
   if(t>end)finish(true);
