@@ -80,15 +80,15 @@ a.promo:focus-visible,.store-links a:focus-visible{outline:3px solid #8fc3e0;out
   // 방 화면 홍보 배너(에너지 아래): 인스타 / 판매 사이트. 지금은 예시 — assets/banner-*.png(가로 4:1, 예: 1200×300)가 들어오면 그 그림이 배너 전체로 자동 표시된다.
   document.querySelectorAll('[data-banner]').forEach(slot=>{
    const root=slot.dataset.banner||'',L=PROMO.links;
-   const B0=[{id:'ig',cls:'ig',tag:'인스타그램',title:'@room_sejin 놀러 오세요',text:'새 소식과 손뜨개 인형 사진을 올려요',url:L.instagram,art:'assets/banner-instagram-v1.png',bg:'assets/ui/banner-instagram-background-v1.png',btn:'구경하기'},
-            {id:'shop',cls:'shop',tag:'인형 가게',title:'세진이 인형 만나러 가기',text:'한 코 한 코 직접 뜬 실물 인형',url:L.store,art:'assets/banner-store-v1.png',bg:'assets/ui/banner-store-background-v1.png',btn:'가게 가기'}],B=B0.filter(b=>b.url);   // 주소가 아직 없는 배너(판매 사이트)는 숨김
+   const B0=[{id:'ig',cls:'ig',tag:'인스타그램',title:'@room_sejin 놀러 오세요',text:'새 소식과 손뜨개 인형 사진을 올려요',url:L.instagram,bg:'assets/ui/banner-instagram-background-v1.png',btn:'구경하기'},
+            {id:'shop',cls:'shop',tag:'인형 가게',title:'세진이 인형 만나러 가기',text:'한 코 한 코 직접 뜬 실물 인형',url:L.store,bg:'assets/ui/banner-store-background-v1.png',btn:'가게 가기'}],B=B0.filter(b=>b.url);   // 주소가 아직 없는 배너(판매 사이트)는 숨김
    if(!B.length){slot.remove();return;}
    const wrap=document.createElement('div');wrap.className='rbn';wrap.setAttribute('role','region');wrap.setAttribute('aria-label','작가의 인형 소식');
    wrap.innerHTML='<span class="rbn-tag">예시 배너</span>'+B.map((b,i)=>{const a=document.createElement(b.url?'a':'div');a.className='rbn-slide '+b.cls+(b.url?'':' off')+(i?'':' on');if(b.url){a.href=b.url;a.target='_blank';a.rel='noopener';}
     a.innerHTML=`<span class="pic" style="background-image:url('${root}${PROMO.image}')"></span><span class="txt"><small>${b.tag}</small><b>${b.title}</b><p>${b.text}</p></span><span class="go">${b.url?b.btn:'준비 중'}</span>`;
     return a.outerHTML;}).join('')+'<div class="rbn-dots">'+B.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')+'</div>';
    slot.replaceWith(wrap);
-   const sl=[...wrap.querySelectorAll('.rbn-slide')];B.forEach((b,i)=>{const im=new Image();im.onload=()=>{sl[i].classList.add('art');sl[i].style.backgroundImage='url('+root+b.art+')';wrap.querySelector('.rbn-tag')?.remove();};im.src=root+b.art;const bi=new Image();bi.onload=()=>{if(sl[i].classList.contains('art'))return;sl[i].classList.add('bgart');sl[i].style.backgroundImage='url('+root+b.bg+')';wrap.querySelector('.rbn-tag')?.remove();};bi.src=root+b.bg;});
+   const sl=[...wrap.querySelectorAll('.rbn-slide')];B.forEach((b,i)=>{const im=new Image();im.onload=()=>{sl[i].classList.add('art');sl[i].style.backgroundImage='url('+root+b.art+')';wrap.querySelector('.rbn-tag')?.remove();};if(b.art)im.src=root+b.art;const bi=new Image();bi.onload=()=>{if(sl[i].classList.contains('art'))return;sl[i].classList.add('bgart');sl[i].style.backgroundImage='url('+root+b.bg+')';wrap.querySelector('.rbn-tag')?.remove();};bi.src=root+b.bg;});
    const dots=[...wrap.querySelectorAll('.rbn-dots i')];let k=0,hold=false;
    const show=n=>{k=n%sl.length;sl.forEach((s,i)=>s.classList.toggle('on',i===k));dots.forEach((d,i)=>d.classList.toggle('on',i===k));};
    wrap.addEventListener('pointerenter',()=>hold=true);wrap.addEventListener('pointerleave',()=>hold=false);
