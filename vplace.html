@@ -1,0 +1,182 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>방구석 세진이 · 천사 마을 안</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#f6f0fb;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;user-select:none;-webkit-user-select:none}
+.page{max-width:720px;margin:0 auto;padding:12px 16px 28px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.scene{position:relative;aspect-ratio:4/3;border-radius:22px;overflow:hidden;border:3px solid #fff;box-shadow:0 8px 24px #8875671f;background-repeat:no-repeat}
+.scene .tag{position:absolute;left:10px;top:10px;z-index:3;background:#fffffff0;border-radius:12px;padding:5px 11px;font-size:12px;font-weight:bold;box-shadow:0 2px 0 var(--line)}
+.scene .count{position:absolute;right:10px;top:10px;z-index:3;background:#fffffff0;border-radius:12px;padding:5px 11px;font-size:12px;font-weight:bold;box-shadow:0 2px 0 var(--line)}
+.me{position:absolute;left:12%;bottom:11%;height:34%;z-index:2;pointer-events:none}.me img{height:100%;width:auto;display:block;filter:drop-shadow(0 4px 4px #0003);animation:sfloat 2.6s ease-in-out infinite}
+.me::after,.vno .vs::after{content:none}.shadow{position:absolute;left:12%;bottom:8.6%;width:20%;height:2.2%;border-radius:50%;background:#4a3a5a33;z-index:1;pointer-events:none}
+@keyframes sfloat{50%{transform:translateY(-7px)}}
+.res.art img,.vno .vf img{animation:sfloat 3s ease-in-out infinite .7s}   /* 주민 천사들도 둥실둥실 */
+/* 연잎 지기·리본 천사는 얼굴이 조금 커 보여서 살짝 줄임(가운데는 그대로) */
+body[data-place=pond] .res.art,body[data-place=giftshop] .res.art{width:40%;right:15%}body[data-place=pond] .vno .vf,body[data-place=giftshop] .vno .vf{width:40%;right:15%}   /* 세진이는 땅에 서지 않고 동실동실 떠 있다 */
+.res{position:absolute;right:8%;bottom:8%;z-index:2;border:0;background:#fffffff2;border-radius:50%;width:26%;aspect-ratio:1;display:grid;place-items:center;font-size:min(14vw,84px);cursor:pointer;box-shadow:0 6px 0 #d8c8e6,0 10px 18px #4a3a5a33;animation:rb 1.8s ease-in-out infinite;padding:0}
+.res.art{width:46%;right:12%;bottom:8.6%;animation:none;box-shadow:none;background:none}.res.art small{bottom:0}
+.res small{position:absolute;bottom:-26px;font-size:12px;font-weight:bold;background:#fff;border-radius:10px;padding:2px 9px;white-space:nowrap;box-shadow:0 2px 0 var(--line);color:var(--ink)}
+@keyframes rb{50%{transform:translateY(-6px)}}
+.door{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:2;font-size:min(13vw,70px);filter:drop-shadow(0 4px 6px #0004);pointer-events:none}
+.sp{position:absolute;z-index:4;transform:translate(-50%,-50%);border:0;background:none;color:#fff;font-size:26px;text-shadow:0 0 8px #ffe9a8,0 0 14px #fff;opacity:.6;animation:tw 1.6s ease-in-out infinite;cursor:pointer;padding:14px}
+.sp:hover,.sp:focus-visible{opacity:1;transform:translate(-50%,-50%) scale(1.3)}
+.fl{position:absolute;z-index:5;font-style:normal;font-size:30px;transform:translate(-50%,-50%);animation:up .9s ease-out forwards;pointer-events:none}
+@keyframes tw{50%{opacity:.15}}@keyframes up{to{transform:translate(-50%,-200%) scale(1.4);opacity:0}}
+.bubble{position:absolute;z-index:4;left:50%;top:12%;transform:translateX(-50%);max-width:70%;background:#fff;border-radius:14px;padding:7px 12px;font-size:13px;line-height:1.4;text-align:center;box-shadow:0 2px 0 var(--line)}
+.card{margin-top:12px;background:#fff;border-radius:18px;padding:14px;box-shadow:0 4px 14px #8875670f}
+.card b{font-size:15px}.card p{margin:4px 0 0;font-size:12.5px;line-height:1.5;color:#6b5a50}
+.card .go{display:inline-block;margin-top:10px;border:0;font:inherit;font-weight:bold;font-size:14px;padding:11px 20px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+/* 대화 장면 (장면 위 오버레이) */
+.vno{position:absolute;inset:0;z-index:12;background:linear-gradient(#3a2a4a22,#3a2a4a77);animation:vnin .3s ease-out}
+@keyframes vnin{from{opacity:0}}
+.vno .vs{position:absolute;left:12%;bottom:39.5%;height:34%;width:auto;display:block;animation:sfloat 2.6s ease-in-out infinite;filter:drop-shadow(0 6px 8px #4a3a5a55);transition:filter .3s}
+.vno .vf{position:absolute;right:12%;bottom:38%;width:46%;aspect-ratio:1;display:grid;place-items:center;font-size:min(16vw,92px);background:#fffffff2;border-radius:50%;box-shadow:0 6px 0 #d8c8e6,0 10px 18px #4a3a5a33;transition:filter .3s}
+.vno .dim{filter:brightness(.72) saturate(.85) drop-shadow(0 6px 8px #4a3a5a55)}
+.vbox{position:absolute;left:3%;right:3%;bottom:3%;min-height:28%;background:#fffdf8f2;border:3px solid #fff;border-radius:18px;padding:18px 14px 10px;box-shadow:0 8px 24px #4a3a5a55;cursor:pointer}
+.vname{position:absolute;left:12px;top:-13px;background:#b9a3e3;color:#fff;font-weight:bold;font-size:12px;padding:3px 13px;border-radius:12px;border:2px solid #fff}.vname.s{background:#8fc3e0}
+.vtxt{font-size:14px;line-height:1.6;min-height:2.6em;white-space:pre-line}
+.vnext{position:absolute;right:12px;bottom:6px;font-size:12px;color:#b9a3e3;animation:vnb 1s ease-in-out infinite}.vnext[hidden]{display:none}
+@keyframes vnb{50%{transform:translateY(3px)}}
+.vch{display:flex;flex-direction:column;gap:6px;margin-top:8px}.vch:empty{display:none}
+.vch button{border:2px solid #e2d5ee;background:#fff;color:var(--ink);font:inherit;font-weight:bold;font-size:13.5px;padding:9px;border-radius:12px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.vch button.main{background:var(--btn);color:#fff;border-color:var(--btn-d)}@media (prefers-reduced-motion:reduce){.res,.sp,.me img,.vno .vs,.res.art img,.vno .vf img{animation:none}}
+/* 대화 장면이 열려 있는 동안 장면 속 세진이·주민·말풍선은 숨겨 두 번 보이지 않게 */
+.scene.talking .me,.scene.talking .shadow,.scene.talking .res,.scene.talking .bubble,.scene.talking .door,.scene.talking .sp{visibility:hidden}
+/* 작은 화면(폰): 선택지가 많아도 잘리지 않도록 대화창을 화면 아래에 고정 */
+@media (max-width:560px){.vbox{position:fixed;left:8px;right:8px;bottom:8px;z-index:60;max-height:64dvh;overflow:auto;min-height:0;padding-top:14px}.vname{position:static;display:inline-block;margin:0 0 6px}}
+</style>
+</head>
+<body>
+<main class="page" id="page"></main>
+
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script><script src="sejin-convos.js"></script><script src="sejin-village.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ // 천사 마을 세부 화면. 장소 상태에 따라 세 가지 모습:
+ //  · 별 광장 = 안내자와 이야기, 모아 온 조각으로 조각 맞추기
+ //  · 닫힌 곳(집 앞) = 입구가 막힌 장면에서 반짝이는 조각을 찾는다
+ //  · 열린 곳(안) = 주민과 이야기하거나 그 장소의 게임을 한다 (안쪽 그림은 준비 중 — 지금은 색 배경)
+ const V=SejinVillage,page=document.getElementById('page'),vov=document.getElementById('vov'),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const id=new URLSearchParams(location.search).get('place')||'plaza',s=V.byId[id];document.body.dataset.place=id;
+ if(!s||!V.isAngel()){page.innerHTML='<div style="text-align:center;padding:40px 16px"><b>이곳에 들어갈 수 없어요</b><p><a href="village.html">천사 마을 지도로</a></p></div>';return;}
+ const pickOne=a=>a[Math.floor(Math.random()*a.length)];
+ const BACK='vplace.html?place='+s.id;
+ const pos=c=>Math.max(0,Math.min(100,(2.8*c-50)/1.8));   // background-position (%) that centres c% of the map when zoomed to 280%
+ const state=()=>s.guide?'plaza':V.isSolved(s.id)?'inside':'front';
+ // ---- dialogue (같은 마을 지도의 친구 대화와 똑같은 방식): 장면 위에 어두운 막 + 세진이(왼쪽)·상대(오른쪽) + 장면 아래쪽 대화창.
+ // 글자가 한 글자씩 나오고, 대화창을 누르면 넘어가며, 마지막 줄에서는 선택지가 뜬다.
+ let npcArt='';const tryImg=(u,cb,fallback)=>{const i=new Image();i.onload=()=>cb(u);if(fallback)i.onerror=fallback;i.src=u;};
+ function overlay(){
+  const sc=document.getElementById('scene');let o=sc.querySelector('.vno');
+  if(!o){o=document.createElement('div');o.className='vno';o.innerHTML=`<img class="vs" src="assets/friends/npc-angel.png" alt="" draggable="false"><div class="vf" id="vf"${npcArt?' style="background:none;box-shadow:none"':''}>${npcArt?`<img src="${npcArt}" alt="" style="width:100%;height:100%;object-fit:contain">`:s.res.emoji}</div><div class="vbox"><div class="vname"></div><div class="vtxt"></div><span class="vnext" hidden>▼</span><div class="vch"></div></div>`;sc.append(o);}
+  sc.classList.add('talking');return o;
+ }
+ function closeTalk(){const o=document.querySelector('.vno');if(o)o.remove();const sc=document.getElementById('scene');if(sc)sc.classList.remove('talking');}
+ let tTimer=0,tSkip=false,tTap=null,tDoneAt=0;
+ function say(o,L,choices){
+  const nm=o.querySelector('.vname'),tx=o.querySelector('.vtxt'),nx=o.querySelector('.vnext'),ch=o.querySelector('.vch'),vs=o.querySelector('.vs'),vf=o.querySelector('.vf');
+  nm.textContent=L.w==='s'?'세진이':(L.name||`${s.res.emoji} ${s.res.name}`);nm.className='vname'+(L.w==='s'?' s':'');
+  vs.classList.toggle('dim',L.w!=='s');vf.classList.toggle('dim',L.w==='s');
+  if(!still)(L.w==='s'?vs:vf).animate([{transform:'translateY(0)'},{transform:'translateY(-12px)'},{transform:'translateY(0)'}],{duration:340});
+  ch.innerHTML='';nx.hidden=true;tSkip=false;clearInterval(tTimer);
+  return new Promise(res=>{
+   const done=()=>{
+    if(choices){ch.innerHTML=choices.map((c,k)=>`<button class="${k===0?'main':''}" data-c="${k}">${c}</button>`).join('');ch.querySelectorAll('button').forEach(b=>b.onclick=()=>res(+b.dataset.c));ch.querySelector('button').focus();}
+    else{nx.hidden=false;tDoneAt=performance.now();tTap=()=>{tTap=null;res(0);};}};
+   if(still){tx.textContent=L.t;return done();}
+   let i=0;tx.textContent='';tTimer=setInterval(()=>{if(tSkip)i=L.t.length;else i++;tx.textContent=L.t.slice(0,i);if(i>=L.t.length){clearInterval(tTimer);tTimer=0;done();}},28);
+  });
+ }
+ async function talk(lines,choices){
+  const o=overlay();
+  o.querySelector('.vbox').onclick=e=>{if(e.target.closest('button'))return;if(tTimer){tSkip=true;return;}if(tTap&&performance.now()-tDoneAt>350)tTap();};   // 글이 다 나온 뒤 한 번 더 눌러야 다음으로
+  let r=0;
+  for(let i=0;i<lines.length;i++){const last=i===lines.length-1;r=await say(o,lines[i],last?choices:null);}
+  return r;
+ } const jig=p=>`jigsaw.html?pieces=${{pond:12,cloudshop:16,giftshop:20,house:24,plaza:30}[p.id]||p.need*3}&place=${p.id}${{pond:'village/village-pond-outside-v1.jpg',house:'village/village-house-outside-v1.jpg',giftshop:'village/village-giftshop-outside-v1.jpg',cloudshop:'village/village-cloudshop-outside-v1.jpg',plaza:'puzzle/puzzle-plaza-v2.jpg'}[p.id]?'&pic='+{pond:'village/village-pond-outside-v1.jpg',house:'village/village-house-outside-v1.jpg',giftshop:'village/village-giftshop-outside-v1.jpg',cloudshop:'village/village-cloudshop-outside-v1.jpg',plaza:'puzzle/puzzle-plaza-v2.jpg'}[p.id]:''}&name=${encodeURIComponent(p.name)}&back=${encodeURIComponent(BACK)}`;
+ // ---- 별 광장 안내자 ----
+ const GUIDE_LINES=['천사 마을은 아직 잠들어 있어요. 집 앞에서 조각을 찾아 주면 제가 하나씩 깨울게요.','조각은 반짝이는 곳에 숨어 있어요. 눈을 크게 뜨고 찾아봐요!','마을 사람들은 도안이 되고 싶어 해요. 조각을 맞춰 주면 모습이 떠오를 거예요.','구름 위는 조용하죠? 천천히 둘러봐도 좋아요.'];
+ async function guide(){
+  const v=V.vget(),ready=V.SPOTS.filter(p=>!p.guide&&!V.isSolved(p.id)&&(v.pieces[p.id]||0)>=p.need&&V.canSeek(p)),nx=V.nextPlace();
+  const nm='⭐ 별빛 안내자';
+  const first=!V.TEST()&&!Object.keys(v.solved).length;
+  const lines=[{w:'n',name:nm,t:ready.length?`와, 조각을 다 모아 왔네요! ${ready[0].name}의 조각이에요. 같이 맞춰 볼까요?`:nx?(first?'안녕하세요, 새로운 천사님! 저는 별 광장을 지키는 안내자예요. 마을을 하나씩 깨워 주실래요? 먼저 작은 연못 앞으로 가서 조각을 찾아 주세요.':'어서 와요, 세진 씨! 다음은 '+nx.name+'이에요. 그 앞에서 조각을 찾아 주세요.'):'마을이 모두 깨어났어요! 정말 고마워요, 세진 씨.'}];
+  const labels=[],acts=[];
+  if(ready.length){labels.push('🧩 조각 맞추기 시작');acts.push(()=>{location.href=jig(ready[0]);});}
+  const done=V.SPOTS.filter(p=>!p.guide&&V.isSolved(p.id));
+  if(done.length){labels.push('🧩 조각 맞추기 다시 하기');acts.push(async()=>{
+   const c2=await talk([{w:'n',name:nm,t:'어떤 그림을 다시 맞춰 볼까요?'}],done.map(p=>`${p.icon} ${p.name}`).concat(['그만할래요']));
+   if(c2<done.length)location.href=jig(done[c2]);else guide();});}
+  // 별나라 열쇠를 가지고 있으면 안내자에게 물어볼 수 있다 (별나라 맵은 맨 나중에 — 지금은 '아직 길이 열리지 않았다'는 대답)
+  const keyN=(()=>{try{const s=JSON.parse(localStorage.getItem('sejin-save-v1'))||{},b=(s.bag&&s.bag['v-star-key'])||0,p=(window.SejinSave&&SejinSave.pendingView?(SejinSave.pendingView().bag||{})['v-star-key']:0)||0;return b+p;}catch(e){return 0;}})();
+  if(keyN>0){labels.push('🗝️ 별나라 열쇠에 대해 물어보기');acts.push(async()=>{
+   await talk([{w:'s',t:'…이 열쇠, 어디에 쓰는 거예요?'},{w:'n',name:nm,t:'어머, 별나라 열쇠! 구름 꼭대기에 닿았군요. 그 열쇠는 별빛 너머, 아주 먼 곳의 문을 여는 열쇠예요.'},{w:'n',name:nm,t:'아직 그 길은 완전히 열리지 않았어요. 때가 되면 제가 알려 줄게요. 열쇠를 잘 간직해 두세요.'}]);guide();});}
+  labels.push('나중에');acts.push(()=>{});
+  const c=await talk(lines,labels);if(acts[c].length===0&&labels[c]==='나중에')await talk([{w:'n',name:nm,t:'네, 또 와요!'}]);if(labels[c]==='나중에')closeTalk();acts[c]();
+ }
+ // ---- 열린 장소의 주민 ----
+ async function convo(lines){
+  for(const L of lines){
+   if(L.choices){const c=await talk([{w:L.w,t:L.t}],L.choices.map(x=>x[0]));await talk([{w:'s',t:L.choices[c][0]}]);await talk([{w:'n',t:L.choices[c][1]}]);}
+   else await talk([{w:L.w,t:L.t}]);
+  }
+ }
+ async function resident(){
+  const pool=(window.SejinConvos&&SejinConvos[s.id])||[];
+  const greet=s.greet||['어서 와요, 세진 씨! 오늘은 뭘 하고 놀까요?','와, 손님이다! 마침 심심했는데 잘 왔어요.','반가워요! 편하게 있다 가요.'];
+  const c=await talk([{w:'s',t:'…안녕하세요.'},{w:'n',t:pickOne(greet)}],[s.game.menu||(s.game.label+' 시작'),'나중에']);
+  if(c===0){location.href=s.game.href+'?back='+encodeURIComponent(BACK);return;}
+  await talk([{w:'n',t:'네, 또 놀러 와요!'}]);closeTalk();
+ }
+ // ---- screens ----
+ function render(){
+  const st=state(),v=V.vget(),n=v.pieces[s.id]||0;
+  const back=`<a class="back" href="village.html?focus=${s.id}">‹ 마을 지도</a>`;
+  const out=s.id==='house'?'집 밖':'앞';   // 보랏빛 집은 '집 밖'에서 조각 퍼즐을 찾고, 등나무 천사가 있는 곳이 '집 안'
+  const sub=st==='plaza'?'안내자와 조각 맞추기':st==='inside'?(s.id==='house'?'집 안':'안'):out;
+  let bg,inner='',info='';
+  if(st==='inside'){
+   bg=`background:linear-gradient(${s.tint[0]},${s.tint[1]})`;
+   inner=`<span class="tag">${s.icon} ${s.name} 안 · 안쪽 그림은 준비 중이에요</span><button class="res" id="res" aria-label="${s.res.name}와 이야기"><span>${s.res.emoji}</span><small>${s.res.name}</small></button>`;
+   info=`<b>${s.icon} ${s.name}</b><p>${s.open} ${s.res.emoji} ${s.res.name}을(를) 눌러 이야기하거나 ${s.game.label}을(를) 해 보세요.</p>`;
+  }else if(st==='plaza'){
+   bg=`background-image:url(${V.MAP});background-size:280% 280%;background-position:${pos(s.x+s.w/2)}% ${pos(s.y+s.h/2)}%`;
+   inner=`<span class="tag">⭐ 별 광장</span><button class="res" id="res" aria-label="안내자와 이야기"><span>⭐</span><small>별빛 안내자</small></button>`;
+   const nx=V.nextPlace();info=`<b>⭐ 별 광장</b><p>안내자를 눌러 이야기해요. ${nx?`모은 조각이 있으면 여기서 조각 맞추기를 해요. (다음으로 열 곳: <b>${nx.name}</b>)`:'마을이 모두 열렸어요. 조각 맞추기는 언제든 다시 할 수 있어요.'}</p>`;
+  }else{
+   bg=`background-image:url(${V.MAP});background-size:280% 280%;background-position:${pos(s.x+s.w/2)}% ${pos(s.y+s.h/2)}%`;
+   const can=V.canSeek(s),left=s.need-n;
+   inner=`<span class="tag">${s.icon} ${s.name} ${s.id==='house'?'밖':'앞'}</span><span class="count" id="cnt">🧩 ${n} / ${s.need}</span><span class="door">🔒</span><div class="bubble" id="bubble">${n>=s.need?'조각을 다 모았어! 별 광장 안내자에게 가져가자.':can?'입구가 닫혀 있어. 반짝이는 조각을 찾아보자!':'아직 길이 안 보여…'}</div>`;
+   if(can&&left>0){const sp=[];while(sp.length<left){const x=8+Math.random()*84,y=22+Math.random()*68;if(sp.every(p=>Math.hypot(p[0]-x,p[1]-y)>13))sp.push([x,y]);}inner+=sp.map((p,i)=>`<button class="sp" data-i="${i}" aria-label="숨은 조각" style="left:${p[0]}%;top:${p[1]}%">✦</button>`).join('');}
+   info=n>=s.need?`<b>${s.icon} ${s.name}</b><p>조각을 다 모았어요! 별 광장 안내자에게 가져가 퍼즐을 맞추면 이곳이 열려요.</p><a class="go" href="vplace.html?place=plaza">별 광장으로 가기</a>`
+    :can?`<b>${s.icon} ${s.name}</b><p>입구가 막혀 있어요. 장면 안에서 반짝이는 ✦를 눌러 조각 ${s.need}개를 모아요.</p>`
+    :`<b>${s.icon} ${s.name}</b><p>아직 길이 보이지 않아요. ${V.byId[s.after].name}을(를) 먼저 열어 주세요.</p>`;
+  }
+  page.innerHTML=`<div class="top">${back}<h1>${s.name}<small>${sub}</small></h1></div><div class="scene" id="scene" style="${bg}">${inner}<div class="shadow"></div><div class="me"><img src="assets/friends/npc-angel.png" alt="천사 세진이" draggable="false"></div></div><div class="card" id="info">${info}</div>`;
+  const resBtn=document.getElementById('res');if(resBtn)resBtn.onclick=st==='plaza'?guide:resident;
+  const sc=document.getElementById('scene');
+  // 그림 파일이 assets에 들어오면 자동으로 바꿔 끼움: sejin-village-<장소id>-<outside|inside|plaza>-v1.jpg (장면) · sejin-village-<장소id>-npc-v1.png (주민)
+  const view=st==='inside'?'inside':st==='plaza'?'plaza':'outside';
+  tryImg(`assets/village/village-${s.id}-${view}-v1.jpg`,u=>{sc.style.backgroundImage=`url(${u})`;sc.style.backgroundSize='cover';sc.style.backgroundPosition='center';sc.querySelector('.tag')?.remove();});
+  const showResident=u=>{npcArt=u;const r=document.getElementById('res');if(r){r.classList.add('art');r.style.background='none';r.style.boxShadow='none';r.firstElementChild.outerHTML=`<img src="${u}" alt="" style="width:100%;height:100%;object-fit:contain">`;}};
+  tryImg(`assets/village/village-${s.id}-npc-n-v1.png`,showResident,()=>tryImg(`assets/village/village-${s.id}-npc-v5.png`,showResident,()=>tryImg(`assets/village/village-${s.id}-npc-v1.png`,showResident)));
+  sc.querySelectorAll('.sp').forEach(b=>b.onclick=()=>{
+   b.remove();const vv=V.vget();vv.pieces[s.id]=(vv.pieces[s.id]||0)+1;V.vset(vv);const got=vv.pieces[s.id];
+   window.SejinSfx&&SejinSfx.play(got>=s.need?'win':'pop');
+   const f=document.createElement('i');f.className='fl';f.textContent='🧩';f.style.left=b.style.left;f.style.top=b.style.top;sc.append(f);setTimeout(()=>f.remove(),900);
+   document.getElementById('cnt').textContent=`🧩 ${got} / ${s.need}`;
+   if(got>=s.need)setTimeout(render,700);});
+ }
+ render();
+})();
+</script>
+<script src="sejin-hud.js"></script></body>
+</html>

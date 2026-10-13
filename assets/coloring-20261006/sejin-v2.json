@@ -1,0 +1,77 @@
+{
+  "id": "coloring-sejin-v2",
+  "name": "기본 세진이",
+  "difficulty": "어려움",
+  "palette": {
+    "A": [
+      "외곽선",
+      "#67371f"
+    ],
+    "B": [
+      "크림",
+      "#fff1d4"
+    ],
+    "D": [
+      "하늘",
+      "#8fccec"
+    ],
+    "F": [
+      "분홍",
+      "#f49bac"
+    ]
+  },
+  "rows": [
+    "........................................",
+    "........................................",
+    "........................................",
+    "........................................",
+    "........AAAAA..............AAAAA........",
+    ".......ABBBBBA............ABBBBBA.......",
+    "......ABBFFFBBA..........ABBFFFBBA......",
+    "......ABFFFFFBAAAAAAAAAAAABFFFFFBA......",
+    "......ABFFFFAAADDDDDDDDDDAAAFFFFBA......",
+    "......ABFFAADDDDDDDDDDDDDDDDAAFFBA......",
+    "......ABBADDDDDDDDDDDDDDDDDDDDABBA......",
+    ".......AADDDDDDDAAAAAAAADDDDDDDAA.......",
+    "......ADDDDDDAAABBBBBBBBAAADDDDDDA......",
+    "......ADDDDAABBBBBBBBBBBBBBAADDDDA......",
+    ".....ADDDAABBBBBBBBBBBBBBBBBBAADDDA.....",
+    ".....ADDDABBBBBBBBBBBBBBBBBBBBADDDA.....",
+    "....ADDDABBBBBBBBBBBBBBBBBBBBBBADDDA....",
+    "....ADDABBBBBBBBBBBBBBBBBBBBBBBBADDA....",
+    "....ADDABBBBBABBBBBBBBBBBBABBBBBADDA....",
+    "....ADDABBBBAAABBBBBBBBBBAAABBBBADDA....",
+    "....ADDABBBBAAABBBBBBBBBBAAABBBBADDA....",
+    ".....ADABBBBBABBBBAAAABBBBABBBBBADA.....",
+    ".....ADDABFFFBBBBBAAAABBBBBFFFBADDA.....",
+    "......ADDFFFFFBBBABABBABBBFFFFFDDA......",
+    "......ADDAFFFBBBBAAAAAABBBBFFFADDA......",
+    ".......AADDAABBBBBBFFBBBBBBAADDAA.......",
+    "......AAAADDDAAABBBBBBBBAAADDDAAAA......",
+    ".....AAADDAADDDDAAAAAAAADDDDAADDAAA.....",
+    "....ABBBADDDAAADDDDDDDDDDAAADDDABBBA....",
+    "....ABBBADDDADDAAAAAAAAAADDADDDABBBA....",
+    ".....AAADDDADDDDADDDDDDADDDDADDDAAA.....",
+    "......AAAAAADDDDADDDDDDADDDDAAAAAA......",
+    ".......ADDDADDDAAADDDDAAADDDADDDA.......",
+    "......ADDDDDAAABBBADDABBBAAADDDDDA......",
+    "......ADDDDDDAABBBADDABBBAADDDDDDA......",
+    ".......ADDDDA..AAAAAAAAAA..ADDDDA.......",
+    "........AAAA................AAAA........",
+    "........................................",
+    "........................................",
+    "........................................"
+  ],
+  "sourceReference": "assets/sejin-coloring-sejin-v2.png",
+  "gridSize": 40,
+  "filledCells": 890,
+  "colorCounts": {
+    "A": 293,
+    "B": 285,
+    "F": 52,
+    "D": 260
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+}

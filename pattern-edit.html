@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 도안 고치기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--btn:#8fc3e0;--btn-d:#6fa5c4;--bg:#fbf1e8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif}
+.page{max-width:760px;margin:0 auto;padding:14px 12px 40px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}.top h1{flex:1;margin:0;font-size:19px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.card{background:#fff;border-radius:18px;padding:12px;box-shadow:0 3px 0 var(--line)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+.tool{border:2px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-size:12px;font-weight:bold;padding:7px 11px;border-radius:12px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.tool[aria-pressed=true]{background:#d9eef8;border-color:#8fc3e0}
+.tool:disabled{opacity:.4}
+.scroll{overflow:auto;max-height:62vh;border:2px solid var(--line);border-radius:12px;background:#fffdf8;touch-action:none}
+.scroll.pan{touch-action:pan-x pan-y}
+canvas{display:block;image-rendering:pixelated;cursor:crosshair}
+.pal{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.pal button{width:46px;height:46px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);cursor:pointer;font:inherit;font-size:11px;font-weight:bold;color:#5b4a42}
+.pal button[aria-pressed=true]{box-shadow:0 0 0 3px #f5c04a}
+.pal .eraser{background:#fff repeating-linear-gradient(45deg,#f1e8de 0 5px,#fff 5px 10px);font-size:16px}
+.info{text-align:center;font-size:12px;color:var(--sub);margin:8px 0 0;min-height:1.4em}
+.acts{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.acts button{flex:1;min-width:110px;border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="pattern-gallery.html">‹ 모아보기</a><h1 id="ttl">도안 고치기<small>칸을 눌러 색을 바꿔요 · 저장하면 게임 도안이 바뀌어요</small></h1></div>
+ <section class="card">
+  <div class="row">
+   <button class="tool" id="brush" aria-pressed="true">✏️ 칠하기</button>
+   <button class="tool" id="pick" aria-pressed="false">💧 색 따오기</button>
+   <button class="tool" id="pan" aria-pressed="false">✋ 이동</button>
+   <button class="tool" id="undo" disabled>↩ 되돌리기</button>
+   <button class="tool" id="zout">－</button><span id="ztxt" style="font-size:12px;color:var(--sub);min-width:40px;text-align:center"></span><button class="tool" id="zin">＋</button>
+   <label style="margin-left:auto;font-size:12px;color:var(--sub);font-weight:bold">좌우 대칭</label><button class="tool" id="mirror" aria-pressed="false">꺼짐</button>
+  </div>
+  <div class="scroll" id="scroll"><canvas id="cv"></canvas></div>
+  <div class="pal" id="pal" role="group" aria-label="실 색 고르기"></div>
+  <p class="info" id="info"></p>
+  <div class="acts"><button class="ghost" id="reset">원래대로</button><button class="ghost" id="copy">내용 복사</button><button id="save">저장</button></div>
+ </section>
+</main>
+<script src="sejin-save.js"></script>
+<script src="pattern.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s);
+ const KEY='sejin-pattern-edits-v1';
+ // 테스트 모드(개발 화면)에서만 쓰는 도구 — 플레이어에게는 열리지 않는다.
+ if(!(window.SejinSave&&SejinSave.testMode)){location.replace('pattern-gallery.html');return;}
+ const id=new URLSearchParams(location.search).get('p')||'sejin';
+ const base=SejinPattern.ORIGINAL.find(p=>p.id===id)||SejinPattern.ORIGINAL[0];
+ const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}};
+ const saved=load()[base.id];
+ const src=saved||{rows:base.rows,palette:base.palette};
+ $('#ttl').firstChild.textContent=base.name+' 고치기';
+ // letters -> palette index (1..n); 0 = paper
+ const letters=Object.keys(src.palette);
+ const colors=letters.map(k=>({name:src.palette[k][0],hex:src.palette[k][1]}));
+ const cols=Math.max(...src.rows.map(r=>r.length)),rows=src.rows.length;
+ let cells=[];src.rows.forEach(r=>{for(let c=0;c<cols;c++){const ch=r[c]||'.';cells.push(ch==='.'?0:letters.indexOf(ch)+1);}});
+ const orig=cells.slice();
+ let cur=1,tool='brush',z=Math.max(8,Math.min(22,Math.floor(560/Math.max(cols,rows)*1.4))),mirror=false,painting=false,stroke=null;const undo=[];
+ const cv=$('#cv'),ctx=cv.getContext('2d');
+ const sc=$('#scroll');
+ function draw(){cv.width=cols*z;cv.height=rows*z;
+  for(let k=0;k<cells.length;k++){const x=k%cols,y=Math.floor(k/cols),v=cells[k];
+   ctx.fillStyle=v?colors[v-1].hex:((x+y)%2?'#fbf6ee':'#fffdf8');ctx.fillRect(x*z,y*z,z,z);}
+  if(z>=10){ctx.strokeStyle='rgba(120,100,90,.18)';ctx.lineWidth=1;ctx.beginPath();for(let x=0;x<=cols;x++){ctx.moveTo(x*z+.5,0);ctx.lineTo(x*z+.5,rows*z);}for(let y=0;y<=rows;y++){ctx.moveTo(0,y*z+.5);ctx.lineTo(cols*z,y*z+.5);}ctx.stroke();}
+  $('#ztxt').textContent=z+'px';info();}
+ function cell(k){const x=k%cols,y=Math.floor(k/cols),v=cells[k];ctx.fillStyle=v?colors[v-1].hex:((x+y)%2?'#fbf6ee':'#fffdf8');ctx.fillRect(x*z,y*z,z,z);
+  if(z>=10){ctx.strokeStyle='rgba(120,100,90,.18)';ctx.strokeRect(x*z+.5,y*z+.5,z,z);}}
+ function info(){const n=cells.filter(Boolean).length;$('#info').textContent=cols+'×'+rows+'칸 · 칠한 칸 '+n+'개 · 색 '+new Set(cells.filter(Boolean)).size+'가지';}
+ function buildPal(){$('#pal').innerHTML='<button class="eraser" data-c="0" aria-pressed="'+(cur===0)+'" aria-label="지우개(빈 칸)">⌫</button>'+colors.map((c,i)=>'<button data-c="'+(i+1)+'" style="background:'+c.hex+'" aria-pressed="'+(cur===i+1)+'" aria-label="'+c.name+'">'+(i+1)+'</button>').join('');
+  $('#pal').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.dataset.c;tool='brush';setTool();buildPal();});}
+ function setTool(){for(const t of ['brush','pick','pan'])$('#'+t).setAttribute('aria-pressed',String(tool===t));sc.classList.toggle('pan',tool==='pan');}
+ for(const t of ['brush','pick','pan'])$('#'+t).onclick=()=>{tool=t;setTool();};
+ const set=(k,v)=>{if(k<0||k>=cells.length||cells[k]===v)return;stroke.push([k,cells[k]]);cells[k]=v;cell(k);};
+ function paintAt(k){const x=k%cols,y=Math.floor(k/cols);set(k,cur);if(mirror)set(y*cols+(cols-1-x),cur);}
+ const idx=e=>{const r=cv.getBoundingClientRect();const x=Math.floor((e.clientX-r.left)*(cv.width/r.width)/z),y=Math.floor((e.clientY-r.top)*(cv.height/r.height)/z);return x<0||y<0||x>=cols||y>=rows?-1:y*cols+x;};
+ cv.addEventListener('pointerdown',e=>{if(tool==='pan')return;const k=idx(e);if(k<0)return;e.preventDefault();cv.setPointerCapture(e.pointerId);
+  if(tool==='pick'){cur=cells[k];tool='brush';setTool();buildPal();return;}
+  painting=true;stroke=[];paintAt(k);info();});
+ cv.addEventListener('pointermove',e=>{if(!painting)return;const k=idx(e);if(k>=0){paintAt(k);}});
+ const end=()=>{if(painting&&stroke&&stroke.length){undo.push(stroke);if(undo.length>60)undo.shift();$('#undo').disabled=false;}painting=false;stroke=null;info();};
+ for(const ev of ['pointerup','pointercancel','lostpointercapture'])cv.addEventListener(ev,end);
+ $('#undo').onclick=()=>{const s=undo.pop();if(!s)return;for(let i=s.length-1;i>=0;i--){cells[s[i][0]]=s[i][1];cell(s[i][0]);}$('#undo').disabled=!undo.length;info();};
+ $('#zin').onclick=()=>{z=Math.min(40,z+2);draw();};$('#zout').onclick=()=>{z=Math.max(5,z-2);draw();};
+ $('#mirror').onclick=()=>{mirror=!mirror;$('#mirror').setAttribute('aria-pressed',String(mirror));$('#mirror').textContent=mirror?'켜짐':'꺼짐';};
+ function toRows(){return {palette:Object.fromEntries(letters.map((k,i)=>[k,[colors[i].name,colors[i].hex]])),rows:Array.from({length:rows},(_,y)=>Array.from({length:cols},(_,x)=>{const v=cells[y*cols+x];return v?letters[v-1]:'.';}).join(''))};}
+ $('#save').onclick=()=>{if(cells.filter(Boolean).length<8){$('#info').textContent='칸을 8개 이상 칠해야 저장돼요.';return;}const all=load();all[base.id]=toRows();try{localStorage.setItem(KEY,JSON.stringify(all));$('#info').textContent='저장했어요! 도안 채우기와 모아보기에 바로 바뀌어요. 완성 기록은 그대로예요.';}catch(e){$('#info').textContent='저장하지 못했어요.';}};
+ $('#reset').onclick=()=>{if(!confirm('고친 내용을 지우고 처음 도안으로 되돌릴까요?'))return;const all=load();delete all[base.id];localStorage.setItem(KEY,JSON.stringify(all));location.reload();};
+ $('#copy').onclick=async()=>{const t=JSON.stringify({id:base.id,...toRows()});try{await navigator.clipboard.writeText(t);$('#info').textContent='도안 내용을 복사했어요. 채팅에 붙여 넣어 주면 게임 파일에 넣어 줄 수 있어요.';}catch(e){prompt('이 내용을 복사해 주세요',t);}};
+ buildPal();setTool();draw();
+})();
+</script>
+</body>
+</html>

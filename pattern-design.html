@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 도안 만들기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#fbf3ea;--btn:#8fc3e0;--btn-d:#6fa6c4;--grid:#cfe3ec}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.page{max-width:680px;margin:0 auto;padding:12px 16px 28px}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.card{background:#fff;border-radius:22px;padding:14px;box-shadow:0 6px 18px #88756714;margin-bottom:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.row label{font-size:12px;color:var(--sub);font-weight:bold}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button,.tool{border:2px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-size:12px;font-weight:bold;padding:7px 11px;border-radius:12px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.seg button[aria-pressed=true],.tool[aria-pressed=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.tool:disabled{opacity:.45;cursor:default}
+input[type=text]{flex:1;min-width:120px;font:inherit;font-size:14px;padding:8px 10px;border-radius:12px;border:2px solid var(--line);background:#fffdf8;color:var(--ink)}
+.gscroll{margin:0 auto;width:min(100%,520px);max-height:72vh;overflow:auto;border:2px solid var(--grid);border-radius:8px;background:#fffdf8;-webkit-overflow-scrolling:touch}
+.grid{display:grid;background:#fffdf8;touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair}
+.grid.pan{touch-action:none;cursor:grab}.grid.pan:active{cursor:grabbing}
+.grid i{border-right:1px solid var(--grid);border-bottom:1px solid var(--grid)}
+.grid.fine i{border-right-color:#e3eef3;border-bottom-color:#e3eef3}
+.grid i.g8r{border-right-color:#a9c7d3}.grid i.g8b{border-bottom-color:#a9c7d3}
+.pal{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.pal button{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #8a6f60aa;cursor:pointer}
+.pal button[aria-pressed=true]{box-shadow:0 0 0 3px #e58c9c,0 0 0 6px #f2a7b555;transform:scale(1.08)}
+.pal .eraser{background:#fff repeating-linear-gradient(45deg,#f1e8de 0 5px,#fff 5px 10px);font-size:16px}
+.info{text-align:center;font-size:12px;color:var(--sub);margin:10px 0 0;min-height:1.4em}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.acts>*{flex:1;min-width:120px;border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;text-align:center;cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:10px;background:#fffaf4;border-radius:14px;padding:8px 10px}
+.item canvas{width:48px;height:48px;object-fit:contain;image-rendering:pixelated;border:2px solid var(--grid);border-radius:6px;background:#fffdf8}
+.item b{flex:1;font-size:14px}.item small{display:block;font-weight:normal;color:var(--sub);font-size:11px}
+.item button,.item a{border:0;font:inherit;font-size:12px;font-weight:bold;padding:7px 10px;border-radius:10px;background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line);cursor:pointer;text-decoration:none}
+h2{font-size:15px;margin:0 0 10px}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="pattern.html">‹ 도안 채우기</a><h1>도안 만들기<small>내가 그린 그림이 공방 도안이 돼요 · 최대 64×64칸</small></h1><a class="back" href="pattern-gallery.html">🖼️ 모아보기</a></div>
+ <section class="card">
+  <div class="row"><label for="nm">이름</label><input type="text" id="nm" maxlength="12" placeholder="예: 내 곰돌이"></div>
+  <div class="row"><label>판 크기</label><div class="seg" id="size"></div></div>
+  <div class="row"><button class="tool" id="brush" aria-pressed="true">✏️ 칠하기</button><button class="tool" id="bucket" aria-pressed="false">🪣 채우기</button><button class="tool" id="pan" aria-pressed="false">✋ 이동</button><button class="tool" id="undo" disabled>↶ 되돌리기</button>
+   <label style="margin-left:auto">좌우 대칭</label><button class="tool" id="mirror" aria-pressed="false">꺼짐</button></div>
+  <div class="row"><label>확대</label><button class="tool" id="zoomOut">－</button><span id="zoomTxt" style="font-size:12px;color:var(--sub);min-width:46px;text-align:center"></span><button class="tool" id="zoomIn">＋</button><span style="font-size:11px;color:var(--sub)">큰 판은 확대해서 그리고 ✋로 옮겨요</span></div>
+  <div class="gscroll" id="gscroll"><div class="grid" id="grid" aria-label="도안 그리기 판"></div></div>
+  <div class="pal" id="pal" role="group" aria-label="실 색 고르기"></div>
+  <p class="info" id="info"></p>
+  <div class="acts"><button class="ghost" id="clear">모두 지우기</button><button id="save">도안 저장</button></div>
+ </section>
+ <section class="card"><h2>내 도안</h2><div class="list" id="list"></div></section>
+</main>
+<script src="sejin-save.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s);
+ // Yarn colours to draw with (same soft palette as the game).
+ const COLORS=[['진분홍','#e58c9c'],['분홍','#f2a7b5'],['살구','#f4b183'],['노랑','#f5d58a'],['연두','#a9cfa4'],['민트','#9ed8cf'],['하늘','#8fc3e0'],['연하늘','#cfe6f2'],['보라','#c9b3e6'],['크림','#fff3e0'],['갈색','#8a6f60'],['먹색','#5b4a42']];
+ const LETTERS='ABCDEFGHIJKL',SIZES=[8,12,16,24,32,48,64];
+ let n=12,cells,cur=1,mirror=false,painting=false,editId=null,tool='brush',pan=false,px=0,undo=[],stroke=null;
+ const blank=()=>Array(n*n).fill(0);
+ const fit=()=>n<=24;              // small boards fill the width; big boards use a fixed cell size and scroll
+ const cellPx=()=>fit()?Math.floor(Math.min(520,$('#gscroll').clientWidth||460)/n):px;
+ function buildSize(){$('#size').innerHTML=SIZES.map(v=>`<button data-n="${v}" aria-pressed="${v===n}">${v}×${v}</button>`).join('');
+  $('#size').querySelectorAll('button').forEach(b=>b.onclick=()=>{const v=+b.dataset.n;if(v===n)return;if(cells.some(Boolean)&&!confirm('판 크기를 바꾸면 그림이 지워져요. 바꿀까요?'))return;setSize(v);});}
+ function setSize(v){n=v;cells=blank();undo=[];px=v>=48?14:v>24?18:0;buildSize();draw();}
+ function buildPal(){$('#pal').innerHTML=`<button class="eraser" data-c="0" aria-pressed="${cur===0}" aria-label="지우개">⌫</button>`+COLORS.map((c,i)=>`<button data-c="${i+1}" style="background:${c[1]}" aria-pressed="${cur===i+1}" aria-label="${c[0]}"></button>`).join('');
+  $('#pal').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=+b.dataset.c;buildPal();});}
+ const info=()=>{const k=cells.filter(Boolean).length;$('#info').textContent=`칸 ${k}개 · 색 ${new Set(cells.filter(Boolean)).size}가지`+(k<8?' (8칸 이상 칠해야 저장돼요)':'');};
+ const bg=v=>v?COLORS[v-1][1]:'transparent';
+ function draw(){
+  const g=$('#grid'),s=cellPx();g.style.gridTemplateColumns=`repeat(${n},${s}px)`;g.style.gridAutoRows=s+'px';g.style.width=(s*n)+'px';
+  g.classList.toggle('fine',n>24);
+  g.innerHTML=cells.map((v,i)=>{const r=Math.floor(i/n),c=i%n;return `<i data-k="${i}" class="${n>24&&(c%8===7)?'g8r ':''}${n>24&&(r%8===7)?'g8b':''}" style="background:${bg(v)}"></i>`;}).join('');
+  $('#zoomTxt').textContent=fit()?'맞춤':s+'px';info();$('#undo').disabled=!undo.length;
+ }
+ function setCell(k,v){if(cells[k]===v)return;if(stroke)stroke.push([k,cells[k]]);cells[k]=v;const el=$('#grid').children[k];if(el)el.style.background=bg(v);}
+ function paint(k){
+  if(k==null||k<0)return;const r=Math.floor(k/n),c=k%n;
+  if(tool==='bucket'){flood(k);return;}
+  setCell(k,cur);if(mirror)setCell(r*n+(n-1-c),cur);info();
+ }
+ function flood(k){ // fill the connected area of the same colour
+  const from=cells[k];if(from===cur)return;stroke=[];const st=[k];
+  while(st.length){const i=st.pop();if(cells[i]!==from)continue;setCell(i,cur);const r=Math.floor(i/n),c=i%n;if(c>0)st.push(i-1);if(c<n-1)st.push(i+1);if(r>0)st.push(i-n);if(r<n-1)st.push(i+n);}
+  commit();info();
+ }
+ function commit(){if(stroke&&stroke.length){undo.push(stroke);if(undo.length>40)undo.shift();}stroke=null;$('#undo').disabled=!undo.length;}
+ $('#undo').onclick=()=>{const s=undo.pop();if(!s)return;for(let i=s.length-1;i>=0;i--){const [k,v]=s[i];cells[k]=v;const el=$('#grid').children[k];if(el)el.style.background=bg(v);}info();$('#undo').disabled=!undo.length;};
+ const at=e=>{const el=document.elementFromPoint(e.clientX,e.clientY);return el&&el.parentNode===$('#grid')?+el.dataset.k:null;};
+ const grid=$('#grid');
+ let hand=null;const sc=document.getElementById('gscroll');
+ grid.addEventListener('pointerdown',e=>{if(pan){e.preventDefault();hand={x:e.clientX,y:e.clientY,l:sc.scrollLeft,t:sc.scrollTop};try{grid.setPointerCapture(e.pointerId);}catch(x){}return;}e.preventDefault();painting=true;try{grid.setPointerCapture(e.pointerId);}catch(x){}if(tool==='brush')stroke=[];paint(at(e));});
+ grid.addEventListener('pointermove',e=>{if(hand){sc.scrollLeft=hand.l-(e.clientX-hand.x);sc.scrollTop=hand.t-(e.clientY-hand.y);return;}if(painting&&!pan&&tool==='brush')paint(at(e));});
+ for(const ev of ['pointerup','pointercancel','lostpointercapture'])grid.addEventListener(ev,()=>{if(painting&&tool==='brush')commit();painting=false;hand=null;});
+ const pick=(b)=>{tool=b;pan=false;for(const id of ['brush','bucket','pan'])$('#'+id).setAttribute('aria-pressed',String(id===b||(id==='pan'&&false)));$('#grid').classList.remove('pan');};
+ $('#brush').onclick=()=>pick('brush');$('#bucket').onclick=()=>pick('bucket');
+ $('#pan').onclick=()=>{pan=!pan;$('#pan').setAttribute('aria-pressed',pan);$('#grid').classList.toggle('pan',pan);};
+ $('#mirror').onclick=()=>{mirror=!mirror;$('#mirror').setAttribute('aria-pressed',mirror);$('#mirror').textContent=mirror?'켜짐':'꺼짐';};
+ function zoom(d){if(fit())px=Math.max(12,Math.min(40,cellPx()+d));else px=Math.max(6,Math.min(40,px+d));draw();}
+ $('#zoomIn').onclick=()=>{if(fit()&&n<=24){px=cellPx();}zoom(2);};$('#zoomOut').onclick=()=>{if(fit()&&n<=24){px=cellPx();}zoom(-2);};
+ $('#clear').onclick=()=>{if(cells.some(Boolean)&&!confirm('그림을 모두 지울까요?'))return;stroke=cells.map((v,i)=>[i,v]).filter(p=>p[1]);cells=blank();commit();draw();};
+ // Cells → the pattern shape used by pattern.js: rows of letters, '.' = paper, palette {letter:[name,hex]}.
+ function toPattern(name,id){
+  const used=[...new Set(cells.filter(Boolean))].sort((a,b)=>a-b),letter={};used.forEach((c,i)=>letter[c]=LETTERS[i]);
+  const palette={};used.forEach(c=>palette[letter[c]]=[COLORS[c-1][0],COLORS[c-1][1]]);
+  const rows=[];for(let r=0;r<n;r++){let s='';for(let c=0;c<n;c++){const v=cells[r*n+c];s+=v?letter[v]:'.';}rows.push(s);}
+  let top=0,bot=rows.length-1;while(top<bot&&/^\.*$/.test(rows[top]))top++;while(bot>top&&/^\.*$/.test(rows[bot]))bot--;
+  let t=rows.slice(top,bot+1),l=0,rr=n-1;while(l<rr&&t.every(s=>s[l]==='.'))l++;while(rr>l&&t.every(s=>s[rr]==='.'))rr--;
+  t=t.map(s=>s.slice(l,rr+1));
+  return {id,name,custom:true,reward:{first:3,again:0},palette,rows:t};
+ }
+ $('#save').onclick=()=>{
+  if(cells.filter(Boolean).length<8){$('#info').textContent='8칸 이상 칠해야 도안이 돼요.';return;}
+  const name=($('#nm').value.trim()||'내 도안').slice(0,12),list=SejinSave.myPatterns.get();
+  const id=editId||'my-'+Date.now().toString(36);
+  const p=toPattern(name,id),i=list.findIndex(x=>x.id===id);p.grid={n,cells:cells.slice()};
+  if(i>=0)list[i]=p;else list.push(p);
+  if(!SejinSave.myPatterns.set(list.slice(-12))){$('#info').textContent='저장하지 못했어요(브라우저 저장 공간이 부족할 수 있어요).';return;}
+  editId=null;$('#nm').value='';cells=blank();undo=[];draw();renderList();$('#info').textContent=`"${name}" 도안을 저장했어요! 공방 도안 채우기와 모아보기에서 만나요.`;
+ };
+ function renderList(){
+  const list=SejinSave.myPatterns.get();
+  $('#list').innerHTML=list.length?list.map(p=>`<div class="item"><canvas data-id="${p.id}"></canvas><b>${p.name}<small>${p.rows[0].length}×${p.rows.length} · 칸 ${p.rows.join('').replace(/\./g,'').length}개</small></b><a href="pattern.html?my=${p.id}">채우기</a><button data-edit="${p.id}">고치기</button><button data-del="${p.id}">삭제</button></div>`).join(''):'<p class="info">아직 만든 도안이 없어요. 위에서 그려 보세요!</p>';
+  list.forEach(p=>{const cv=$(`canvas[data-id="${p.id}"]`);if(!cv)return;cv.width=p.rows[0].length;cv.height=p.rows.length;const g=cv.getContext('2d');
+   p.rows.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch!=='.'){g.fillStyle=p.palette[ch][1];g.fillRect(x,y,1,1);}}));});
+  $('#list').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('이 도안을 지울까요?'))return;SejinSave.myPatterns.set(SejinSave.myPatterns.get().filter(x=>x.id!==b.dataset.del));renderList();});
+  $('#list').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const p=SejinSave.myPatterns.get().find(x=>x.id===b.dataset.edit);if(!p||!p.grid)return;
+   n=p.grid.n;cells=p.grid.cells.slice();editId=p.id;undo=[];px=n>=48?14:n>24?18:0;$('#nm').value=p.name;buildSize();draw();scrollTo({top:0,behavior:'smooth'});$('#info').textContent='고친 뒤 "도안 저장"을 누르면 덮어써요.';});
+ }
+ cells=blank();buildSize();buildPal();draw();renderList();
+ addEventListener('resize',()=>{if(fit())draw();});
+})();
+</script>
+</body>
+</html>

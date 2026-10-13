@@ -1,0 +1,284 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>방구석 세진이 · 친구랑 놀기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#2e2733;--btn:#b9a3e3;--btn-d:#9a84c8}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#2e2733;color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+/* Visual-novel screen: scene picture, the two characters, a dialogue box at the bottom; the puzzle slides over the lower part. */
+.vn{position:relative;max-width:560px;height:100dvh;min-height:560px;margin:0 auto;overflow:hidden;background:#d9cde8;user-select:none;-webkit-user-select:none}
+.vn .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.02)}
+.vn::after{content:"";position:absolute;inset:0;background:linear-gradient(#0000 55%,#3a2a4a55);pointer-events:none}
+.hud{position:absolute;left:10px;right:10px;top:10px;z-index:6;display:flex;align-items:center;gap:8px}
+.back{background:#fffffff0;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.favcount{margin-left:auto;background:#fffffff0;border-radius:12px;padding:7px 12px;font-size:12px;font-weight:bold;box-shadow:0 2px 0 var(--line)}
+.chars{position:absolute;inset:0;z-index:2;pointer-events:none}
+.ch{position:absolute;bottom:31%;transition:transform .35s,filter .35s,opacity .35s,bottom .4s,width .4s,left .4s,right .4s}
+.ch img{width:100%;display:block;filter:drop-shadow(0 6px 8px #4a3a5a55)}
+.ch.dog{right:4%;width:40%}.ch.sejin{left:1%;width:42%}
+.ch.dim{filter:brightness(.78) saturate(.85);transform:translateY(6px) scale(.97)}
+.ch.talk{animation:bob 1.4s ease-in-out infinite}
+.ch.hop{animation:hop .5s}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@keyframes hop{30%{transform:translateY(-22px) rotate(-3deg)}60%{transform:translateY(0)}80%{transform:translateY(-8px)}}
+.vn.play .ch{bottom:auto;top:46px;opacity:.95}.vn.play .ch.dog{width:19%;right:4%}.vn.play .ch.sejin{width:19%;left:3%}
+.mood{position:absolute;z-index:3;top:34%;right:12%;font-size:34px;opacity:0;pointer-events:none}
+.mood.pop{animation:mood 1.1s ease-out}
+@keyframes mood{0%{opacity:0;transform:translateY(10px) scale(.4)}30%{opacity:1;transform:translateY(-6px) scale(1.2)}100%{opacity:0;transform:translateY(-34px) scale(1)}}
+/* dialogue box */
+.tb{position:absolute;left:10px;right:10px;bottom:10px;z-index:5;min-height:27%;background:#fffdf8f2;border:3px solid #fff;border-radius:22px;padding:22px 18px 14px;box-shadow:0 8px 24px #4a3a5a44;cursor:pointer}
+.tb[hidden]{display:none}
+.name{position:absolute;left:16px;top:-15px;background:#b9a3e3;color:#fff;font-weight:bold;font-size:14px;padding:4px 16px;border-radius:14px;border:2px solid #fff;box-shadow:0 2px 0 #9a84c8}
+.name.s{background:#8fc3e0;box-shadow:0 2px 0 #6fa6c4}
+.txt{font-size:16px;line-height:1.65;min-height:3.3em;white-space:pre-line}
+.next{position:absolute;right:16px;bottom:8px;font-size:13px;color:#b9a3e3;animation:nb 1s ease-in-out infinite}
+@keyframes nb{50%{transform:translateY(4px)}}
+.choices{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.choices button,.acts button,.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);border:2px solid #e2d5ee;text-decoration:none;text-align:center;cursor:pointer}
+.choices button:hover,.choices button:focus-visible{background:#f3ecfb;border-color:var(--btn)}
+.choices .main{background:var(--btn);color:#fff;border-color:var(--btn-d);box-shadow:0 3px 0 var(--btn-d)}
+/* puzzle panel */
+.play-panel{position:absolute;left:8px;right:8px;bottom:8px;z-index:5;background:#fffdf8f5;border:3px solid #fff;border-radius:22px;padding:10px 10px 12px;box-shadow:0 8px 24px #4a3a5a55;animation:up .35s ease-out}
+.play-panel[hidden]{display:none}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.ask{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.ask .t{flex:1;font-size:13px;line-height:1.45;min-width:0}.ask .t b{font-size:14px}
+.ask .stat{text-align:right;font-size:11px;color:var(--sub);white-space:nowrap}.ask .stat b{display:block;font-size:22px;color:var(--ink);line-height:1}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}.chip{display:inline-flex;align-items:center;gap:3px;background:#f3ecfb;border-radius:10px;padding:2px 8px 2px 3px;font-size:12px;font-weight:bold}.chip img{width:20px;height:20px}.chip.ok{background:#e3f3e1;color:#4f8a4f}.chip.bad{background:#fde3e3;color:#b04f4f}
+.bar{height:7px;border-radius:6px;background:#f1e8de;overflow:hidden;margin-bottom:8px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f2a7b5,#b9a3e3);transition:width .25s}
+.board{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:3px;padding:6px;border-radius:18px;background:#efe4f7;touch-action:manipulation}
+.cell{aspect-ratio:1;border:0;padding:4px;border-radius:13px;background:#fffaf4;box-shadow:0 2px 0 #e2d5ee;cursor:pointer;transition:transform .15s,opacity .2s}
+.cell img{width:100%;height:100%;display:block;pointer-events:none}
+.cell.sel{background:#fff3c4;transform:scale(1.08);box-shadow:0 0 0 3px #f5d58a}
+.cell.gone{opacity:0;transform:scale(.4)}
+.cell.drop{animation:drop .28s}
+.cell.want{box-shadow:0 2px 0 #e2d5ee,inset 0 0 0 2px #f2a7b5aa}
+.cell.avoid{box-shadow:0 2px 0 #e2d5ee,inset 0 0 0 2px #d9696999;background:#fdf1f1}
+@keyframes drop{from{transform:translateY(-70%);opacity:.3}}
+.tip{margin:7px 2px 0;font-size:12px;color:var(--sub);text-align:center;min-height:1.4em}
+.acts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.acts .main{background:var(--btn);color:#fff;border-color:var(--btn-d);box-shadow:0 3px 0 var(--btn-d)}
+@media (max-width:420px){.txt{font-size:15px}.ch.dog{width:54%}}
+@media (prefers-reduced-motion:reduce){.cell,.cell.drop,.bar i,.ch,.ch.talk,.next,.play-panel,.mood.pop,.ch.hop{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<main class="vn" id="vn">
+ <img class="bg" id="bg" src="assets/friends/friend-house-lobby-v1.jpg" alt="친구네 집 거실" draggable="false">
+ <div class="hud"><a class="back" href="place.html?place=friend">‹ 친구네 집으로</a><div class="favcount" id="favCount"></div></div>
+ <div class="chars">
+  <div class="ch sejin" id="chS"><img src="assets/character/base-v1.png" alt="세진이" draggable="false"></div>
+  <div class="ch dog" id="chD"><img src="assets/friends/npc-dog.png" alt="강아지 친구" draggable="false"></div>
+ </div>
+ <div class="mood" id="mood"></div>
+ <section class="tb" id="tb" aria-live="polite"><div class="name" id="name"></div><div class="txt" id="txt"></div><span class="next" id="next">▼</span><div class="choices" id="choices"></div></section>
+ <section class="play-panel" id="panel" hidden>
+  <div class="ask"><div class="t" id="askText"></div><div class="stat"><span>남은 횟수</span><b id="moves"></b></div></div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="board" id="board" role="group" aria-label="퍼즐판"></div>
+  <p class="tip" id="tip"></p>
+ </section>
+</main>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script><script src="sejin-items.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const sleep=ms=>new Promise(r=>setTimeout(r,still?0:ms));
+ const FRIEND='dog',CLEAR_AT=5;    // the angel mission counts the game as cleared after 5 favors
+ const FKEY='sejin-favors-v1';
+ const store=()=>{try{return JSON.parse(localStorage.getItem(FKEY))||{};}catch(e){return {};}};
+ const saveStore=s=>{try{localStorage.setItem(FKEY,JSON.stringify(s));}catch(e){}};
+ const NKEY='sejin-npc-v1';
+ function addLove(n){ // a favor warms the friend up a little: +1 per favor, at most 3 a day
+  try{const all=JSON.parse(localStorage.getItem(NKEY))||{};const f=all[FRIEND]=all[FRIEND]||{talks:0,day:''};if(f.love==null)f.love=(f.talks||0)*2;
+   const today=SejinSave.today();if(f.favDay!==today){f.favDay=today;f.favN=0;}if(f.favN>=3)return 0;f.favN++;const was=f.love;f.love+=n;localStorage.setItem(NKEY,JSON.stringify(all));return was<30&&f.love>=30?2:1;}catch(e){return 0;}
+ }
+
+ // ---------- the puzzle ----------
+ const N=6;
+ const PROPS=[{p:1,n:'나비'},{p:2,n:'흰 꽃'},{p:3,n:'나뭇잎'},{p:5,n:'딸기'},{p:7,n:'보라 꽃'},{p:8,n:'찻잔'}];
+ // 친구집 전용 그림 10종 (보상 아이템이 아니라 퍼즐 그림만). 한 부탁마다 전용 4종 + 기본 2종을 골라 6칸 종류로 쓴다.
+ const HOUSE_ART=[{f:'friends/friend-item-pawstamp-v1.png',n:'발자국 도장'},{f:'friends/friend-item-playball-v1.png',n:'털뭉치 공'},{f:'friends/friend-item-pawcookie-v1.png',n:'손뜨개 쿠키'},{f:'friends/friend-item-teapot-v1.png',n:'주전자'},{f:'friends/friend-item-slippers-v1.png',n:'슬리퍼'},{f:'friends/friend-item-cushion-v1.png',n:'하트 방석'},{f:'friends/friend-item-storybook-v1.png',n:'그림책'},{f:'friends/friend-item-teddydoll-v1.png',n:'곰 인형'},{f:'friends/friend-item-toybone-v1.png',n:'장난감 뼈다귀'},{f:'friends/friend-item-puzzlepiece-v1.png',n:'퍼즐 조각'}];
+ let ITEMS=PROPS;
+ const artOf=i=>ITEMS[i].f?'assets/'+ITEMS[i].f:'assets/items/prop-'+ITEMS[i].p+'.png';
+ const rollItems=()=>{const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(p=>p[1]);ITEMS=sh(sh(HOUSE_ART).slice(0,4).concat(sh(PROPS).slice(0,2)));};
+ const rnd=()=>Math.floor(Math.random()*ITEMS.length);
+ const at=(b,r,c)=>b[r*N+c];
+ function matches(b){const out=new Set();
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){const v=at(b,r,c);if(v<0)continue;
+   if(c<=N-3&&at(b,r,c+1)===v&&at(b,r,c+2)===v)[0,1,2].forEach(k=>out.add(r*N+c+k));
+   if(r<=N-3&&at(b,r+1,c)===v&&at(b,r+2,c)===v)[0,1,2].forEach(k=>out.add((r+k)*N+c));}
+  return out;}
+ function hasMove(b){for(let i=0;i<N*N;i++){const r=Math.floor(i/N),c=i%N;for(const j of [c<N-1?i+1:-1,r<N-1?i+N:-1]){if(j<0)continue;const t=b.slice();[t[i],t[j]]=[t[j],t[i]];if(matches(t).size)return true;}}return false;}
+ function fresh(){let b;do{b=[];for(let i=0;i<N*N;i++){let v;do{v=rnd();b[i]=v;}while(matches(Array.from({length:N*N},(_,k)=>k<=i?b[k]:-1)).size);}}while(!hasMove(b));return b;}
+
+ // ---------- favors: random, endless, different kinds ----------
+ const pick=a=>a[Math.floor(Math.random()*a.length)];
+ const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(p=>p[1]);
+ const josa=(w,a,b)=>{const c=w.charCodeAt(w.length-1)-0xAC00;return w+(c>=0&&c<11172&&c%28?a:b);};
+ // done = favors finished so far: counts and tightness grow a little with it.
+ function makeFavor(done){
+  rollItems();
+  const g=Math.min(done,12),k=Math.floor(g/3);
+  const mats=shuffle([0,1,2,3,4,5]);
+  const types=['one','one','two','three','any','combo','big','avoid','rush'];
+  const type=done<2?'one':pick(types);
+  const nm=i=>ITEMS[i].n;
+  switch(type){
+   case 'two':{const [a,b]=mats;return {type,title:'두 가지 부탁',goals:[[a,10+k*2],[b,10+k*2]],moves:20,
+    ask:[`${josa(nm(a),'과','와')} ${nm(b)}, 둘 다 필요해!`,`${josa(nm(a),'이','가')} 부족한데… ${nm(b)}도 모자라서 같이 부탁해도 될까?`]};}
+   case 'three':{const [a,b,c]=mats;return {type,title:'세 가지 부탁',goals:[[a,9+k*2],[b,9+k*2],[c,9+k*2]],moves:25,
+    ask:[`${nm(a)}, ${nm(b)}, ${nm(c)}… 세 가지를 모아야 해. 조금 많지만 부탁할게!`,`오늘은 큰 부탁이야. ${nm(a)}, ${nm(b)}, ${nm(c)}!`]};}
+   case 'any':{const n=22+k*4;return {type,title:'재료 모으기',any:n,moves:14,
+    ask:[`아무 재료나 좋으니까 ${n}개만 모아 줄래? 많이 쓸 일이 생겼거든.`,`오늘 뜨개 대청소를 해서 재료가 다 떨어졌어… ${n}개만 채워 줘!`]};}
+   case 'combo':{const n=2+(k>=2?1:0);return {type,title:'연쇄 부탁',combo:n,moves:14,
+    ask:[`한 번에 쪼르르 이어서 터지는 거 있잖아. ${n}번 연쇄로 만들어 줄 수 있어?`,`나 연쇄 터지는 걸 보면 기분이 좋아져! ${n}연쇄 보여 줘!`]};}
+   case 'big':{const n=7+(k>=2?1:0);return {type,title:'한 방 부탁',big:n,moves:14,
+    ask:[`딱 한 번에 ${n}개 이상 없애는 걸 보고 싶어! 가능할까?`,`한 번 바꿨을 때 ${n}개 넘게 사라지면 정말 멋질 거야.`]};}
+   case 'avoid':{const [a,b]=mats,lim=3+(k>=2?0:1);return {type,title:'조심해서 부탁',goals:[[a,10+k*2]],avoid:{i:b,limit:lim},moves:18,
+    ask:[`${josa(nm(a),'이','가')} 필요해. 그런데 ${josa(nm(b),'은','는')} 소중해서 ${lim}개까지만 쓸 수 있어!`,`${nm(a)} 좀 모아 줘. 아, ${josa(nm(b),'은','는')} ${lim}개 넘게 없애면 안 돼!`]};}
+   case 'rush':{const a=mats[0],n=8+k;return {type,title:'급한 부탁',goals:[[a,n]],moves:9,
+    ask:[`급해, 급해! ${nm(a)} ${n}개만 빨리 모아 줘! 기회는 9번뿐이야!`,`지금 당장 ${josa(nm(a),'이','가')} ${n}개 필요해! 빠르게 부탁해!`]};}
+   default:{const a=mats[0],n=10+k*3;return {type:'one',title:`${nm(a)} 부탁`,goals:[[a,n]],moves:16+(k>=2?2:0),
+    ask:[`${nm(a)} ${n}개가 필요해. 같은 재료를 3개씩 맞추면 돼!`,`뜨개 인형에 쓸 ${josa(nm(a),'이','가')} 모자라. ${n}개만 모아 줄래?`,`${josa(nm(a),'이','가')} 있으면 좋겠다… ${n}개 모아 줄 수 있어?`]};}
+  }
+ }
+ // ---------- dialogue engine ----------
+ const tb=$('#tb'),txt=$('#txt'),nameEl=$('#name'),chD=$('#chD'),chS=$('#chS');
+ let typing=null,typingNow=false,skip=false,advance=null,doneAt=0;
+ function who(w){nameEl.textContent=w==='s'?'세진이':'강아지 친구';nameEl.className='name'+(w==='s'?' s':'');
+  chD.classList.toggle('dim',w==='s');chS.classList.toggle('dim',w!=='s');chD.classList.toggle('talk',w!=='s');chS.classList.toggle('talk',w==='s');}
+ function mood(e){const m=$('#mood');m.textContent=e;m.classList.remove('pop');void m.offsetWidth;m.classList.add('pop');}
+ function type(text){return new Promise(res=>{skip=false;txt.textContent='';if(still){txt.textContent=text;return res();}let i=0;typingNow=true;
+   typing=setInterval(()=>{if(skip){clearInterval(typing);typingNow=false;txt.textContent=text;return res();}i++;txt.textContent=text.slice(0,i);if(i>=text.length){clearInterval(typing);typingNow=false;res();}},28);});}
+ const waitTap=()=>new Promise(r=>{doneAt=performance.now();advance=r;});
+ tb.addEventListener('click',e=>{if(e.target.closest('button'))return;if(typingNow){skip=true;return;}   // 글이 나오는 중에 누르면 글만 완성
+  if(advance&&performance.now()-doneAt>350){const a=advance;advance=null;a();}});   // 다 나온 뒤 한 번 더 눌러야 다음으로
+ let skipDone=false;
+ addEventListener('keydown',e=>{if(e.repeat)return;if(e.key==='Enter'||e.key===' '){if(e.target.closest&&e.target.closest('button,a'))return;e.preventDefault();tb.click();}});
+ // line: {w, t, e(emoji)}; a line with `choices` ends by asking: returns the index chosen.
+ async function say(w,t,opts={}){
+  tb.hidden=false;$('#choices').innerHTML='';who(w);if(opts.e)mood(opts.e);if(opts.hop)(w==='s'?chS:chD).animate([{transform:'translateY(0)'},{transform:'translateY(-22px)'},{transform:'translateY(0)'},{transform:'translateY(-8px)'},{transform:'translateY(0)'}],{duration:480});
+  $('#next').hidden=true;await type(t);
+  if(opts.choices){const box=$('#choices');return new Promise(res=>{box.innerHTML=opts.choices.map((c,i)=>`<button class="${i===0?'main':''}" data-c="${i}">${c}</button>`).join('');
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{box.innerHTML='';res(+b.dataset.c);});box.querySelector('button').focus();});}
+  $('#next').hidden=false;await waitTap();return 0;
+ }
+ // ---------- state ----------
+ let favor,board,counts,moves,busy,sel,maxCombo,maxClear,clearedAll,stats;
+ const total=()=>favor.goals?favor.goals.reduce((s,g)=>s+g[1],0):favor.any||favor.combo||favor.big||1;
+ const want=v=>!!favor.goals&&favor.goals.some(g=>g[0]===v);
+ function progress(){
+  if(favor.goals){const d=favor.goals.reduce((s,g)=>s+Math.min(counts[g[0]]||0,g[1]),0);return d/total();}
+  if(favor.any)return Math.min(clearedAll,favor.any)/favor.any;
+  if(favor.combo)return Math.min(maxCombo,favor.combo)/favor.combo;
+  return Math.min(maxClear,favor.big)/favor.big;
+ }
+ function chipsHtml(){let h='';
+  if(favor.goals)h+=favor.goals.map(g=>{const c=Math.min(counts[g[0]]||0,g[1]);return `<span class="chip${c>=g[1]?' ok':''}"><img src="${artOf(g[0])}" alt="">${ITEMS[g[0]].n} ${c}/${g[1]}</span>`;}).join('');
+  if(favor.any)h+=`<span class="chip${clearedAll>=favor.any?' ok':''}">🧶 재료 ${Math.min(clearedAll,favor.any)}/${favor.any}</span>`;
+  if(favor.combo)h+=`<span class="chip${maxCombo>=favor.combo?' ok':''}">✨ ${favor.combo}연쇄 (최고 ${maxCombo})</span>`;
+  if(favor.big)h+=`<span class="chip${maxClear>=favor.big?' ok':''}">💥 한 번에 ${favor.big}개 (최고 ${maxClear})</span>`;
+  if(favor.avoid){const u=counts['a']||0;h+=`<span class="chip${u>favor.avoid.limit?' bad':''}"><img src="${artOf(favor.avoid.i)}" alt="">${ITEMS[favor.avoid.i].n} ${u}/${favor.avoid.limit} 이하</span>`;}
+  return h;}
+ function head(){$('#askText').innerHTML=`<b>${favor.title}</b><div class="chips">${chipsHtml()}</div>`;$('#moves').textContent=moves;$('#bar').style.width=progress()*100+'%';}
+ function render(drop){
+  $('#board').innerHTML=board.map((v,i)=>`<button class="cell${want(v)?' want':''}${favor.avoid&&favor.avoid.i===v?' avoid':''}${i===sel?' sel':''}${drop&&drop.has(i)?' drop':''}" data-i="${i}" aria-label="${ITEMS[v].n}"><img src="${artOf(v)}" alt=""></button>`).join('');
+  $('#board').querySelectorAll('.cell').forEach(b=>b.onclick=()=>pickCell(+b.dataset.i));
+ }
+ function startPuzzle(){
+  board=fresh();counts={};moves=favor.moves;busy=false;sel=-1;maxCombo=0;maxClear=0;clearedAll=0;
+  tb.hidden=true;$('#vn').classList.add('play');$('#panel').hidden=false;$('#tip').textContent='재료를 하나 누르고, 옆 재료를 눌러 자리를 바꿔요.';render();head();
+ }
+ let resolveRound=null;
+ async function pickCell(i){
+  if(busy)return;
+  if(sel<0){sel=i;render();return;}
+  if(sel===i){sel=-1;render();return;}
+  const a=sel,d=Math.abs(a-i),adj=(d===1&&Math.floor(a/N)===Math.floor(i/N))||d===N;
+  if(!adj){sel=i;render();return;}
+  sel=-1;busy=true;
+  [board[a],board[i]]=[board[i],board[a]];
+  if(!matches(board).size){render();await sleep(180);[board[a],board[i]]=[board[i],board[a]];render();busy=false;$('#tip').textContent='3개가 맞는 자리로만 바꿀 수 있어요.';return;}
+  moves--;let combo=0,moveClear=0;
+  for(;;){
+   const m=matches(board);if(!m.size)break;combo++;moveClear+=m.size;clearedAll+=m.size;
+   m.forEach(k=>{const v=board[k];if(want(v))counts[v]=(counts[v]||0)+1;if(favor.avoid&&favor.avoid.i===v)counts['a']=(counts['a']||0)+1;});
+   maxCombo=Math.max(maxCombo,combo);maxClear=Math.max(maxClear,moveClear);
+   $('#board').querySelectorAll('.cell').forEach(b=>{if(m.has(+b.dataset.i))b.classList.add('gone');});
+   head();await sleep(260);
+   const moved=new Set();
+   for(let c=0;c<N;c++){const col=[];for(let r=N-1;r>=0;r--)if(!m.has(r*N+c))col.push(board[r*N+c]);
+    for(let r=N-1,k=0;r>=0;r--,k++){const was=board[r*N+c];board[r*N+c]=k<col.length?col[k]:rnd();if(k>=col.length||board[r*N+c]!==was)moved.add(r*N+c);}}
+   render(moved);await sleep(320);
+  }
+  $('#tip').textContent=combo>1?`연쇄 ${combo}번! 대단해요.`:'';
+  head();
+  if(favor.avoid&&(counts['a']||0)>favor.avoid.limit)return resolveRound&&resolveRound('avoid');
+  window.SejinSfx&&SejinSfx.play(combo>1?'ok':'pop');
+  const ok=favor.goals?favor.goals.every(g=>(counts[g[0]]||0)>=g[1]):favor.any?clearedAll>=favor.any:favor.combo?maxCombo>=favor.combo:maxClear>=favor.big;
+  if(ok)return resolveRound&&resolveRound('win');
+  if(moves<=0)return resolveRound&&resolveRound('lose');
+  if(!hasMove(board)){board=fresh();render();$('#tip').textContent='더 맞출 곳이 없어서 재료를 새로 섞었어요.';}
+  busy=false;
+ }
+ const playRound=()=>new Promise(r=>{resolveRound=r;startPuzzle();});
+ function endPuzzle(){$('#panel').hidden=true;$('#vn').classList.remove('play');}
+ function actions(list){tb.hidden=false;return new Promise(res=>{const box=$('#choices');$('#next').hidden=true;box.innerHTML=list.map((c,i)=>`<button class="${i===0?'main':''}" data-c="${i}">${c}</button>`).join('');box.querySelectorAll('button').forEach(b=>b.onclick=()=>{box.innerHTML='';res(+b.dataset.c);});box.querySelector('button').focus();});}
+
+ // ---------- the story loop ----------
+const GREET=['어서 와, 세진아! 기다리고 있었어.','또 와 줬네! 오늘도 반가워.','세진이다! 마침 심심했는데, 잘 왔어.','어서 와! 오늘은 어떤 하루였어?'];
+ const SEJIN_BACK=['…안녕.','…응, 왔어.','…무슨 일이야?'];
+const WIN=['와! 같이 하니까 정말 재밌다, 세진아!','역시 세진이야! 완벽해!','우와, 너랑 놀면 시간이 순식간에 가!','신난다! 또 같이 놀자!'];
+ const LOSE=['괜찮아, 어려운 부탁이었어. 한 번 더 해 볼래?','아쉽다… 하지만 같이 해 줘서 고마워.','음, 다음엔 될 거야! 나도 응원할게.'];
+ const AVOIDLOSE=['앗, 그건 소중한 재료였는데…! 괜찮아, 다시 해 보자.'];
+ async function main(){
+  const st=store();st.done=st.done||0;saveStore(st);
+  updateCount();
+  const first=!st.met;
+if(first){await say('s','…안녕. 놀러 왔어.');await say('n','어서 와, 세진아! 우리 집에 와 줘서 고마워.',{hop:1,e:'💜'});await say('n','나는 뜨개 인형을 만드는 걸 좋아해. 같이 재료를 모으면서 놀자!');st.met=true;saveStore(st);}
+else{await say('s',pick(['…놀러 왔어.','…안녕. 놀러 왔어.','…또 왔어.']));await say('n',pick(GREET),{hop:1});}
+  for(;;){
+   favor=makeFavor(store().done||0);
+   await say('n',pick(favor.ask),{e:'❓'});
+   const c=await say('n','같이 해볼래?',{choices:['응, 같이 놀자!','다음에 올게…']});
+   if(c===1){await say('n','응, 괜찮아! 언제든 또 놀러 와.',{e:'👋'});await sleep(250);location.href='place.html?place=friend';return;}
+   await say('s','…응, 좋아.');
+   let again=true;
+   while(again){
+    const res=await playRound();endPuzzle();
+    if(res==='win'){
+     const s2=store();s2.done=(s2.done||0)+1;saveStore(s2);updateCount();
+     window.SejinSfx&&SejinSfx.play('win');
+     const diff={one:1,rush:2,avoid:2,two:2,any:2,combo:3,big:3,three:3}[favor.type]||1,yarn=3+diff+Math.min(3,Math.floor(s2.done/3));
+     SejinSave.pushResult({game:'minigame',label:`친구 부탁 · ${favor.title}`,place:'친구네 집',first:false,yarn});
+     if(s2.done>=CLEAR_AT)SejinSave.clears.mark('friend');
+     const love=addLove(1);
+     await say('n',pick(WIN),{e:'🎉',hop:1});
+     // Things only this house gives: a chance for one each time you play together.
+     let gotItem=null;if(Math.random()<.6){const H=SejinItems.HOUSE;gotItem=pick(H);SejinSave.pushResult({game:'pickup',place:'친구네 집',items:{[gotItem.id]:1}});}
+     await say('n',`같이 놀아 줘서 고마워! 이거 줄게. 실뭉치 ${yarn}개${gotItem?` · ${gotItem.emoji} ${gotItem.name}`:''}!${love===2?'\n(우리 이제 정말 가장 친한 친구야… 공방에 숨은 도안을 선물했어!)':love===1?' (친구와 조금 더 가까워졌어요 ♥)':''}`,{e:'🧶'});
+     again=false;
+    }else{
+     await say('n',pick(res==='avoid'?AVOIDLOSE:LOSE),{e:'🥺'});
+     const r=await actions(['같은 부탁 다시 도전','다른 부탁 듣기','친구네 집으로']);
+     if(r===0){continue;}
+     if(r===2){location.href='place.html?place=friend';return;}
+     again=false;
+    }
+   }
+   const r=await actions(['또 부탁 들어주기','친구네 집으로']);
+   if(r===1){await say('n','오늘도 고마웠어! 또 와 줘.',{e:'💜'});location.href='place.html?place=friend';return;}
+  }
+ }
+ function updateCount(){const d=store().done||0;$('#favCount').textContent=d>=CLEAR_AT?`🏅 들어준 부탁 ${d}`:`들어준 부탁 ${d} / ${CLEAR_AT}`;}
+ $('#favCount').textContent='';
+ main();
+})();
+</script>
+<script src="sejin-hud.js"></script></body>
+</html>

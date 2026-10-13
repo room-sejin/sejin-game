@@ -1,0 +1,53 @@
+{
+  "id": "coloring-strawberry-v2",
+  "name": "새콤 딸기",
+  "difficulty": "쉬움",
+  "palette": {
+    "A": [
+      "외곽선",
+      "#67371f"
+    ],
+    "B": [
+      "크림",
+      "#fff1d4"
+    ],
+    "C": [
+      "민트",
+      "#95d5b3"
+    ],
+    "F": [
+      "분홍",
+      "#f49bac"
+    ]
+  },
+  "rows": [
+    "................",
+    "................",
+    "................",
+    "......ACCA......",
+    ".....CCCCCC.....",
+    "...AAAAAAACCA...",
+    "...AFFFFFFFFA...",
+    "...AFFBFFFFA....",
+    "....AFFFFBFA....",
+    "....AFFFFFFA....",
+    "....AFFFFFFA....",
+    ".....AFBFFB.....",
+    ".....AFFFFA.....",
+    "......AAAA......",
+    "................",
+    "................"
+  ],
+  "sourceReference": "assets/sejin-coloring-strawberry-v2.png",
+  "gridSize": 16,
+  "filledCells": 79,
+  "colorCounts": {
+    "A": 27,
+    "C": 10,
+    "F": 38,
+    "B": 4
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+}

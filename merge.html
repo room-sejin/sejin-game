@@ -1,0 +1,156 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 실타래 합치기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+ background:repeating-linear-gradient(90deg,#fcecf0 0 40px,#f8e1e7 40px 80px)}
+.page{max-width:460px;margin:0 auto;padding:10px 14px 20px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.back{border:0;background:#fff;color:var(--ink);font:inherit;font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:19px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.hud{display:flex;gap:8px;align-items:stretch;margin-bottom:8px}
+.box{background:#fffc;border-radius:14px;padding:6px 10px;box-shadow:0 2px 0 var(--line);font-size:11px;color:var(--sub)}
+.box b{display:block;font-size:18px;color:var(--ink)}
+.box{position:relative}.box b.bump{animation:bump .35s}.scfloat{position:absolute;right:6px;top:-4px;font-weight:bold;font-size:15px;color:#e58c9c;text-shadow:0 1px 0 #fff;animation:scup .9s ease-out forwards;pointer-events:none}
+@keyframes bump{40%{transform:scale(1.45);color:#e58c9c}}@keyframes scup{to{transform:translateY(-22px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.box b.bump,.scfloat{animation:none}}
+.box.next{display:flex;align-items:center;gap:6px;margin-left:auto}.box.next canvas{width:44px;height:44px}
+.stage{position:relative}
+#game{display:block;width:100%;height:auto;touch-action:none;cursor:pointer;border-radius:22px}
+#game:focus-visible{outline:3px solid var(--btn);outline-offset:3px}
+.ladder{display:flex;justify-content:space-between;align-items:center;gap:2px;margin-top:10px;background:#fffc;border-radius:16px;padding:8px 10px;box-shadow:0 2px 0 var(--line)}
+.ladder i{display:block;background:center/contain no-repeat;opacity:.4;filter:grayscale(1)}
+.ladder i.got{opacity:1;filter:none}
+
+.tip{margin:8px 2px 0;font-size:12px;color:var(--sub);text-align:center}
+.over{position:absolute;inset:0;display:grid;place-items:center;background:#6d5d5140;border-radius:22px}
+.over[hidden]{display:none}
+.over>div{background:#fffaf0;border-radius:22px;padding:20px;text-align:center;width:min(90%,300px);box-shadow:0 10px 35px #88756733}
+.over h2{margin:4px 0;font-size:21px}.over p{margin:8px 0 14px;color:var(--sub);font-size:14px;line-height:1.6}
+.acts{display:flex;flex-direction:column;gap:8px}
+.acts button,.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="place.html?place=shop">‹ 실 가게로</a><h1>실타래 합치기<small>같은 실타래끼리 닿으면 더 큰 실타래가 돼요</small></h1></div>
+ <div class="hud">
+  <div class="box">점수<b id="score">0</b></div>
+  <div class="box">최고 기록<b id="best">0</b></div>
+  <div class="box next">다음<canvas id="next" width="88" height="88" aria-label="다음 실타래"></canvas></div>
+ </div>
+ <div class="stage">
+  <canvas id="game" tabindex="0" aria-label="실타래 합치기 바구니. 좌우로 움직여 위치를 고르고 눌러서 떨어뜨려요. 키보드는 왼쪽·오른쪽 화살표와 스페이스바."></canvas>
+  <div class="over" id="over" hidden><div role="dialog" aria-modal="true" aria-labelledby="overTitle">
+   <h2 id="overTitle">바구니가 가득 찼어요</h2><p id="overText"></p>
+   <div class="acts"><button id="again">다시 하기</button><a class="ghost" href="place.html?place=shop">실 가게로</a></div>
+  </div></div>
+ </div>
+ <div class="ladder" id="ladder" aria-label="실타래 단계"></div>
+ <p class="tip" id="tip">손가락이나 마우스로 위치를 고르고 떼면 떨어져요 · 키보드 ← → 스페이스</p>
+ <p id="say" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)"></p>
+</main>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script src="merge.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const {STEPS,Merge,W,H,LINE,DROP_Y}=SejinMerge,$=s=>document.querySelector(s);
+ const still=matchMedia('(prefers-reduced-motion: reduce)').matches,INK='#8a6f60';
+ const game=new Merge(),cv=$('#game'),ctx=cv.getContext('2d'),PAD=14;
+ const doll=new Image();doll.src='assets/character/base-v1.png';
+ // Clear rule for the 산책로 angel mission: make this step (9 = 세진이 인형. Circle sizes in merge.js were shrunk to 80% so this is reachable: simulated play reaches it in ~8-23% of games; before it was 0 of 80).
+ const CLEAR_STEP=9;
+ let bestScore=0;try{bestScore=+localStorage.getItem('sejin-merge-best')||0;}catch(e){}
+ let pops=[],last=0,reported=false,held=false;
+ // Canvas = basket (W × H) plus a little wicker rim around it.
+ function resize(){const w=cv.clientWidth||W,dpr=Math.min(devicePixelRatio||1,2);cv.width=Math.round(w*dpr);cv.height=Math.round(w*(H+PAD*2)/(W+PAD*2)*dpr);cv.style.height=(w*(H+PAD*2)/(W+PAD*2))+'px';}
+ new ResizeObserver(resize).observe(cv);
+ const toGame=e=>{const r=cv.getBoundingClientRect();return (e.clientX-r.left)/r.width*(W+PAD*2)-PAD;};
+ const sprites=STEPS.map((_,i)=>{const im=new Image();im.src='assets/merge/merge-'+(i+1)+'.png';return im;});
+ function yarnBall(g,x,y,r,step,spin){
+  const s=STEPS[step],im=sprites[step];
+  if(im&&im.complete&&im.naturalWidth){ // ChatGPT picture for this step (sheet sliced into assets/sejin-merge-N.png)
+   g.save();g.translate(x,y);if(step<=5)g.rotate(spin);const d=r*2.14;g.drawImage(im,-d/2,-d/2,d,d);g.restore();return;}
+  if(step===STEPS.length-1&&doll.complete&&doll.naturalWidth){ // the finished doll: Sejin in a soft bubble
+   g.save();g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.fillStyle=s.color;g.fill();g.clip();
+   const sw=doll.naturalWidth*.62,sh=sw*1.05;g.drawImage(doll,doll.naturalWidth*.19,doll.naturalHeight*.12,sw,sh,x-r*.95,y-r*.95,r*1.9,r*2);g.restore();
+   g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.strokeStyle=INK;g.lineWidth=2.5;g.stroke();return;}
+  g.save();g.translate(x,y);g.rotate(spin);g.beginPath();g.arc(0,0,r,0,Math.PI*2);g.fillStyle=s.color;g.fill();g.clip();
+  g.strokeStyle='rgba(95,65,55,.22)';g.lineWidth=Math.max(1.2,r/10);
+  for(let i=-3;i<=3;i++){g.beginPath();g.ellipse(0,i*r*.3,r*1.2,r*.28,0,0,Math.PI*2);g.stroke();}
+  g.rotate(1.1);for(let i=-1;i<=1;i++){g.beginPath();g.ellipse(0,i*r*.45,r*1.2,r*.26,0,0,Math.PI*2);g.stroke();}
+  g.restore();
+  g.beginPath();g.arc(x-r*.3,y-r*.32,r*.45,Math.PI*1.05,Math.PI*1.55);g.strokeStyle='rgba(255,255,255,.6)';g.lineWidth=Math.max(1.5,r/6);g.stroke();
+  g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.strokeStyle=INK;g.lineWidth=Math.max(1.5,r/12);g.stroke();
+  if(step>=3){g.fillStyle=INK;g.beginPath();g.arc(x-r*.28,y+r*.05,Math.max(1.5,r*.06),0,Math.PI*2);g.arc(x+r*.28,y+r*.05,Math.max(1.5,r*.06),0,Math.PI*2);g.fill();
+   g.fillStyle='rgba(242,167,181,.6)';g.beginPath();g.arc(x-r*.45,y+r*.25,r*.1,0,Math.PI*2);g.arc(x+r*.45,y+r*.25,r*.1,0,Math.PI*2);g.fill();}
+ }
+ function draw(){
+  const k=cv.width/(W+PAD*2);ctx.setTransform(k,0,0,k,0,0);ctx.clearRect(0,0,W+PAD*2,H+PAD*2);
+  // Wicker basket: rim, woven sides, cream inside.
+  ctx.fillStyle='#d9b48a';ctx.beginPath();ctx.roundRect(0,0,W+PAD*2,H+PAD*2,24);ctx.fill();
+  ctx.strokeStyle='rgba(150,105,70,.35)';ctx.lineWidth=2;for(let y=8;y<H+PAD*2;y+=12){ctx.beginPath();ctx.moveTo(2,y);ctx.lineTo(PAD-2,y+6);ctx.moveTo(W+PAD*2-2,y);ctx.lineTo(W+PAD+2,y+6);ctx.stroke();}
+  ctx.save();ctx.translate(PAD,PAD);
+  ctx.fillStyle='#fffaf1';ctx.beginPath();ctx.roundRect(0,0,W,H,14);ctx.fill();
+  ctx.fillStyle='rgba(242,167,181,.08)';for(let x=0;x<W;x+=30)ctx.fillRect(x,0,15,H);
+  // Danger line (turns red while the pile is above it).
+  const warn=game.overTime>0;ctx.setLineDash([8,8]);ctx.strokeStyle=warn?'#e0607a':'#e7b9c3';ctx.lineWidth=warn?3:2;ctx.beginPath();ctx.moveTo(6,LINE);ctx.lineTo(W-6,LINE);ctx.stroke();ctx.setLineDash([]);
+  // Aim guide and the piece waiting to drop.
+  if(game.status==='playing'){const r=STEPS[game.current].r;ctx.strokeStyle='rgba(138,111,96,.25)';ctx.setLineDash([4,8]);ctx.beginPath();ctx.moveTo(game.aim,DROP_Y+r);ctx.lineTo(game.aim,H);ctx.stroke();ctx.setLineDash([]);
+   ctx.globalAlpha=game.wait>0?.35:1;yarnBall(ctx,game.aim,DROP_Y,r,game.current,0);ctx.globalAlpha=1;}
+  for(const b of game.balls)yarnBall(ctx,b.x,b.y,STEPS[b.step].r,b.step,still?0:b.x/STEPS[b.step].r);
+  // Merge pops: a ring and a little label.
+  const now=performance.now();pops=pops.filter(p=>now-p.t<700);
+  for(const p of pops){const t=(now-p.t)/700;ctx.globalAlpha=1-t;ctx.strokeStyle='#fff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(p.x,p.y,STEPS[Math.min(p.step,STEPS.length-1)].r*(1+t*.5),0,Math.PI*2);ctx.stroke();
+   ctx.fillStyle=INK;ctx.font='bold 13px "Malgun Gothic",sans-serif';ctx.textAlign='center';ctx.fillText(p.step>=STEPS.length?'인형 두 개 완성! +'+STEPS.at(-1).score*2:STEPS[p.step].name,p.x,p.y-STEPS[Math.min(p.step,STEPS.length-1)].r-8-t*14);ctx.globalAlpha=1;}
+  ctx.restore();
+ }
+ let lastScore=0;
+ function hud(){
+  if(game.score>lastScore){const s=$('#score'),d=game.score-lastScore;s.classList.remove('bump');void s.offsetWidth;s.classList.add('bump');const f=document.createElement('span');f.className='scfloat';f.textContent='+'+d;s.parentElement.append(f);setTimeout(()=>f.remove(),900);}
+  lastScore=game.score;
+  $('#score').textContent=game.score;$('#best').textContent=Math.max(bestScore,game.score);
+  const n=$('#next').getContext('2d');n.clearRect(0,0,88,88);const r=STEPS[game.next].r;yarnBall(n,44,44,Math.min(40,r*1.3),game.next,0);
+ }
+ // The bottom row shows the picture of every step (grey until it has been made).
+ function ladder(){$('#ladder').innerHTML=STEPS.map((s,i)=>{const d=16+i*2.2;return `<i class="${i<=game.best?'got':''}" title="${s.name}" style="width:${d}px;height:${d}px;background-image:url(assets/merge/merge-${i+1}.png)"></i>`;}).join('');}
+ let shownBest=-1;
+ function frame(now){const dt=last?(now-last)/1000:0;last=now;
+  if(!document.hidden)game.update(dt);
+  if(game.made.length){for(const m of game.made){window.SejinSfx&&SejinSfx.play(m.step>=6?'win':m.step>=3?'chime':'ok');pops.push({...m,t:performance.now()});if(m.step===STEPS.length-1)$('#say').textContent='세진이 인형을 만들었어요!';}game.made=[];}
+  if(game.best!==shownBest){shownBest=game.best;ladder();if(game.best>=CLEAR_STEP)SejinSave.clears.mark('merge');}   // cleared the moment the step is made
+  hud();draw();if(game.status==='over'&&!reported)finish();requestAnimationFrame(frame);}
+ function finish(){
+  reported=true;const newBest=game.score>bestScore;if(newBest){bestScore=game.score;try{localStorage.setItem('sejin-merge-best',String(bestScore));}catch(e){}}
+  // 하루에 보상을 주는 판은 3번까지(그 뒤는 점수 기록만) — 실뭉치·실 재료가 무한히 쌓이는 것 방지
+  const MK='sejin-merge-day',td=SejinSave.today();let md={day:td,n:0};try{const s=JSON.parse(localStorage.getItem(MK));if(s&&s.day===td)md=s;}catch(e){}
+  const paid=md.n<3||SejinSave.testMode;if(paid){md.n++;try{localStorage.setItem(MK,JSON.stringify(md));}catch(e){}}
+  const yarn=paid?Math.min(30,game.reward):0;
+  SejinSave.pushResult({game:'merge',score:game.score,best:game.best,yarn});
+  const got=paid?Object.entries(game.tally).filter(([s,n])=>n>0&&s<STEPS.length).map(([s,n])=>['y-'+s,Math.min(n,6)]):[];   // 한 판에 크기마다 최대 6개 (한 판에 90개 넘게 쌓이는 것 방지)   // each size made = that yarn for crafting in the 공방
+  if(got.length)SejinSave.pushResult({game:'pickup',place:'실 가게',items:Object.fromEntries(got)});if(game.best>=CLEAR_STEP)SejinSave.clears.mark('merge');
+  $('#overText').innerHTML=`점수 <b>${game.score}</b>${newBest?' · 최고 기록!':''}<br>가장 큰 실타래: ${STEPS[game.best]?.name||'-'}<br>${paid?`실뭉치 <b>+${yarn}개</b>는 방에 가면 들어와요.`:'<small>오늘 보상은 3판까지예요. 점수 기록은 계속 남아요!</small>'}${got.length?'<br>만든 실 <b>'+got.map(([id,n])=>STEPS[+id.slice(2)].name+' ×'+n).join(' · ')+'</b><br><small>공방에서 소품 재료로 쓸 수 있어요 (팔 수는 없어요)</small>':''}`;
+  $('#over').hidden=false;$('#again').focus();
+ }
+ function restart(){game.reset();reported=false;shownBest=-1;pops=[];$('#over').hidden=true;cv.focus({preventScroll:true});}
+ $('#again').onclick=restart;
+ // Aim with the pointer, drop on release (a quick tap drops where you tapped).
+ cv.addEventListener('pointerdown',e=>{if(game.status!=='playing')return;e.preventDefault();held=true;try{cv.setPointerCapture(e.pointerId);}catch(err){}game.setAim(toGame(e));});
+ cv.addEventListener('pointermove',e=>{if(game.status!=='playing')return;if(held||e.pointerType==='mouse')game.setAim(toGame(e));});
+ cv.addEventListener('pointerup',e=>{if(!held)return;held=false;game.setAim(toGame(e));game.drop();});
+ cv.addEventListener('pointercancel',()=>{held=false;});
+ document.addEventListener('keydown',e=>{if(game.status!=='playing'){if(e.code==='Space'&&!$('#over').hidden&&document.activeElement===cv){e.preventDefault();restart();}return;}
+  if(e.code==='ArrowLeft'||e.code==='ArrowRight'){e.preventDefault();game.setAim(game.aim+(e.code==='ArrowLeft'?-14:14));}
+  if(e.code==='Space'||e.code==='Enter'||e.code==='ArrowDown'){if(e.target.tagName==='A'||e.target.tagName==='BUTTON')return;e.preventDefault();game.drop();}});
+ resize();ladder();requestAnimationFrame(frame);
+})();
+</script>
+<script src="sejin-hud.js"></script><script src="sejin-from.js"></script>
+</body>
+</html>

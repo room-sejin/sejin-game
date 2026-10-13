@@ -1,0 +1,76 @@
+{
+  "id": "coloring-yarnbasket-v1",
+  "name": "뜨개 바구니",
+  "difficulty": "보통",
+  "palette": {
+    "A": [
+      "색 1",
+      "#67371f"
+    ],
+    "B": [
+      "색 2",
+      "#c69b68"
+    ],
+    "C": [
+      "색 3",
+      "#80cfa6"
+    ],
+    "D": [
+      "색 4",
+      "#8db9e8"
+    ],
+    "E": [
+      "색 5",
+      "#bb99e0"
+    ],
+    "F": [
+      "색 6",
+      "#ead0a4"
+    ],
+    "G": [
+      "색 7",
+      "#fff1d4"
+    ]
+  },
+  "rows": [
+    "........................",
+    "........................",
+    "........................",
+    ".................AA.....",
+    "..........AADA...FB.....",
+    ".........DDDDDD..AA.FA..",
+    "........BDDDDDDA.F..FB..",
+    ".......ADDDDDDDDAB..B...",
+    ".....AGCCADDDDDAAA.BA...",
+    "....ACGGCCADDDEGGBAB....",
+    "....GGGGGCGDEEGEEGBA....",
+    "...AGGGCGCCGEGEGEEGB....",
+    "...ACGCGCGGAEEGEEEEEB...",
+    "..AGACGCCGCEEGEEGEAAG...",
+    "...AFGGAACCAEEEEAGGFA...",
+    "...AFBFFGGGGGGGGGFBB....",
+    "....GGBFBBFFGFFBFBGA....",
+    "....AFBGGGGGGGGGGBFA....",
+    ".....FGFBFBFGBFBFGF.....",
+    ".....AFGFGFGGGGFGFA.....",
+    ".......ABFFFFFFBA.......",
+    "........................",
+    "........................",
+    "........................"
+  ],
+  "sourceReference": "assets/sejin-coloring-yarnbasket-v1.png",
+  "gridSize": 24,
+  "filledCells": 247,
+  "colorCounts": {
+    "A": 42,
+    "B": 27,
+    "C": 18,
+    "D": 30,
+    "E": 25,
+    "F": 36,
+    "G": 69
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+}

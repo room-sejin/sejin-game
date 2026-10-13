@@ -1,0 +1,165 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>방구석 세진이 · 구름 오르기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#2e2733;color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
+.wrap{position:relative;max-width:420px;height:100dvh;margin:0 auto;background:#bfe8f5;overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:8px;align-items:center;z-index:3;pointer-events:none}
+.hud a{pointer-events:auto;background:#fffffff0;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.hud span{background:#fffffff0;border-radius:12px;padding:7px 12px;font-size:13px;font-weight:bold;box-shadow:0 2px 0 var(--line)}
+.hud .sp{flex:1;background:none;box-shadow:none}
+.hint{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 3px #0007;z-index:3;pointer-events:none;transition:opacity .4s}
+.card{position:absolute;inset:0;z-index:6;display:grid;place-items:center;background:#1c1a3a88;padding:16px}
+.card[hidden]{display:none}
+.card>div{background:#fffaf0;border-radius:24px;padding:22px 20px;text-align:center;max-width:340px;box-shadow:0 10px 35px #0005}
+.card h2{margin:6px 0;font-size:21px}.card p{color:var(--sub);font-size:14px;line-height:1.65;margin:8px 0 14px}
+.card .q{font-size:19px;font-weight:bold;color:var(--ink);line-height:1.5;margin:8px 0}
+.btn{border:0;font:inherit;font-weight:bold;font-size:16px;padding:13px 28px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}
+.acts{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);text-decoration:none;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+ <canvas id="cv"></canvas>
+ <div class="hud"><a href="village.html">‹ 천사 마을로</a><span class="sp"></span><span id="star">⭐ 0</span><span id="hgt">0 m</span></div>
+ <div class="hint" id="hint"></div>
+ <div class="card" id="card"><div id="cbox"></div></div>
+</div>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ // 구름 오르기 (작은 연못) — "더 높은 곳도 보고 싶지 않아?" 구름을 밟고 올라가면 하늘이 파랑 → 노을 → 밤 → 별이 쏟아지는 하늘로 바뀌고,
+ // 맨 위에는 달이 뜬 별나라가 있다. 화면을 좌우로 끌어 조종하고, 별을 모으고, 높이 올라갈수록 어려워진다(좁은 구름·움직이는 구름·한 번 밟으면 사라지는 구름).
+ const $=s=>document.querySelector(s),cv=$('#cv'),ctx=cv.getContext('2d'),wrap=$('#wrap'),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const GOAL=560,PX_M=26;                       // 별나라 = 560 m (처음 400 m 에서 1.4배로 늘림)
+ const ZONES=[[0,'푸른 하늘'],[98,'구름 위'],[210,'노을 하늘'],[280,'황혼'],[350,'별이 뜨는 밤하늘'],[448,'별이 쏟아지는 하늘'],[525,'별나라가 코앞!']];
+ const ZONE_YARN=[0,2,3,4,5,6,8];              // 처음 그 구역에 닿았을 때 한 번 받는 실뭉치
+ const STOPS=[[0,'#a8defa','#e6f7f1'],[98,'#79c4f0','#d9ecff'],[154,'#a9b8f0','#f0d9f5'],[210,'#f5a97f','#ffd6b0'],[280,'#b46fc0','#f08fb8'],[350,'#2a2a6a','#5a4a9a'],[448,'#0a0c2a','#1a1646'],[560,'#04050f','#0b0b25']];
+ let W=360,H=640,dpr=1;
+ const me=new Image();me.src='assets/friends/npc-angel.png';
+ // 그림 소재(불러와지면 코드 그림 대신 사용): 하늘 배경(낮→밤, 맨 위 달), 구름 발판 3종, 별
+ const ART={};for(const [k,f] of Object.entries({bg:'cloudclimb/climb-bg-v1.jpg',cloud:'cloudclimb/climb-cloud-v1.png',move:'cloudclimb/climb-cloud-move-v1.png',brk:'cloudclimb/climb-cloud-break-v1.png',star:'cloudclimb/climb-star-v1.png'})){const i=new Image();i.onload=()=>{i.ok=true;};i.src='assets/'+f;ART[k]=i;}
+ const P={x:0,y:0,vx:0,vy:0,w:44,h:56};
+ let solidGap=0,plats=[],stars=[],climbed=0,starsGot=0,state='ready',target=null,keys={},bg=[],zoneShown=-1,zoneT=0,fxs=[],celeb=null,bestZone=0,reached=0;
+ const rnd=(a,b)=>a+Math.random()*(b-a);
+ const meters=()=>Math.floor(climbed/PX_M);
+ function resize(){const r=wrap.getBoundingClientRect();dpr=Math.min(2,devicePixelRatio||1);W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+ addEventListener('resize',resize);resize();
+ for(let i=0;i<110;i++)bg.push({x:Math.random(),y:Math.random(),s:.5+Math.random()*1.8,p:Math.random()*6.28,d:.05+Math.random()*.25});
+ // ---------- colours ----------
+ const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t)),css=c=>`rgb(${c[0]},${c[1]},${c[2]})`;
+ function sky(m){let i=0;while(i<STOPS.length-2&&m>=STOPS[i+1][0])i++;const [m0,t0,b0]=STOPS[i],[m1,t1,b1]=STOPS[i+1],k=Math.max(0,Math.min(1,(m-m0)/(m1-m0)));return [mix(hex(t0),hex(t1),k),mix(hex(b0),hex(b1),k)];}
+ // ---------- world ----------
+ function diff(){const m=meters();return {gapMax:Math.min(158,88+m*.22),wMul:1-Math.min(.45,m/520),move:Math.min(.5,.16+m/1100),brk:m>50?Math.min(.55,(m-50)/700):0};}   // brk = 한 번 밟으면 사라지는 가짜 발판: 50 m부터 늘어나 높을수록 절반 넘게
+ function addPlat(y,type){const d=diff(),w=rnd(66,92)*d.wMul;const r=Math.random();const t=type||(r<d.brk?'brk':r<d.brk+d.move?'move':'cloud');let tt=t;if(tt==='brk'&&solidGap>=2)tt='cloud';solidGap=tt==='brk'?solidGap+1:0;   // 가짜 발판이 3번 연속 나오지 않게: 반드시 길이 이어짐
+  const p={x:rnd(8,W-w-8),y,w,h:16,type:tt,dir:Math.random()<.5?-1:1,sp:rnd(30,70),gone:false};plats.push(p);
+  if(Math.random()<.33)stars.push({x:p.x+p.w/2,y:y-30,got:false});}
+ function reset(){
+  plats=[];stars=[];solidGap=0;climbed=0;starsGot=0;fxs=[];celeb=null;zoneShown=-1;reached=0;
+  addPlat(H-30,'cloud');plats[0].x=W/2-46;plats[0].w=92;
+  let y=H-30;while(y>-40){y-=rnd(62,104);addPlat(y);}
+  P.x=W/2-P.w/2;P.y=H-30-P.h;P.vx=0;P.vy=-780;state='play';$('#hint').style.opacity=1;$('#hint').textContent='화면을 좌우로 끌어서 움직여요 (키보드 ← →)';$('#card').hidden=true;
+  try{bestZone=(JSON.parse(localStorage.getItem('sejin-climb-v2'))||{}).zone||0;}catch(e){bestZone=0;}
+ }
+ function setTarget(e){const r=wrap.getBoundingClientRect();target=(e.clientX-r.left)-P.w/2;}
+ wrap.addEventListener('pointerdown',setTarget);
+ wrap.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')setTarget(e);});
+ addEventListener('keydown',e=>{keys[e.key]=true;});addEventListener('keyup',e=>{keys[e.key]=false;});
+ let last=performance.now();
+ function frame(now){const dt=Math.min(.033,(now-last)/1000);last=now;if(state==='play')update(dt);if(celeb)celeb.t+=dt;fxs=fxs.filter(f=>(f.t+=dt)<f.life);draw(now/1000);requestAnimationFrame(frame);}
+ function update(dt){
+  let ax=0;if(keys.ArrowLeft||keys.a)ax=-1;if(keys.ArrowRight||keys.d)ax=1;
+  if(ax){P.vx=ax*270;target=null;}else if(target!==null){P.vx=Math.max(-430,Math.min(430,(target-P.x)*9));}else P.vx*=.9;
+  P.x+=P.vx*dt;if(P.x<-P.w/2)P.x=W-P.w/2;if(P.x>W-P.w/2)P.x=-P.w/2;
+  const prevBottom=P.y+P.h;P.vy+=(meters()>448?1350:1500)*dt;P.y+=P.vy*dt;   // 별나라에서는 중력이 조금 약해져 둥실
+  if(P.vy>0){for(const p of plats){if(p.gone)continue;if(prevBottom<=p.y+4&&P.y+P.h>=p.y&&P.x+P.w*.75>p.x&&P.x+P.w*.25<p.x+p.w){P.vy=-780;P.y=p.y-P.h;window.SejinSfx&&SejinSfx.play('pop');fxs.push({k:'ring',x:P.x+P.w/2,y:p.y,t:0,life:.35});if(p.type==='brk'){p.gone=true;fxs.push({k:'poof',x:p.x+p.w/2,y:p.y,t:0,life:.5});}break;}}}
+  for(const p of plats)if(p.type==='move'){p.x+=p.dir*p.sp*dt;if(p.x<4||p.x+p.w>W-4)p.dir*=-1;}
+  const mid=H*.42;if(P.y<mid){const d=mid-P.y;P.y=mid;climbed+=d;plats.forEach(p=>p.y+=d);stars.forEach(s=>s.y+=d);}
+  plats=plats.filter(p=>p.y<H+30&&!p.gone);stars=stars.filter(s=>!s.got&&s.y<H+30);
+  let top=Math.min(...plats.map(p=>p.y));const d=diff();while(top>-60){top-=rnd(64,d.gapMax);addPlat(top);}
+  for(const s of stars){if(!s.got&&Math.hypot(s.x-(P.x+P.w/2),s.y-(P.y+P.h/2))<30){s.got=true;starsGot++;window.SejinSfx&&SejinSfx.play('ok');fxs.push({k:'star',x:s.x,y:s.y,t:0,life:.5});}}
+  const m=meters();$('#hgt').textContent=m+' m';$('#star').textContent='⭐ '+starsGot;
+  let z=0;for(let i=0;i<ZONES.length;i++)if(m>=ZONES[i][0])z=i;
+  if(z!==zoneShown){zoneShown=z;zoneT=0;if(z>reached)reached=z;if(z>0)window.SejinSfx&&SejinSfx.play(z>=5?'chime':'ok');}
+  zoneT+=dt;if(climbed>20)$('#hint').style.opacity=0;
+  if(m>=GOAL)return finish(true);
+  if(P.y>H+40)finish(false);
+ }
+ // ---------- drawing ----------
+ function draw(t){
+  const m=state==='ready'?0:meters();const [tc,bc]=sky(m);
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,css(tc));g.addColorStop(1,css(bc));ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  const bgOK=ART.bg.ok;if(bgOK){const IH=W*ART.bg.naturalHeight/ART.bg.naturalWidth,k=Math.max(0,Math.min(1,climbed/(GOAL*PX_M)));ctx.drawImage(ART.bg,0,H-IH+(IH-H)*k,W,IH);}
+  // stars in the night sky
+  const sa=Math.max(0,Math.min(1,(m-266)/140));
+  if(sa>0&&!bgOK){for(const s of bg){const y=((s.y*H+climbed*s.d)%H);ctx.globalAlpha=sa*(.55+.45*Math.sin(t*2+s.p));ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.x*W,y,s.s,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;}
+  // far-away planets and shooting stars in the star country
+  if(m>420&&!bgOK){const k=Math.min(1,(m-420)/80);ctx.globalAlpha=k*.9;planet(W*.2,((H*.3+climbed*.1)%(H+120))-40,26,'#9b8cff','#ffd0f0');planet(W*.82,((H*.65+climbed*.07)%(H+120))-40,18,'#7fd6ff','#fff3a8');ctx.globalAlpha=1;
+   const sx=((t*120)%(W+200))-100;ctx.strokeStyle='#ffffffaa';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx,60+(sx*.4)%160);ctx.lineTo(sx-50,40+(sx*.4)%160);ctx.stroke();}
+  // the moon rises when the goal is near
+  if(m>GOAL-150){const k=Math.min(1,(m-(GOAL-150))/150),r=40+k*110,cy=-r+k*(H*.28+r);moon(W/2,cy,r);}
+  // clouds / star pads
+  const night=m>350;
+  for(const p of plats)cloud(p,night,m);
+  for(const s of stars){if(ART.star.ok){ctx.drawImage(ART.star,s.x-15,s.y-15,30,30);continue;}ctx.font='22px system-ui';ctx.textAlign='center';ctx.fillText('⭐',s.x,s.y+8);}
+  if(state!=='ready'){if(me.complete&&me.naturalWidth)ctx.drawImage(me,P.x-8,P.y-6,P.w+16,P.h+10);else{ctx.font='34px system-ui';ctx.textAlign='center';ctx.fillText('🪽',P.x+P.w/2,P.y+40);}}
+  for(const f of fxs){const k=f.t/f.life;ctx.globalAlpha=1-k;if(f.k==='ring'){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(f.x,f.y,10+k*30,4+k*8,0,0,Math.PI*2);ctx.stroke();}else if(f.k==='poof'){ctx.fillStyle='#fff';for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(f.x+(i-2)*12,f.y+k*20,6*(1-k)+2,0,Math.PI*2);ctx.fill();}}else{ctx.font=`${20+k*14}px system-ui`;ctx.textAlign='center';ctx.fillStyle='#ffe36b';ctx.fillText('✦',f.x,f.y-k*30);}ctx.globalAlpha=1;}
+  // zone banner
+  if(state==='play'&&zoneShown>0&&zoneT<2.2){const a=Math.min(1,zoneT*3,(2.2-zoneT)*2);ctx.globalAlpha=a;ctx.textAlign='center';ctx.font='bold 26px system-ui';ctx.lineWidth=6;ctx.strokeStyle='#00000066';ctx.strokeText(ZONES[zoneShown][1],W/2,H*.2);ctx.fillStyle='#fff';ctx.fillText(ZONES[zoneShown][1],W/2,H*.2);ctx.globalAlpha=1;}
+  // landing celebration
+  if(celeb){const k=celeb.t;ctx.fillStyle=`rgba(255,250,220,${Math.max(0,.9-k*.5)})`;ctx.fillRect(0,0,W,H);for(let i=0;i<26;i++){const a=i/26*Math.PI*2+k,rad=40+k*120+(i%3)*20;ctx.fillStyle='#fff6a8';ctx.font='20px system-ui';ctx.textAlign='center';ctx.fillText('✦',W/2+Math.cos(a)*rad,H*.3+Math.sin(a)*rad*.8);}
+   const sc=Math.min(1,k*3);ctx.save();ctx.translate(W/2,H*.5);ctx.scale(sc,sc);ctx.textAlign='center';ctx.font='bold 38px system-ui';ctx.lineWidth=7;ctx.strokeStyle='#5b4a42';ctx.strokeText('별나라에 도착!',0,0);ctx.fillStyle='#ffd23f';ctx.fillText('별나라에 도착!',0,0);ctx.restore();}
+ }
+ function planet(x,y,r,c1,c2){const g=ctx.createRadialGradient(x-r*.3,y-r*.3,r*.2,x,y,r);g.addColorStop(0,c2);g.addColorStop(1,c1);ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ffffff88';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,r*1.6,r*.4,-.3,0,Math.PI*2);ctx.stroke();}
+ function moon(x,y,r){const g=ctx.createRadialGradient(x-r*.25,y-r*.25,r*.1,x,y,r);g.addColorStop(0,'#fffbe6');g.addColorStop(1,'#e8dfa8');ctx.shadowColor='#fff6c0';ctx.shadowBlur=40;ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+  ctx.fillStyle='#d4c98a55';[[-.35,-.2,.18],[.3,.25,.22],[.1,-.45,.12],[-.2,.4,.1]].forEach(([a,b,c])=>{ctx.beginPath();ctx.arc(x+a*r,y+b*r,c*r,0,Math.PI*2);ctx.fill();});}
+ function cloud(p,night,m){
+  const x=p.x,y=p.y,w=p.w;
+  const im=ART[p.type==='move'?'move':p.type==='brk'?'brk':'cloud'];
+  if(im&&im.ok){const iw=w*1.28,ih=iw*im.naturalHeight/im.naturalWidth;if(night){ctx.shadowColor=p.type==='move'?'#ffb0e0':'#cfd8ff';ctx.shadowBlur=12;}ctx.drawImage(im,x-(iw-w)/2,y-ih*.22,iw,ih);ctx.shadowBlur=0;return;}
+  if(night){ctx.shadowColor=p.type==='move'?'#ffb0e0':'#cfd8ff';ctx.shadowBlur=14;}
+  ctx.fillStyle=night?(p.type==='move'?'#ffd9f1':p.type==='brk'?'#d9dcff99':'#eef0ff'):(p.type==='move'?'#ffe4f0':p.type==='brk'?'#ffffffaa':'#fff');
+  ctx.strokeStyle=night?'#8f98d8':'#cfd9e6';ctx.lineWidth=2;
+  ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,16,8):ctx.rect(x,y,w,16);ctx.fill();ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();ctx.arc(x+w*.3,y+2,9,Math.PI,0);ctx.arc(x+w*.55,y-2,11,Math.PI,0);ctx.arc(x+w*.78,y+3,8,Math.PI,0);ctx.fill();
+  if(p.type==='brk'){ctx.strokeStyle=night?'#8f98d8':'#b9c6d8';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(x+w*.4,y-8);ctx.lineTo(x+w*.46,y+2);ctx.lineTo(x+w*.4,y+8);ctx.moveTo(x+w*.7,y-6);ctx.lineTo(x+w*.64,y+4);ctx.stroke();}   // 가는 금이 가짜 발판의 표시
+  ctx.shadowBlur=0;
+ }
+ // ---------- cards ----------
+ function card(html){$('#cbox').innerHTML=html;$('#card').hidden=false;}
+ function intro(){
+  card(`<div style="font-size:44px">☁️</div><div class="q">더 높은 곳으로<br>올라가 보고 싶지 않나요?</div><p>여기보다 더 높은 곳이 있대요.<br>구름을 밟고 올라가면 하늘이 점점 물들고, 별이 뜨고… 맨 위에는 <b>별나라</b>가 있대요!<br><small>화면을 좌우로 끌어서 움직여요. 위로 갈수록 어려워져요.</small></p><button class="btn" id="go">올라가 볼래요!</button><div class="acts"><a href="village.html">다음에 갈게요</a></div>`);
+  $('#go').onclick=()=>{state='ready';reset();};
+ }
+ function finish(win){
+  if(state!=='play')return;state='over';
+  const m=meters();let c={};try{c=JSON.parse(localStorage.getItem('sejin-climb-v2'))||{};}catch(e){}
+  const prevZone=c.zone||0;let yarn=0;for(let z=prevZone+1;z<=reached;z++)yarn+=ZONE_YARN[z]||0;
+  let first=false;if(win&&!c.done){first=true;c.done=1;yarn+=15;}else if(win)yarn+=4;
+  yarn+=Math.min(3,Math.floor(starsGot/8));
+  c.zone=Math.max(prevZone,reached);c.best=Math.max(c.best||0,m);try{localStorage.setItem('sejin-climb-v2',JSON.stringify(c));}catch(e){}
+  if(yarn)SejinSave.pushResult({game:'minigame',label:'구름 오르기',place:'천사 마을',first,yarn});
+  const zn=ZONES[reached][1];
+  const body=`높이 <b>${m} m</b> · 별 <b>${starsGot}개</b><br>도착한 곳: <b>${zn}</b>${c.best>m?`<br><small>최고 기록 ${c.best} m</small>`:''}${reached>prevZone?`<br>✨ 새로운 하늘에 처음 닿았어요!`:''}${yarn?`<br>실뭉치 <b>+${yarn}개</b>는 방에 가면 들어와요.`:''}`;
+  if(win){SejinSave.pushResult({game:'pickup',place:'천사 마을',items:{'v-star-key':1}});
+   celeb={t:0};window.SejinSfx&&SejinSfx.play('win');setTimeout(()=>window.SejinSfx&&SejinSfx.play('chime'),600);
+   setTimeout(()=>{celeb=null;card(`<div style="font-size:44px">🌙</div><h2>별나라에 도착했어요!</h2><p>${body}<br><span style="display:inline-block;margin-top:6px;background:#fff3cf;border-radius:12px;padding:6px 12px;font-weight:bold;color:#5b4a42">🗝️ 별나라 열쇠를 얻었어요!<br><small style="font-weight:normal">더 먼 곳의 문을 여는 열쇠래요…</small></span></p><button class="btn" id="rt">다시 올라가기</button><div class="acts"><a href="village.html">천사 마을로</a></div>`);$('#rt').onclick=()=>{state='ready';reset();};},still?200:3000);return;}
+  window.SejinSfx&&SejinSfx.play('wrong');
+  setTimeout(()=>{card(`<div style="font-size:44px">🥺</div><h2>앗, 떨어졌어요</h2><p>${body}<br>별나라까지는 ${GOAL} m예요. 조금만 더!</p><button class="btn" id="rt">다시 도전</button><div class="acts"><a href="village.html">천사 마을로</a></div>`);$('#rt').onclick=()=>{state='ready';reset();};},350);
+ }
+ // idle scene behind the intro card
+ plats=[];addPlat(H-30,'cloud');let yy=H-30;while(yy>-40){yy-=rnd(62,104);addPlat(yy);}P.x=W/2-P.w/2;P.y=H-30-P.h;
+ intro();requestAnimationFrame(frame);
+})();
+</script>
+<script src="sejin-hud.js"></script><script src="sejin-from.js"></script>
+</body>
+</html>

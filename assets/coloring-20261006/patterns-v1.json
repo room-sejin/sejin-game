@@ -1,0 +1,494 @@
+[
+  {
+    "id": "coloring-strawberry-v1",
+    "name": "새콤 딸기",
+    "difficulty": "쉬움",
+    "palette": {
+      "A": [
+        "색 1",
+        "#67371f"
+      ],
+      "B": [
+        "색 2",
+        "#579c80"
+      ],
+      "C": [
+        "색 3",
+        "#ef496e"
+      ],
+      "D": [
+        "색 4",
+        "#93d6ae"
+      ],
+      "E": [
+        "색 5",
+        "#fff1cd"
+      ]
+    },
+    "rows": [
+      "................",
+      "........AA......",
+      ".......DDA......",
+      "....DDADBAAA....",
+      "....ADDDADDDA...",
+      ".....CABDBAA....",
+      "...ACCCCABCCA...",
+      "...CCCCCCCCCC...",
+      "...CCCECCCCCC...",
+      "...CCCCCCCECC...",
+      "...ACCCCCCCCA...",
+      "....CCECCCCC....",
+      ".....CCCCCC.....",
+      ".....ACCCCA.....",
+      "......AAA.......",
+      "................"
+    ],
+    "sourceReference": "assets/sejin-coloring-strawberry-v1.png",
+    "gridSize": 16,
+    "filledCells": 102,
+    "colorCounts": {
+      "A": 23,
+      "B": 4,
+      "C": 60,
+      "D": 12,
+      "E": 3
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+  },
+  {
+    "id": "coloring-gift-v1",
+    "name": "리본 선물",
+    "difficulty": "쉬움",
+    "palette": {
+      "A": [
+        "색 1",
+        "#67371f"
+      ],
+      "B": [
+        "색 2",
+        "#e982a5"
+      ],
+      "C": [
+        "색 3",
+        "#a795df"
+      ],
+      "D": [
+        "색 4",
+        "#f6aac7"
+      ],
+      "E": [
+        "색 5",
+        "#c8b6f1"
+      ],
+      "F": [
+        "색 6",
+        "#fff1cd"
+      ]
+    },
+    "rows": [
+      "....................",
+      "....................",
+      ".....AAA.....AA.....",
+      "....AFDDA...DDDD....",
+      "....DDADDA.DDAFDA...",
+      "....DBBBDAADBBBDA...",
+      "....AADDBDDABDBA....",
+      ".....DAAABBAAAAEEA..",
+      "...BEEEDDDEEADFDCA..",
+      "...EEEAFDEEEEEABCA..",
+      "...EEEADAEEEECABA...",
+      "...AEEADAEEEECABC...",
+      "...AEEBBBAAECAAFC...",
+      "...AEECFDEEECCADC...",
+      "...AEECDDEEECCADC...",
+      "...AEECDDEEECCADA...",
+      "....AECDDEEECCAA....",
+      "........AAEECA......",
+      "....................",
+      "...................."
+    ],
+    "sourceReference": "assets/sejin-coloring-gift-v1.png",
+    "gridSize": 20,
+    "filledCells": 196,
+    "colorCounts": {
+      "A": 57,
+      "B": 18,
+      "C": 22,
+      "D": 41,
+      "E": 52,
+      "F": 6
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+  },
+  {
+    "id": "coloring-yarnbasket-v1",
+    "name": "뜨개 바구니",
+    "difficulty": "보통",
+    "palette": {
+      "A": [
+        "색 1",
+        "#67371f"
+      ],
+      "B": [
+        "색 2",
+        "#c69b68"
+      ],
+      "C": [
+        "색 3",
+        "#80cfa6"
+      ],
+      "D": [
+        "색 4",
+        "#8db9e8"
+      ],
+      "E": [
+        "색 5",
+        "#bb99e0"
+      ],
+      "F": [
+        "색 6",
+        "#ead0a4"
+      ],
+      "G": [
+        "색 7",
+        "#fff1d4"
+      ]
+    },
+    "rows": [
+      "........................",
+      "........................",
+      "........................",
+      ".................AA.....",
+      "..........AADA...FB.....",
+      ".........DDDDDD..AA.FA..",
+      "........BDDDDDDA.F..FB..",
+      ".......ADDDDDDDDAB..B...",
+      ".....AGCCADDDDDAAA.BA...",
+      "....ACGGCCADDDEGGBAB....",
+      "....GGGGGCGDEEGEEGBA....",
+      "...AGGGCGCCGEGEGEEGB....",
+      "...ACGCGCGGAEEGEEEEEB...",
+      "..AGACGCCGCEEGEEGEAAG...",
+      "...AFGGAACCAEEEEAGGFA...",
+      "...AFBFFGGGGGGGGGFBB....",
+      "....GGBFBBFFGFFBFBGA....",
+      "....AFBGGGGGGGGGGBFA....",
+      ".....FGFBFBFGBFBFGF.....",
+      ".....AFGFGFGGGGFGFA.....",
+      ".......ABFFFFFFBA.......",
+      "........................",
+      "........................",
+      "........................"
+    ],
+    "sourceReference": "assets/sejin-coloring-yarnbasket-v1.png",
+    "gridSize": 24,
+    "filledCells": 247,
+    "colorCounts": {
+      "A": 42,
+      "B": 27,
+      "C": 18,
+      "D": 30,
+      "E": 25,
+      "F": 36,
+      "G": 69
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+  },
+  {
+    "id": "coloring-flowercup-v1",
+    "name": "꽃 찻잔",
+    "difficulty": "보통",
+    "palette": {
+      "A": [
+        "색 1",
+        "#67371f"
+      ],
+      "B": [
+        "색 2",
+        "#779b62"
+      ],
+      "C": [
+        "색 3",
+        "#bf7c47"
+      ],
+      "D": [
+        "색 4",
+        "#83c89c"
+      ],
+      "E": [
+        "색 5",
+        "#b2dfb6"
+      ],
+      "F": [
+        "색 6",
+        "#f5a2b2"
+      ],
+      "G": [
+        "색 7",
+        "#c6ade5"
+      ],
+      "H": [
+        "색 8",
+        "#fff1d4"
+      ]
+    },
+    "rows": [
+      "................................",
+      "................................",
+      "...............AA...............",
+      "...............AH...............",
+      "...............HHA..............",
+      "..............AHA...............",
+      "...............H..A.............",
+      ".................AH.............",
+      "..............AA.HA.............",
+      ".............AHA................",
+      "..............C.................",
+      "..........AAHHHHHHHHAA..........",
+      "........HHHHHHHHHHHHHHHH........",
+      "......AHHHCCCCCCCCCCCCHHHA......",
+      "......AHCCCHCCCCCCCCCCCCHADEE...",
+      "......AEAHCCCCCCCCCCCAAAEEEEEE..",
+      "......AEEEEEAAAAAAAEEEAEEE..AEA.",
+      ".......EHEEEEEEEEEEEEEAEEA..AE..",
+      ".......EEHEEEEEAEEEEEEAEE...BE..",
+      ".......AEEEEEAAHAAEEAGGAA..AEA..",
+      "......AAEEEBEEHFHEEBAFFGAAAEE...",
+      "....AHEHEEEEBEHFHEBEAGGGEEEA....",
+      "...HEHHHHEEEEEAHAEEEEGGGFHHEH...",
+      "..AEHHHHHHEEEEEAEEEEEEHHHHHHEA..",
+      "..AHHHHHHHHDEEEEEEEEDHHHHHHHHA..",
+      "...HEHHHHHHEHEEEEEEHEHHHHHHEH...",
+      "....HHEHHHHEEHHHHHHEEHHHHEHH....",
+      ".....AHHEEHHHAAAAAAHHHEEHHA.....",
+      ".......AHHHHHHHHHHHHHHHHA.......",
+      "..........AAAHHHHHHAAA..........",
+      "................................",
+      "................................"
+    ],
+    "sourceReference": "assets/sejin-coloring-flowercup-v1.png",
+    "gridSize": 32,
+    "filledCells": 433,
+    "colorCounts": {
+      "A": 84,
+      "B": 5,
+      "C": 39,
+      "D": 3,
+      "E": 134,
+      "F": 5,
+      "G": 9,
+      "H": 154
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+  },
+  {
+    "id": "coloring-sejin-v1",
+    "name": "기본 세진이",
+    "difficulty": "어려움",
+    "palette": {
+      "A": [
+        "색 1",
+        "#67371f"
+      ],
+      "B": [
+        "색 2",
+        "#66b7df"
+      ],
+      "C": [
+        "색 3",
+        "#f89a9c"
+      ],
+      "D": [
+        "색 4",
+        "#8fccec"
+      ],
+      "E": [
+        "색 5",
+        "#ead0a4"
+      ],
+      "F": [
+        "색 6",
+        "#ffc2b5"
+      ],
+      "G": [
+        "색 7",
+        "#fff3db"
+      ]
+    },
+    "rows": [
+      "........................................",
+      "........................................",
+      "........................................",
+      "........................................",
+      "........................................",
+      "...........AA..............AA...........",
+      ".........AAGGAA.AAAAAAAA..AGGAA.........",
+      ".........AGGGGAADDDDDDDDAAGGGGA.........",
+      "........AGGCGGBDDDDDDDDDDBGGCGGA........",
+      "........AGGCCDDDDDDDDDDDDDDCCGGA........",
+      ".........AGGDDDDDDDDDDDDDDDDGGA.........",
+      ".........AADDDDDDAAAAAADDDDDDAA.........",
+      ".........ADDDDAAAGGGGGGAAADDDDA.........",
+      ".........ADDDAGGGGGGGGGGGGADDDAA........",
+      "........ADDDAAGGGGGGGGGGGGAADDDA........",
+      "........ADDAAGGGGGGGGGGGGGGAADDA........",
+      ".......ADDDAGGGGGGGGGGGGGGGGADDDA.......",
+      ".......ADDAGGGGGGGGGGGGGGGGGGADDA.......",
+      ".......ADDAGGGGAAGGGGGGAAGGGGADDA.......",
+      ".......ADDAGGGAAAGGGGGGAAGGGGADDA.......",
+      ".......ADDGGGGFAAGGAAGGAAGGGGGDDA.......",
+      ".......ADDAGCCCGGGCAACGGGCCCGADDA.......",
+      "........ADAGCCCGGGGAAGGGGCCCGADA........",
+      "........ADDAGGGGGGGGGGGGGGGGADDA........",
+      ".........ADDAGGGGGGGGGGGGGGADDA.........",
+      "........AAADDDAAAEEEEEEAAADDDAAA........",
+      "........EGDDADDDDADDDBADDDDADDGEA.......",
+      ".......AGGDDDDDBBGADDAGBBDDDDDGGA.......",
+      ".......AGGDDDDDDDAADDAADDDDDDDGGA.......",
+      "........ADDADDDDAGCDDAGADDDDDDDA........",
+      ".........AAADDDDGGGDDGGGDDDDAA..........",
+      "..........ADDDDDAAADDAAADDDDAGA.........",
+      "...........DDDDDDDDDDDDDDDDDAGA.........",
+      "...........ADDDDDDDDDDDDDDDDAGA.........",
+      "............ADDDDAAAAAADDDDAAA..........",
+      ".............ADDDDA..ADDDDA.............",
+      "..............AAAA....AAAA..............",
+      "........................................",
+      "........................................",
+      "........................................"
+    ],
+    "sourceReference": "assets/sejin-coloring-sejin-v1.png",
+    "gridSize": 40,
+    "filledCells": 701,
+    "colorCounts": {
+      "A": 193,
+      "B": 7,
+      "C": 21,
+      "D": 254,
+      "E": 8,
+      "F": 1,
+      "G": 217
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+  },
+  {
+    "id": "coloring-angel-v1",
+    "name": "천사 세진이",
+    "difficulty": "어려움",
+    "palette": {
+      "A": [
+        "색 1",
+        "#67371f"
+      ],
+      "B": [
+        "색 2",
+        "#e7b94d"
+      ],
+      "C": [
+        "색 3",
+        "#66b7df"
+      ],
+      "D": [
+        "색 4",
+        "#f89a9c"
+      ],
+      "E": [
+        "색 5",
+        "#8fccec"
+      ],
+      "F": [
+        "색 6",
+        "#ffc2b5"
+      ],
+      "G": [
+        "색 7",
+        "#b6e0f5"
+      ],
+      "H": [
+        "색 8",
+        "#fff3db"
+      ],
+      "I": [
+        "색 9",
+        "#fffdf3"
+      ]
+    },
+    "rows": [
+      "................................................",
+      "................................................",
+      ".....................AAAAAA.....................",
+      "..................ABBBBBBBBBBA..................",
+      ".................BBAA......AABB.................",
+      ".................BBAA.......ABB.................",
+      "..................ABBBAAABBBBAA.................",
+      ".............AAA....AAAAAAAA....AAA.............",
+      "............AIIIAA...AAAAA....AAIIIA............",
+      "...........AIIIIIAAAAEEEEEECA.AIIIIIA...........",
+      "..........AIIIDIIAAEEEEEEEEEEAAIIDIIIA..........",
+      "..........BIIDDDAEEEEEEEEEEEEEEAIDDIID..........",
+      "..........DIIDDAEEEEEEEEEEEEEEEEADDIID..........",
+      "..........AIIHAEEEEEEEEEEEEEEEEEEAHIIA..........",
+      "...........HIAEEEEEEAAAAAAAAEEEEEEAII...........",
+      "...........AAEEEEEAAIIIIIIIIAAEEEEEAA...........",
+      "...........AEEEEEAIIIIIIIIIIIIAEEEEEA...........",
+      "...........EEEEEFIIIAIIIIIIIIIIFEEEEEA..........",
+      "..........AEEEEAIIIIAIIIIIIAIIIIAEEEEA..........",
+      "..........EEEEAIIIIAHAIIDIIIAIIIIAEEEE..........",
+      ".........AEEEEHIHIAHIIAIAAIIIAAIIHEEEEA.........",
+      ".........AEEEAIIAFHHHHIIIHDDDIIAIIAEEEA.........",
+      ".........EEEEIIIDIIIHHHIIIHIIIIIDIIEEEE.........",
+      "........AEEEAIIAHIAAHHIIIIHIAAIIAIIAEEEA........",
+      "........AEEEIIAHIIAAHHIHHHHIAAIIIAIIEEEA........",
+      "........AEEEIIIIIHAAHHHHHHHIAAIIIIIIEEEA........",
+      "...AIIDA.EEEIAHFDDHIHIIHHHIIIHDDFIIIEEE.AFIHA...",
+      "..AIIIIIAAEEAHHDFFDIIIIHFHIIIDDFDIIAEEAAIIIIIA..",
+      "..AIIIIIIAEEAFAIDDIIIIIIIIIIIIDDIABAEEAIIIIIIA..",
+      "...AIIIIIIAEEEEAIIIIIIIIIIIIIIIIAEEEEAIIIIIIA...",
+      "....AIIIIIIIAEEEEAAAIIIIIIIIAAAEEEEAIIIIIIIA....",
+      "...AIIIIIIIIIAAAEEEECEEEECECEEEEAAAIIIIIIIIIA...",
+      "...AIIIIIHIIIAEEAEEEEEEEEEGEEEEAEEAIIIHIIIIIA...",
+      "...AIIIIIHHIAEEEEEEECIECCEICEEEEEEEAIHHIIIIIA...",
+      ".....AAIIIIAHEEECEEEEIEEEEIEEEECEEEHAIIIIAAA....",
+      "......IIIIIAHIEEEEEEAIEEEEIAEEEEEEHHAIIIII......",
+      "......AAAIIADHEAEEEEIIHEEHIIEEEEAEHAAIIAAA......",
+      ".........AIA.AAAEEEEHIAEEAIIEEEEAAA.AIA.........",
+      "..............AEEEEEEAEEEEAEEEEEEA..............",
+      "..............EEEEEEEEEEEEEEEEEEEE..............",
+      "..............AEEEEEEEEEEEEEEEEEEA..............",
+      "...............AAAEEEEEEEEEEEEAAA...............",
+      ".................AHHHHAAAAHHHHA.................",
+      "..................HECCA..AECEH..................",
+      "..................EEEEEAAEEEEE..................",
+      "..................AEEEA..AEEEA..................",
+      "................................................",
+      "................................................"
+    ],
+    "sourceReference": "assets/sejin-coloring-angel-v1.png",
+    "gridSize": 48,
+    "filledCells": 1160,
+    "colorCounts": {
+      "A": 256,
+      "B": 27,
+      "C": 13,
+      "D": 35,
+      "E": 379,
+      "F": 11,
+      "G": 1,
+      "H": 74,
+      "I": 364
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+  }
+]

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 도안 모아보기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#fbf3ea;--btn:#8fc3e0;--btn-d:#6fa6c4;--grid:#cfe3ec}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.page{max-width:760px;margin:0 auto;padding:12px 16px 28px}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+h2{font-size:15px;margin:18px 2px 8px;display:flex;justify-content:space-between;align-items:baseline}h2 span{font-size:12px;font-weight:normal;color:var(--sub)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.tile{position:relative;display:flex;flex-direction:column;background:#fff;border-radius:18px;padding:10px;box-shadow:0 4px 14px #88756714;text-decoration:none;color:inherit;border:0;font:inherit;text-align:left;cursor:pointer}
+.tile .pic{aspect-ratio:1;display:grid;place-items:center;background:#fffdf8;border:2px solid var(--grid);border-radius:10px;overflow:hidden}
+.tile canvas{max-width:100%;max-height:100%;image-rendering:pixelated;object-fit:contain}
+.tile b{margin-top:8px;font-size:13px}.tile small{color:var(--sub);font-size:11px;margin-top:2px}
+.tile .st{position:absolute;top:8px;right:8px;font-size:10px;font-weight:bold;color:#fff;background:#a9cfa4;border-radius:9px;padding:2px 8px}
+.tile.todo canvas{opacity:.5;filter:grayscale(.55)}.tile.todo .st{background:#8fc3e0}
+.tile.locked canvas{filter:brightness(0) opacity(.22)}.tile.locked{cursor:default}.tile.locked .st{background:#c2b3a5}
+.tile.add{justify-content:center;align-items:center;text-align:center;color:var(--sub);border:2px dashed var(--line);background:#fffaf4;box-shadow:none;min-height:150px}
+.tile.add i{font-size:30px;font-style:normal}
+.tip{text-align:center;font-size:12px;color:var(--sub);min-height:1.4em;margin-top:12px}
+.dlg{position:fixed;inset:0;display:grid;place-items:center;background:#6d5d5155;padding:16px;z-index:5}.dlg[hidden]{display:none}
+.dlg>div{background:#fffaf0;border-radius:22px;padding:18px;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 35px #88756733}
+.dlg canvas{width:min(100%,320px);image-rendering:pixelated;border:2px solid var(--grid);border-radius:10px;background:#fffdf8}
+.dlg p{font-size:13px;color:var(--sub);line-height:1.5;margin:8px 0}.dlg .acts{display:flex;gap:8px}.dlg .acts>*{flex:1;border:0;font:inherit;font-weight:bold;padding:11px;border-radius:14px;background:var(--btn);color:#fff;text-decoration:none;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}.dlg .acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="pattern.html">‹ 도안 채우기</a><h1>도안 모아보기<small id="sum"></small></h1><a class="back" href="pattern-design.html">✏️ 만들기</a></div>
+ <h2>공방 도안 <span id="cnt1"></span></h2><div class="grid" id="g1"></div>
+ <h2>내가 만든 도안 <span id="cnt2"></span></h2><div class="grid" id="g2"></div>
+ <p class="tip" id="tip">도안을 누르면 크게 볼 수 있어요.</p>
+</main>
+<div class="dlg" id="dlg" hidden><div role="dialog" aria-modal="true" aria-labelledby="dName"><canvas id="dPic"></canvas><h2 id="dName" style="justify-content:center"></h2><p id="dInfo"></p><div class="acts"><a id="dGo" href="#">채우러 가기</a><a id="dEdit" class="ghost" href="#" hidden>✏️ 고치기</a><button class="ghost" id="dClose">닫기</button></div></div></div>
+<script src="sejin-save.js"></script>
+<script src="pattern.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s);
+ const progress=SejinSave.patterns.get();progress.done=progress.done||{};
+ const builtIn=SejinPattern.PATTERNS,mine=SejinSave.myPatterns.get(),test=!!SejinSave.testMode;
+ const stitches=p=>p.rows.join('').replace(/\./g,'').length;
+ const COL=SejinPattern.COLORING;
+ const open=(p,i)=>p.coloring?(i===0||test||!!progress.done[COL[i-1].id]):p.custom||i===0||test||!!progress.done[builtIn[i-1].id];
+ function paint(cv,p,full){
+  cv.width=Math.max(...p.rows.map(r=>r.length));cv.height=p.rows.length;const g=cv.getContext('2d');
+  p.rows.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch!=='.'){g.fillStyle=full?p.palette[ch][1]:'#000';g.fillRect(x,y,1,1);}}));
+  // fit inside the tile keeping the pixels crisp
+  const side=Math.max(cv.width,cv.height),k=side<=60?Math.max(1,Math.floor(120/side)):120/side;cv.style.width=cv.width*k+'px';cv.style.height=cv.height*k+'px';
+ }
+ function tile(p,i,custom){
+  const done=progress.done[p.id],ok=custom||open(p,i),cls=done?'':ok?'todo':'locked';
+  const el=document.createElement('button');el.className='tile '+cls;
+  el.innerHTML=`<span class="st">${done?'완성 ✓':ok?'도전!':'잠김'}</span><div class="pic"><canvas></canvas></div><b>${ok?p.name:'???'}</b><small>${ok?`${p.rows[0].length}×${p.rows.length} · ${stitches(p)}칸`:'앞 도안을 먼저 완성해요'}</small>`;
+  paint(el.querySelector('canvas'),p,true);
+  el.onclick=()=>{if(!ok){$('#tip').textContent='앞 도안을 완성하면 열려요.';return;}show(p,done);};
+  return el;
+ }
+ function show(p,done){
+  const cv=$('#dPic');cv.width=p.rows[0].length;cv.height=p.rows.length;const g=cv.getContext('2d');
+  p.rows.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch!=='.'){g.fillStyle=p.palette[ch][1];g.fillRect(x,y,1,1);}}));
+  cv.style.aspectRatio=cv.width+'/'+cv.height;
+  $('#dName').textContent=p.name;$('#dInfo').textContent=`${cv.width}×${cv.height}칸 · ${stitches(p)}칸 · 색 ${Object.keys(p.palette).length}가지 · `+(done?`${done}번 완성`:'아직 완성 전');
+  $('#dGo').href='pattern.html?my='+encodeURIComponent(p.id);const be=!p.custom&&SejinPattern.ORIGINAL.some(o=>o.id===p.id);$('#dEdit').hidden=!(be&&test);if(be)$('#dEdit').href='pattern-edit.html?p='+encodeURIComponent(p.id);$('#dlg').hidden=false;
+ }
+ $('#dClose').onclick=()=>$('#dlg').hidden=true;$('#dlg').addEventListener('click',e=>{if(e.target.id==='dlg')$('#dlg').hidden=true;});
+ builtIn.forEach((p,i)=>$('#g1').append(tile(p,i,false)));
+  mine.forEach(p=>$('#g2').append(tile(p,0,true)));
+ const add=document.createElement('a');add.className='tile add';add.href='pattern-design.html';add.innerHTML='<i>＋</i><b>새 도안 만들기</b><small>최대 64×64칸</small>';$('#g2').append(add);
+ const all=builtIn.concat(COL,mine),dn=all.filter(p=>progress.done[p.id]).length;
+ $('#cnt1').textContent=`${builtIn.filter(p=>progress.done[p.id]).length} / ${builtIn.length} 완성`;$('#cnt2').textContent=`${mine.length}개`;
+ $('#sum').textContent=`전체 ${all.length}개 · 완성 ${dn}개`;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+{
+  "id": "coloring-sejin-v1",
+  "name": "기본 세진이",
+  "difficulty": "어려움",
+  "palette": {
+    "A": [
+      "색 1",
+      "#67371f"
+    ],
+    "B": [
+      "색 2",
+      "#66b7df"
+    ],
+    "C": [
+      "색 3",
+      "#f89a9c"
+    ],
+    "D": [
+      "색 4",
+      "#8fccec"
+    ],
+    "E": [
+      "색 5",
+      "#ead0a4"
+    ],
+    "F": [
+      "색 6",
+      "#ffc2b5"
+    ],
+    "G": [
+      "색 7",
+      "#fff3db"
+    ]
+  },
+  "rows": [
+    "........................................",
+    "........................................",
+    "........................................",
+    "........................................",
+    "........................................",
+    "...........AA..............AA...........",
+    ".........AAGGAA.AAAAAAAA..AGGAA.........",
+    ".........AGGGGAADDDDDDDDAAGGGGA.........",
+    "........AGGCGGBDDDDDDDDDDBGGCGGA........",
+    "........AGGCCDDDDDDDDDDDDDDCCGGA........",
+    ".........AGGDDDDDDDDDDDDDDDDGGA.........",
+    ".........AADDDDDDAAAAAADDDDDDAA.........",
+    ".........ADDDDAAAGGGGGGAAADDDDA.........",
+    ".........ADDDAGGGGGGGGGGGGADDDAA........",
+    "........ADDDAAGGGGGGGGGGGGAADDDA........",
+    "........ADDAAGGGGGGGGGGGGGGAADDA........",
+    ".......ADDDAGGGGGGGGGGGGGGGGADDDA.......",
+    ".......ADDAGGGGGGGGGGGGGGGGGGADDA.......",
+    ".......ADDAGGGGAAGGGGGGAAGGGGADDA.......",
+    ".......ADDAGGGAAAGGGGGGAAGGGGADDA.......",
+    ".......ADDGGGGFAAGGAAGGAAGGGGGDDA.......",
+    ".......ADDAGCCCGGGCAACGGGCCCGADDA.......",
+    "........ADAGCCCGGGGAAGGGGCCCGADA........",
+    "........ADDAGGGGGGGGGGGGGGGGADDA........",
+    ".........ADDAGGGGGGGGGGGGGGADDA.........",
+    "........AAADDDAAAEEEEEEAAADDDAAA........",
+    "........EGDDADDDDADDDBADDDDADDGEA.......",
+    ".......AGGDDDDDBBGADDAGBBDDDDDGGA.......",
+    ".......AGGDDDDDDDAADDAADDDDDDDGGA.......",
+    "........ADDADDDDAGCDDAGADDDDDDDA........",
+    ".........AAADDDDGGGDDGGGDDDDAA..........",
+    "..........ADDDDDAAADDAAADDDDAGA.........",
+    "...........DDDDDDDDDDDDDDDDDAGA.........",
+    "...........ADDDDDDDDDDDDDDDDAGA.........",
+    "............ADDDDAAAAAADDDDAAA..........",
+    ".............ADDDDA..ADDDDA.............",
+    "..............AAAA....AAAA..............",
+    "........................................",
+    "........................................",
+    "........................................"
+  ],
+  "sourceReference": "assets/sejin-coloring-sejin-v1.png",
+  "gridSize": 40,
+  "filledCells": 701,
+  "colorCounts": {
+    "A": 193,
+    "B": 7,
+    "C": 21,
+    "D": 254,
+    "E": 8,
+    "F": 1,
+    "G": 217
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+}

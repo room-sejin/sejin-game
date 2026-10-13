@@ -1,0 +1,1996 @@
+{
+  "date": "2026-10-06",
+  "gameConnected": false,
+  "newPngPlanned": 63,
+  "newSvg": 17,
+  "records": [
+    {
+      "id": "snack-rice",
+      "name": "따뜻한 밥",
+      "group": "간식·소모품",
+      "file": "items/snack-rice-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        25,
+        21,
+        1196,
+        1228
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6954,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "snack-cookie",
+      "name": "딸기 쿠키",
+      "group": "간식·소모품",
+      "file": "items/snack-cookie-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        43,
+        1214,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5883,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "snack-milk",
+      "name": "따뜻한 우유",
+      "group": "간식·소모품",
+      "file": "items/snack-milk-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1240,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.624,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "snack-starcandy",
+      "name": "별사탕",
+      "group": "간식·소모품",
+      "file": "items/snack-starcandy-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1236,
+        1230
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7626,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "snack-honey",
+      "name": "꿀 에너지 음료",
+      "group": "간식·소모품",
+      "file": "items/snack-honey-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        96,
+        21,
+        1210,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.671,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "snack-soap",
+      "name": "거품 비누",
+      "group": "간식·소모품",
+      "file": "items/snack-soap-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        23,
+        1192,
+        1234
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6686,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "status-energy",
+      "name": "에너지",
+      "group": "상태",
+      "file": "ui/status-energy-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        89,
+        21,
+        1198,
+        1228
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7566,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "status-clean",
+      "name": "청결",
+      "group": "상태",
+      "file": "ui/status-clean-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1234,
+        1230
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6783,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "status-sleep",
+      "name": "졸림·수면",
+      "group": "상태",
+      "file": "ui/status-sleep-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        9,
+        1222,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6244,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "status-mood",
+      "name": "기분",
+      "group": "상태",
+      "file": "ui/status-mood-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1236,
+        1230
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6993,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-bouquet",
+      "name": "들꽃 다발",
+      "group": "공방·가방",
+      "file": "craft/craft-bouquet-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        20,
+        1210,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6115,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-tart",
+      "name": "딸기 타르트",
+      "group": "공방·가방",
+      "file": "craft/craft-tart-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        49,
+        21,
+        1202,
+        1228
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.641,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-bookmark",
+      "name": "나뭇잎 책갈피",
+      "group": "공방·가방",
+      "file": "craft/craft-bookmark-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1170,
+      "height": 1344,
+      "mode": "RGBA",
+      "alphaBounds": [
+        73,
+        19,
+        1126,
+        1322
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7364,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-tea",
+      "name": "꽃차",
+      "group": "공방·가방",
+      "file": "craft/craft-tea-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1218,
+        1214
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5314,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-pen",
+      "name": "깃털 펜",
+      "group": "공방·가방",
+      "file": "craft/craft-pen-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        89,
+        9,
+        1227,
+        1236
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7684,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-wreath",
+      "name": "보라꽃 화관",
+      "group": "공방·가방",
+      "file": "craft/craft-wreath-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        25,
+        21,
+        1202,
+        1198
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6578,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-yflower",
+      "name": "뜨개 꽃",
+      "group": "공방·가방",
+      "file": "craft/craft-yflower-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        17,
+        1232,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.625,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-ykeyring",
+      "name": "폼폼 열쇠고리",
+      "group": "공방·가방",
+      "file": "craft/craft-ykeyring-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        49,
+        21,
+        1208,
+        1230
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6592,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-ystrawberry",
+      "name": "딸기 뜨개 인형",
+      "group": "공방·가방",
+      "file": "craft/craft-ystrawberry-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1230,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.635,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-ywreath",
+      "name": "털실 화관",
+      "group": "공방·가방",
+      "file": "craft/craft-ywreath-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1251,
+        1214
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6486,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-ystar",
+      "name": "별빛 뜨개 별",
+      "group": "공방·가방",
+      "file": "craft/craft-ystar-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        20,
+        1230,
+        1237
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6573,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-yscarf",
+      "name": "미니 목도리",
+      "group": "공방·가방",
+      "file": "craft/craft-yscarf-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        19,
+        19,
+        1224,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6846,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "craft-ybasket",
+      "name": "뜨개 바구니",
+      "group": "공방·가방",
+      "file": "craft/craft-ybasket-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        9,
+        1224,
+        1230
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5618,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-starfeather",
+      "name": "별빛 깃털",
+      "group": "공방·가방",
+      "file": "items/item-starfeather-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        81,
+        29,
+        1202,
+        1212
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.734,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-rainbowscarf",
+      "name": "무지개 목도리",
+      "group": "공방·가방",
+      "file": "items/item-rainbowscarf-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        0,
+        1222,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5881,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-starkey",
+      "name": "별나라 열쇠",
+      "group": "공방·가방",
+      "file": "items/item-starkey-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        49,
+        21,
+        1222,
+        1230
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7754,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-cloudscarf",
+      "name": "구름 실 목도리",
+      "group": "공방·가방",
+      "file": "items/item-cloudscarf-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        19,
+        21,
+        1210,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.619,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-angelgift",
+      "name": "천사의 선물 상자",
+      "group": "공방·가방",
+      "file": "items/item-angelgift-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        33,
+        21,
+        1207,
+        1207
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5513,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-oldbook",
+      "name": "오래된 고서",
+      "group": "공방·가방",
+      "file": "items/item-oldbook-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1198,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5342,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-clockgear",
+      "name": "별빛 시계태엽",
+      "group": "공방·가방",
+      "file": "items/item-clockgear-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1238,
+        1234
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5837,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-glowplant",
+      "name": "빛나는 온실 화분",
+      "group": "공방·가방",
+      "file": "items/item-glowplant-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        73,
+        48,
+        1210,
+        1214
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.635,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "item-stardust",
+      "name": "별가루 병",
+      "group": "공방·가방",
+      "file": "items/item-stardust-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        97,
+        21,
+        1198,
+        1222
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7959,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-wait-calm",
+      "name": "기다림 · 평온",
+      "group": "포장 기다림",
+      "file": "wrap/wrap-wait-calm-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1316,
+      "height": 1195,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1302,
+        1195
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5915,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-wait-impatient",
+      "name": "기다림 · 조급",
+      "group": "포장 기다림",
+      "file": "wrap/wrap-wait-impatient-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1315,
+      "height": 1196,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1263,
+        1162
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5835,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-wait-upset",
+      "name": "기다림 · 화남",
+      "group": "포장 기다림",
+      "file": "wrap/wrap-wait-upset-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1210,
+        1214
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6083,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-wait-timeout",
+      "name": "기다림 · 시간 초과",
+      "group": "포장 기다림",
+      "file": "wrap/wrap-wait-timeout-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1292,
+        1199
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5696,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust6-happy",
+      "name": "손님 6 · 기쁨",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust6-happy-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        0,
+        1230,
+        1191
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5361,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust6-sad",
+      "name": "손님 6 · 아쉬움",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust6-sad-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        65,
+        35,
+        1210,
+        1188
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5409,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust7-happy",
+      "name": "손님 7 · 기쁨",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust7-happy-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1145,
+      "height": 1374,
+      "mode": "RGBA",
+      "alphaBounds": [
+        65,
+        41,
+        1073,
+        1326
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5475,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust7-sad",
+      "name": "손님 7 · 아쉬움",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust7-sad-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1145,
+      "height": 1374,
+      "mode": "RGBA",
+      "alphaBounds": [
+        49,
+        37,
+        1109,
+        1334
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5486,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust8-happy",
+      "name": "손님 8 · 기쁨",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust8-happy-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1223,
+      "height": 1286,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        52,
+        1171,
+        1246
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5366,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust8-sad",
+      "name": "손님 8 · 아쉬움",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust8-sad-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1223,
+      "height": 1286,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        9,
+        1207,
+        1286
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5078,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust9-happy",
+      "name": "손님 9 · 기쁨",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust9-happy-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1222,
+      "height": 1287,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        19,
+        1188,
+        1223
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5463,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-cust9-sad",
+      "name": "손님 9 · 아쉬움",
+      "group": "포장 손님 표정",
+      "file": "wrap/wrap-cust9-sad-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1222,
+      "height": 1287,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        0,
+        1109,
+        1215
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.583,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-paper-pink-roll",
+      "name": "분홍 포장지 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-paper-pink-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        49,
+        1410,
+        1060
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6399,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-ribbon-pink-roll",
+      "name": "분홍 리본 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-ribbon-pink-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        0,
+        1378,
+        1086
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6397,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-paper-blue-roll",
+      "name": "하늘 포장지 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-paper-blue-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1434,
+        1070
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5837,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-ribbon-blue-roll",
+      "name": "하늘 리본 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-ribbon-blue-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        3,
+        1440,
+        1024
+      ],
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "transparentPixelRatio": 0.6689,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-paper-green-roll",
+      "name": "민트 포장지 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-paper-green-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        33,
+        31,
+        1382,
+        1062
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5741,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-ribbon-green-roll",
+      "name": "민트 리본 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-ribbon-green-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        31,
+        1468,
+        1024
+      ],
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "transparentPixelRatio": 0.5743,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-paper-purple-roll",
+      "name": "보라 포장지 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-paper-purple-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        71,
+        49,
+        1372,
+        1059
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5922,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-ribbon-purple-roll",
+      "name": "보라 리본 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-ribbon-purple-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        21,
+        1346,
+        1060
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7705,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-paper-yellow-roll",
+      "name": "노랑 포장지 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-paper-yellow-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "alphaBounds": [
+        89,
+        49,
+        1388,
+        997
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6562,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-ribbon-yellow-roll",
+      "name": "노랑 리본 두루마리",
+      "group": "포장 재료",
+      "file": "wrap/wrap-ribbon-yellow-roll-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        3,
+        1372,
+        1122
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5981,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-order-slip",
+      "name": "빈 주문서",
+      "group": "포장 주문서",
+      "file": "wrap/wrap-order-slip-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1222,
+      "height": 1287,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        17,
+        1164,
+        1287
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.4389,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "banner-instagram-v1",
+      "name": "인스타그램 배너",
+      "group": "홍보 배너",
+      "file": "ui/banner-instagram-background-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 2172,
+      "height": 724,
+      "mode": "RGB",
+      "alphaBounds": null,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "banner-store-v1",
+      "name": "상점 배너",
+      "group": "홍보 배너",
+      "file": "ui/banner-store-background-v1.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 2172,
+      "height": 724,
+      "mode": "RGB",
+      "alphaBounds": null,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "wrap-box-l-closed-v4",
+      "name": "큰 상자 닫힘 재제작",
+      "group": "큰 상자 보완",
+      "file": "wrap/wrap-box-l-closed-v4.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        19,
+        1234,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5472,
+      "requiresInGameScaleAndPlacementCheck": true,
+      "visualReview": "v4 외곽 번짐 없이 확인. 실제 배치와 상품 앞 테두리 가림 확인 필요",
+      "gameReady": null
+    },
+    {
+      "id": "wrap-box-l-open-v4",
+      "name": "큰 상자 열림 재제작",
+      "group": "큰 상자 보완",
+      "file": "wrap/wrap-box-l-open-v4.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        40,
+        1227,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.4819,
+      "requiresInGameScaleAndPlacementCheck": true,
+      "visualReview": "v4 외곽 번짐 없이 확인. 실제 배치와 상품 앞 테두리 가림 확인 필요",
+      "gameReady": null
+    },
+    {
+      "id": "wrap-paper-blue-tile",
+      "name": "하늘 포장지 무늬",
+      "group": "포장지 타일",
+      "file": "wrap/wrap-paper-blue-tile-v2.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alphaBounds": null,
+      "requiresInGameScaleAndPlacementCheck": true,
+      "seamlessVerified": false
+    },
+    {
+      "id": "wrap-paper-green-tile",
+      "name": "민트 포장지 무늬",
+      "group": "포장지 타일",
+      "file": "wrap/wrap-paper-green-tile-v2.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alphaBounds": null,
+      "requiresInGameScaleAndPlacementCheck": true,
+      "seamlessVerified": false
+    },
+    {
+      "id": "wrap-paper-purple-tile",
+      "name": "보라 포장지 무늬",
+      "group": "포장지 타일",
+      "file": "wrap/wrap-paper-purple-tile-v2.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alphaBounds": null,
+      "requiresInGameScaleAndPlacementCheck": true,
+      "seamlessVerified": false
+    },
+    {
+      "id": "wrap-paper-yellow-tile",
+      "name": "노랑 포장지 무늬",
+      "group": "포장지 타일",
+      "file": "wrap/wrap-paper-yellow-tile-v2.png",
+      "format": "PNG",
+      "new": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alphaBounds": null,
+      "requiresInGameScaleAndPlacementCheck": true,
+      "seamlessVerified": false
+    },
+    {
+      "id": "hint",
+      "name": "힌트",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-hint-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "shuffle",
+      "name": "섞기",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-shuffle-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "retry",
+      "name": "다시 시작",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-retry-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "settings",
+      "name": "설정",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-settings-v2.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "pause",
+      "name": "잠시 멈춤",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-pause-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "back",
+      "name": "뒤로",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-back-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "lock",
+      "name": "잠김",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-lock-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "park",
+      "name": "공원",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-park-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "gather",
+      "name": "채집",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-gather-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "mailbox",
+      "name": "우체통",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-mailbox-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "market",
+      "name": "장터",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-market-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "workshop",
+      "name": "공방",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-workshop-v3.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "friend",
+      "name": "친구집",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-friend-v3.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "help",
+      "name": "도움말",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-help-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "inquiry",
+      "name": "문의",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-inquiry-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "review",
+      "name": "리뷰",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-review-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "memo",
+      "name": "메모",
+      "group": "공통·장소 아이콘",
+      "file": "ui/ui-memo-v1.svg",
+      "source": "기존 방 SVG 방식에 맞춘 코드 그림",
+      "format": "SVG",
+      "exists": true,
+      "xmlValid": true
+    },
+    {
+      "id": "status-hunger",
+      "name": "허기 · 쿠키 공유",
+      "group": "상태",
+      "file": "items/snack-cookie-v1.png",
+      "reuse": true,
+      "exists": true,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alphaBounds": [
+        0,
+        43,
+        1214,
+        1254
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5883,
+      "requiresInGameScaleAndPlacementCheck": true
+    },
+    {
+      "id": "status-yarn",
+      "name": "실뭉치 · 기존 그림",
+      "group": "상태",
+      "file": "merge/merge-3.png",
+      "reuse": true,
+      "exists": true,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alphaBounds": [
+        6,
+        10,
+        249,
+        245
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.2894,
+      "requiresInGameScaleAndPlacementCheck": true
+    }
+  ],
+  "catalog": [
+    {
+      "id": "m-leaf",
+      "name": "나뭇잎",
+      "file": "items/prop-3.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "m-flower",
+      "name": "들꽃",
+      "file": "items/prop-2.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "m-purple",
+      "name": "보라꽃",
+      "file": "items/prop-7.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "m-berry",
+      "name": "딸기",
+      "file": "items/prop-5.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "m-feather",
+      "name": "별빛 깃털",
+      "file": "items/item-starfeather-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "f-pawprint",
+      "name": "발자국 도장",
+      "file": "friends/friend-item-pawstamp-v1.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "f-yarnball",
+      "name": "털뭉치 공",
+      "file": "friends/friend-item-playball-v1.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "f-cookie",
+      "name": "손뜨개 쿠키",
+      "file": "friends/friend-item-pawcookie-v1.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "y-1",
+      "name": "작은 실뭉치",
+      "file": "merge/merge-2.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-2",
+      "name": "실뭉치",
+      "file": "merge/merge-3.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-3",
+      "name": "폼폼",
+      "file": "merge/merge-4.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-4",
+      "name": "털실 볼",
+      "file": "merge/merge-5.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-5",
+      "name": "큰 털실",
+      "file": "merge/merge-6.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-6",
+      "name": "콘사",
+      "file": "merge/merge-7.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-7",
+      "name": "실 바구니",
+      "file": "merge/merge-8.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-8",
+      "name": "목도리 뭉치",
+      "file": "merge/merge-9.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "y-9",
+      "name": "세진이 인형 실",
+      "file": "merge/merge-10.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "ribbon-pink",
+      "name": "분홍 리본",
+      "file": "items/prop-9.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "ribbon-blue",
+      "name": "파란 리본",
+      "file": "items/prop-10.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "ribbon-purple",
+      "name": "보라 리본",
+      "file": "items/prop-11.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "ribbon-green",
+      "name": "초록 리본",
+      "file": "items/prop-12.png",
+      "source": "기존 등록 소스",
+      "exists": true
+    },
+    {
+      "id": "c-bouquet",
+      "name": "들꽃 다발",
+      "file": "craft/craft-bouquet-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-tart",
+      "name": "딸기 타르트",
+      "file": "craft/craft-tart-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-bookmark",
+      "name": "나뭇잎 책갈피",
+      "file": "craft/craft-bookmark-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-tea",
+      "name": "꽃차",
+      "file": "craft/craft-tea-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-pen",
+      "name": "깃털 펜",
+      "file": "craft/craft-pen-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-wreath",
+      "name": "보라꽃 화관",
+      "file": "craft/craft-wreath-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-yflower",
+      "name": "뜨개 꽃",
+      "file": "craft/craft-yflower-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-ykeyring",
+      "name": "폼폼 열쇠고리",
+      "file": "craft/craft-ykeyring-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-ystrawberry",
+      "name": "딸기 뜨개 인형",
+      "file": "craft/craft-ystrawberry-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-ywreath",
+      "name": "털실 화관",
+      "file": "craft/craft-ywreath-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-ystar",
+      "name": "별빛 뜨개 별",
+      "file": "craft/craft-ystar-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-yscarf",
+      "name": "미니 목도리",
+      "file": "craft/craft-yscarf-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-ybasket",
+      "name": "뜨개 바구니",
+      "file": "craft/craft-ybasket-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "c-ydoll",
+      "name": "미니 세진이 인형",
+      "file": "merge/merge-10.png",
+      "source": "기존 그림 재사용",
+      "exists": true
+    },
+    {
+      "id": "s-rainbow-scarf",
+      "name": "무지개 목도리",
+      "file": "items/item-rainbowscarf-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-star-key",
+      "name": "별나라 열쇠",
+      "file": "items/item-starkey-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-cloud-scarf",
+      "name": "구름 실 목도리",
+      "file": "items/item-cloudscarf-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-gift-box",
+      "name": "천사의 선물 상자",
+      "file": "items/item-angelgift-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-old-book",
+      "name": "오래된 고서",
+      "file": "items/item-oldbook-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-clock-gear",
+      "name": "별빛 시계태엽",
+      "file": "items/item-clockgear-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-glow-plant",
+      "name": "빛나는 온실 화분",
+      "file": "items/item-glowplant-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    },
+    {
+      "id": "v-stardust",
+      "name": "별가루 병",
+      "file": "items/item-stardust-v1.png",
+      "source": "이번 신규 제작",
+      "exists": true
+    }
+  ],
+  "reviewNote": "그림 제작과 연결 안내. 실제 게임에는 아직 미연결. 큰 상자·투명 경계·소형 표시 검증 상태는 인수인계 참고.",
+  "validation": {
+    "filesPresent": true,
+    "catalogCount": 43,
+    "gameConnected": false,
+    "svgCount": 17,
+    "newPngCount": 63,
+    "checkedAt": "2026-10-06"
+  }
+}

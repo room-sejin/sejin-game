@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>방구석 세진이 · 뜨개 작업실</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<header><div><span class="eyebrow">SEJIN'S WORKROOM</span><h1>방구석 세진이</h1><p>작업실에서 인형 하나를 완성하는 작은 모험</p></div><span class="badge">첫 달리기 시험판</span></header>
+<section class="game-shell" aria-label="세진이 뜨개 달리기 게임">
+<div class="hud"><span class="goal"><span class="doll" aria-hidden="true"><span class="doll-ghost"></span><span id="dollFill" class="doll-fill"></span></span><span>인형 완성도<strong id="progress">0%</strong></span></span><span id="hearts" role="img" aria-label="체력 3 / 3">♥♥♥</span><span class="hud-right"><span id="state">준비</span><button id="settings" class="icon-btn" aria-label="설정" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.5 7.5 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 0 0-1.7-1L15 3.5h-4l-.4 2.5a7.4 7.4 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.5 7.5 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7.4 7.4 0 0 0 1.7-1l2.4 1 2-3.4zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg></button></span></div>
+<canvas id="game" width="960" height="540" tabindex="0" aria-label="뜨개 작업실 달리기 화면. 스페이스바 또는 화면을 눌러 점프"></canvas>
+<div id="overlay" class="overlay"><div class="card"><div id="trophy" class="trophy" aria-hidden="true" hidden><span class="doll-ghost doll-fill" style="--p:1"></span></div><img id="retryArt" src="assets/misc/playtest-runner-retry-v1.png" alt="" hidden style="width:130px;max-width:50%;height:auto;margin:0 auto 4px;display:block"><span id="eyebrow" class="eyebrow">TODAY'S PROJECT</span><h2 id="title">오늘은 세진이 인형을 완성해볼까?</h2><p id="message">세진이는 알아서 달려요.<br>실타래 · 콘사 · 늘어진 실을 폴짝 넘으며<br>인형을 끝까지 떠 주세요. 하트는 세 개!<br>높은 가위 · 삼각자는 공중에서 한 번 더 눌러 더블 점프!</p><div class="actions"><button id="start" disabled>세진이를 불러오는 중…</button><a id="nextStage" class="secondary" hidden>다음 스테이지</a><a id="toRoom" class="secondary" href="design/raising-mockup.html#work" hidden>방으로 돌아가기</a></div></div></div>
+<div id="menu" class="overlay" hidden><div class="card" role="dialog" aria-modal="true" aria-labelledby="menuTitle"><button id="menuClose" class="icon-btn close" aria-label="창 닫기">✕</button><span class="eyebrow">PAUSE</span><h2 id="menuTitle">잠깐 쉬는 중</h2><p id="menuInfo">완성도 0% · 하트 3개</p><div class="menu-list"><button id="resume">창 닫고 계속 뜨기</button><button id="restart" class="secondary">처음부터 다시 뜨기</button><a class="secondary" href="design/raising-mockup.html#work">방으로 돌아가기</a></div></div></div>
+</section>
+<footer><p><kbd>SPACE</kbd> 또는 화면 터치 · 클릭으로 점프 · <kbd>ESC</kbd> 설정</p><p>공중에서 한 번 더 누르면 더블 점프 · 끝까지 달리면 인형 완성, 하트를 모두 잃으면 다시 도전해요.</p></footer>
+<p id="announcement" class="sr-only" aria-live="polite"></p>
+</main><script src="sejin-save.js"></script><script src="sejin-sfx.js"></script><script src="sejin-places.js"></script><script src="stage-bar.js"></script><script src="runner.js?v=20261009-reference29"></script><script src="runner-layouts.js?v=20261009-bookcase37"></script><script src="game.js?v=20261009-approved34"></script><script src="runner-themes.js"></script><script src="runner-floor-finish.js?v=20261009-approved34"></script><script src="runner-art.js?v=20261009-bookcase37"></script><script src="runner-images.js"></script><script src="runner-editlink.js"></script><script src="runner-edit.js?v=20261009-mapnav38"></script><script src="sejin-hud.js"></script></body></html>
+
+
+
+

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 천사 마을</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#f6f0fb;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.page{max-width:720px;margin:0 auto;padding:12px 16px 28px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.en{background:#fff;border-radius:12px;padding:6px 10px;font-size:12px;font-weight:bold;box-shadow:0 2px 0 var(--line);white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.map{position:relative;aspect-ratio:1330/1182;border-radius:22px;overflow:hidden;border:3px solid #fff;box-shadow:0 8px 24px #8875671f;background:#dcd4f0}
+.map>img.bg{position:absolute;inset:0;width:100%;height:100%}
+.hit{position:absolute;border:0;background:transparent;border-radius:16px;cursor:pointer;padding:0}
+.hit:hover,.hit:focus-visible{background:#ffffff33;outline:3px solid #fff}
+.hit .pin{position:absolute;left:50%;top:-6px;transform:translateX(-50%);background:#fff;border-radius:999px;padding:2px 8px;font-size:13px;box-shadow:0 2px 0 var(--line);white-space:nowrap;font-weight:bold;color:var(--ink);font-family:inherit}
+.me{position:absolute;left:50%;bottom:8%;width:11%;transform:translateX(-50%);pointer-events:none;filter:drop-shadow(0 3px 0 #0000001a)}
+.me img{width:100%;display:block}
+.bubble{position:absolute;transform:translate(-50%,-100%);max-width:56%;width:max-content;background:#fff;border-radius:14px;padding:7px 12px;font-size:13px;line-height:1.4;text-align:center;box-shadow:0 2px 0 var(--line);left:50%;top:80%}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#fff}
+.card{margin-top:12px;background:#fff;border-radius:18px;padding:14px;box-shadow:0 4px 14px #8875670f}
+.card b{font-size:15px}.card p{margin:4px 0 0;font-size:12.5px;line-height:1.5;color:#6b5a50}
+.locked{text-align:center;padding:40px 16px;background:#fff;border-radius:22px}.locked a{display:inline-block;margin-top:10px;padding:11px 18px;border-radius:14px;background:var(--btn);color:#fff;font-weight:bold;text-decoration:none;box-shadow:0 3px 0 var(--btn-d)}
+.vov{position:absolute;left:0;right:0;bottom:0;z-index:20}
+.vov[hidden]{display:none}
+.vbox{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:720px;background:#fffdf8f5;border-radius:22px 22px 0 0;padding:20px 18px 18px;box-shadow:0 -8px 28px #4a3a5a44;cursor:pointer;z-index:40}
+.vname{position:absolute;left:18px;top:-13px;background:#b9a3e3;color:#fff;font-weight:bold;font-size:13px;padding:3px 14px;border-radius:12px;border:2px solid #fff}.vname.s{background:#8fc3e0}
+.vtxt{font-size:15px;line-height:1.65;min-height:2.5em}
+.vnext{position:absolute;right:16px;bottom:8px;font-size:13px;color:#b9a3e3}
+.vch{display:flex;flex-direction:column;gap:8px;margin-top:10px}.vch:empty{display:none}
+.vch button{border:2px solid #e2d5ee;background:#fff;color:var(--ink);font:inherit;font-weight:bold;font-size:14px;padding:11px;border-radius:13px;box-shadow:0 2px 0 var(--line);cursor:pointer}.vch button.main{background:var(--btn);color:#fff;border-color:var(--btn-d)}
+.hunt{position:fixed;inset:0;z-index:50;background:#3a2a4acc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px}
+.hv{position:relative;width:min(100%,520px);aspect-ratio:4/3;border-radius:20px;border:3px solid #fff;overflow:hidden;background-repeat:no-repeat}
+.hv .sp{position:absolute;transform:translate(-50%,-50%);border:0;background:none;color:#fff;font-size:22px;text-shadow:0 0 8px #ffe9a8,0 0 14px #fff;opacity:.55;animation:tw 1.6s ease-in-out infinite;cursor:pointer;padding:12px}
+.hv .sp:hover,.hv .sp:focus-visible{opacity:1;transform:translate(-50%,-50%) scale(1.3)}
+.hv .fl{position:absolute;font-style:normal;font-size:30px;transform:translate(-50%,-50%);animation:up 0.9s ease-out forwards;pointer-events:none}
+@keyframes tw{50%{opacity:.15}}@keyframes up{to{transform:translate(-50%,-200%) scale(1.4);opacity:0}}
+.hh{color:#fff;font-size:14px;text-align:center}.hh small{display:block;opacity:.8;font-size:12px;margin-top:2px}
+.hx{border:0;font:inherit;font-weight:bold;padding:10px 20px;border-radius:14px;background:#fff;color:var(--ink);cursor:pointer}
+@media (prefers-reduced-motion:reduce){.hv .sp{animation:none}}.hit.on{background:#ffffff2e;outline:3px solid #fff}
+.card .enter{margin-top:10px;border:0;font:inherit;font-weight:bold;font-size:14px;padding:11px 20px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}</style>
+</head>
+<body>
+<main class="page" id="page"></main>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script><script src="sejin-village.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ // 천사 마을 지도: 일반 마을 지도와 같은 방식 — 건물을 한 번 누르면 세진이가 그 앞으로 가고 안내 카드가 뜨고,
+ // 같은 곳을 한 번 더 누르거나 카드의 버튼을 누르면 세부 화면(vplace.html)으로 들어간다.
+ // 닫힌 곳은 '집 앞' 화면(조각을 찾는 곳), 별 광장에서 퍼즐을 풀어 열린 곳은 '안' 화면(주민·게임).
+ const page=document.getElementById('page'),V=SejinVillage;
+ const top='<div class="top"><a class="back" href="place.html?place=walk">‹ 산책로</a><h1>천사 마을<small>구름 위 작은 마을</small></h1><span class="en" title="에너지는 뜨개 달리기 한 판에만 써요. 천사 마을의 게임과 이야기는 에너지를 쓰지 않아요.">⚡ '+(window.SejinSave?SejinSave.energyNow():'')+'</span></div>';
+ if(!V.isAngel()){
+  page.innerHTML=top+'<div class="locked"><b>아직 들어갈 수 없어요</b><p>천사 마을의 문은 천사만 지날 수 있어요.<br>산책로에서 세진이가 천사로 변신하면 올 수 있어요. (이미 변신한 적이 있다면 산책로에서 다시 천사 모습이 될 수 있어요)</p><a href="place.html?place=walk">산책로로 가기</a></div>';
+  return;
+ }
+ const {SPOTS,byId}=V,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ page.innerHTML=top+'<div class="map" id="map"><img class="bg" src="'+V.MAP+'" alt="천사 마을 지도" draggable="false">'+
+  SPOTS.map((s,i)=>`<button class="hit" data-i="${i}" aria-label="${s.name}" style="left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%"><span class="pin" id="pin-${s.id}"></span></button>`).join('')+
+  '<div class="me" id="me"><img src="assets/friends/npc-angel.png" alt="천사 세진이" draggable="false"></div><div class="bubble" id="bubble">와… 구름 위에 마을이 있어! 건물을 눌러 봐야지.</div></div>'+
+  '<div class="card" id="vcard"></div>';
+ const bubble=document.getElementById('bubble'),me=document.getElementById('me'),card=document.getElementById('vcard');
+ let picked=null;
+ const url=s=>'vplace.html?place='+s.id;
+ function statusOf(s){
+  const v=V.vget();
+  if(s.guide)return {pin:`${s.icon} ${s.name}`,say:'별 광장이다. 안내자가 서 있어.',text:'안내자가 마을 이야기를 들려줘요. 모아 온 조각으로 퍼즐도 맞춰요.',btn:'광장으로 들어가기'};
+  if(V.isSolved(s.id))return {pin:`${s.icon} ${s.name}`,say:s.open,text:`열려 있어요! ${s.res.emoji} ${s.res.name}이(가) 기다려요. 안에서 ${s.game.label}을(를) 할 수 있어요.`,btn:'안으로 들어가기'};
+  const n=v.pieces[s.id]||0;
+  if(!V.canSeek(s))return {pin:`❔ ${s.name}`,say:`길이 안 보여. ${byId[s.after].name}부터 열어야 할 것 같아.`,text:`아직 길이 보이지 않아요. ${byId[s.after].name}을(를) 먼저 열어 봐요. 집 앞까지는 가 볼 수 있어요.`,btn:'집 앞으로 가기'};
+  return {pin:`🔒 ${s.name} ${n}/${s.need}`,say:n>=s.need?'조각은 다 모았어. 별 광장 안내자에게 가져가자!':'입구가 막혀 있어. 앞에서 조각을 찾아보자!',text:n>=s.need?'조각을 다 모았어요! 별 광장 안내자에게 가져가요.':`입구가 막혀 있어요. 집 앞에서 퍼즐 조각을 찾아요. (조각 ${n}/${s.need})`,btn:n>=s.need?'집 앞 보기':'집 앞으로 가기'};
+ }
+ function pins(){SPOTS.forEach(s=>{const el=document.getElementById('pin-'+s.id);if(el)el.textContent=statusOf(s).pin;});
+  const nx=V.nextPlace(),done=SPOTS.filter(s=>!s.guide&&V.isSolved(s.id)).length;
+  if(!picked)card.innerHTML=`<b>천사 마을에 도착했어요 🪽</b><p>${nx?`건물을 눌러 앞으로 가 봐요. 닫힌 곳은 집 앞에서 조각을 찾고, 별 광장 안내자에게 가져가면 열려요. (열린 곳 ${done}/4 · 다음: <b>${nx.name}</b>)`:'마을의 모든 곳이 열렸어요! 열린 곳을 눌러 안으로 들어가 보세요.'}</p>`;}
+ function fly(s){const [tx,ty]=s.at;me.style.transition=still?'none':'left .9s ease-in-out, bottom .9s ease-in-out';me.style.left=tx+'%';me.style.bottom=(100-ty)+'%';bubble.style.left=Math.max(30,Math.min(70,tx))+'%';bubble.style.top=Math.max(14,ty-11)+'%';}
+ function pick(s){
+  picked=s;fly(s);const st=statusOf(s);bubble.textContent=st.say;window.SejinSfx&&SejinSfx.play('pop');
+  page.querySelectorAll('.hit').forEach(h=>h.classList.toggle('on',SPOTS[+h.dataset.i]===s));
+  card.innerHTML=`<b>${s.icon} ${s.name}</b><p>${st.text}</p><button class="enter" id="enter">${st.btn}</button>`;
+  document.getElementById('enter').onclick=()=>{location.href=url(s);};
+ }
+ page.querySelectorAll('.hit').forEach(b=>b.onclick=()=>{const s=SPOTS[+b.dataset.i];if(picked===s){location.href=url(s);return;}pick(s);});
+ pins();
+ const q=new URLSearchParams(location.search).get('focus');if(q&&byId[q])pick(byId[q]);   // 세부 화면에서 돌아오면 그 건물 앞에 서 있음
+})();
+</script></body>
+</html>

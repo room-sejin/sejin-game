@@ -1,0 +1,95 @@
+{
+  "id": "coloring-angel-v2",
+  "name": "천사 세진이",
+  "difficulty": "어려움",
+  "palette": {
+    "A": [
+      "외곽선",
+      "#67371f"
+    ],
+    "B": [
+      "크림",
+      "#fff1d4"
+    ],
+    "D": [
+      "하늘",
+      "#8fccec"
+    ],
+    "F": [
+      "분홍",
+      "#f49bac"
+    ],
+    "G": [
+      "금빛",
+      "#edc66b"
+    ],
+    "I": [
+      "흰색",
+      "#fffdf3"
+    ]
+  },
+  "rows": [
+    "................................................",
+    "................................................",
+    "...................AAAAAAAAAA...................",
+    "................AAA..........AAA................",
+    "...............AGGG..........GGGA...............",
+    "................AAAGGGGGGGGGGAAA................",
+    "...................AAAAAAAAAA...................",
+    "................................................",
+    "............AAAAA..............AAAAA............",
+    "...........ABBBBBA............ABBBBBA...........",
+    "..........ABBFFFBBA..........ABBFFFBBA..........",
+    "..........ABFFFFFBAAAAAAAAAAAABFFFFFBA..........",
+    "..........ABFFFFAAADDDDDDDDDDAAAFFFFBA..........",
+    "..........ABFFAADDDDDDDDDDDDDDDDAAFFBA..........",
+    "..........ABBADDDDDDDDDDDDDDDDDDDDABBA..........",
+    "...........AADDDDDDDAAAAAAAADDDDDDDAA...........",
+    "..........ADDDDDDAAABBBBBBBBAAADDDDDDA..........",
+    "..........ADDDDAABBBBBBBBBBBBBBAADDDDA..........",
+    ".........ADDDAABBABBBBBABBBBBBBBBAADDDA.........",
+    ".........ADDDABBBBABBBABABBBBBABBBADDDA.........",
+    "........ADDDABBBBBBABABBBAABAABBBBBADDDA........",
+    "........ADDABBBBBBBBABBBBBBABBBBBBBBADDA........",
+    "........ADDABBBBBABBBBBBBBBBBBABBBBBADDA........",
+    "...AAA..ADDABBBBAAABBBBBBBBBBAAABBBBADDA..AA....",
+    "..AIIIA.ADDABBBBAAABBBBBBBBBBAAABBBBADDA.AIIAA..",
+    "..AIIIIA.ADABBBBBABBBBBBBBBBBBABBBBBADAAAIIIIA..",
+    "..AIIIIIAADDABFFFBBBBBBBBBBBBBBFFFBADDAIIIIIIA..",
+    "..AIBIIIIIADDFFFFFBBBBFBBFBBBBFFFFFDDAIIIIIIBA..",
+    "..AIIBBIIIADDAFFFBBBBBBFFBBBBBBFFFADDAIIIIBBIA..",
+    "...AIIIBIIIAADDAABBBBBBBBBBBBBBAADDAAIIIIBIIA...",
+    "...AIIIIBBAAAADDDAAABBBBBBBBAAADDDAAAAIBBIIIA...",
+    "....AIIIIAAADDAADDDDAAAAAAAADDDDAADDAAAIIIIA....",
+    ".....AAIABBBADDDAAADDDDDDDDDDAAADDDABBBAIAA.....",
+    ".......AABBBADDDADDAAAAAAAAAADDADDDABBBAA.......",
+    ".........AAADDDADDDDADDDDDDADDDDADDDAAA.........",
+    "..........AAAAADDDDDADDDDDDADDDDDAAAAA..........",
+    "...........ADDDDDDDAAADDDDAAADDDDDDDA...........",
+    "..........AADDDDDDABBBADDABBBADDDDDDAA..........",
+    "..........AADDDDDDABBBADDABBBADDDDDDAA..........",
+    "..........ADDDDDDDDAAADDDDAAADDDDDDDDA..........",
+    "..........AAAAAAAAAAAAAAAAAAAAAAAAAAAA..........",
+    "................................................",
+    "................................................",
+    "................................................",
+    "................................................",
+    "................................................",
+    "................................................",
+    "................................................"
+  ],
+  "sourceReference": "assets/sejin-coloring-angel-v2.png",
+  "gridSize": 48,
+  "filledCells": 1088,
+  "colorCounts": {
+    "A": 366,
+    "G": 16,
+    "B": 298,
+    "F": 54,
+    "D": 278,
+    "I": 76
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+}

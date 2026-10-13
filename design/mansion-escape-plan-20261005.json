@@ -1,0 +1,718 @@
+{
+  "version": 1,
+  "date": "2026-10-05",
+  "title": "대저택의 비밀 — 돌아오는 친구의 선물",
+  "scope": "이미지·퍼즐 설계 + 클로드 연결 안내. 실제 게임 미연결.",
+  "story": "저택 주인은 긴 여행을 떠난 친구를 위해 뜨개 천사 선물을 준비했다. 7개 방에는 함께 보낸 하루와 편지가 남아 있다. 잠긴 문은 위험을 가두는 봉인이 아니라 친구가 돌아오는 날까지 서프라이즈를 지키는 장치였다.",
+  "order": [
+    "library",
+    "clock",
+    "garden",
+    "moon",
+    "flower",
+    "ribbon",
+    "cloud",
+    "star"
+  ],
+  "rooms": [
+    {
+      "id": "library",
+      "name": "서재",
+      "background": "assets/mansion/mansion-escape-library-v1.png",
+      "index": 1,
+      "entryRequires": null,
+      "note": "꽃 도안 책갈피에 적힌 ‘빛은 아침에서 밤으로’가 모든 기록의 시작이다. 저택 주인은 친구들의 선물을 잊지 않으려고 기억의 방을 만들었다.",
+      "memoryPiece": "해",
+      "next": "clock",
+      "puzzles": [
+        {
+          "id": "library-1",
+          "title": "그림 책갈피",
+          "action": "책갈피의 해→꽃→달→별 그림을 책 표지의 동일한 그림과 대응한다.",
+          "answer": "해, 꽃, 달, 별",
+          "prerequisites": [],
+          "result": "책 네 권 순서",
+          "hint": "색이 아니라 표지 그림을 비교하세요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "library-2",
+          "title": "책장 순서",
+          "action": "해·꽃·달·별 책을 그 순서로 책상 받침에 꽂으면 비밀 서랍이 열린다.",
+          "answer": "해→꽃→달→별",
+          "prerequisites": [
+            "library-1"
+          ],
+          "result": "투명 판과 일기",
+          "hint": "책갈피는 하루가 흐르는 순서예요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "library-3",
+          "title": "일기 겹쳐 읽기",
+          "action": "투명 판의 네 구멍을 일기의 꽃 네 개와 맞추면 숫자 2·4·1·3만 보인다.",
+          "answer": "2413",
+          "prerequisites": [
+            "library-2"
+          ],
+          "result": "상자 암호",
+          "hint": "종이를 뒤집지 말고 꽃 네 개 위치를 맞춰보세요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "library-4",
+          "title": "잠긴 상자",
+          "action": "상자에 2413을 입력해 찢어진 시계 설계도 두 조각을 꺼낸다.",
+          "answer": "2413",
+          "prerequisites": [
+            "library-3"
+          ],
+          "result": "시계 설계도 조각",
+          "hint": "겹친 일기에서 보인 숫자를 왼쪽부터 읽어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "library-5",
+          "title": "찢어진 설계도",
+          "action": "맞닿는 찢김과 선으로 두 조각을 연결해 완성한다.",
+          "answer": "맞닿는 2조각 연결",
+          "prerequisites": [
+            "library-4"
+          ],
+          "result": "시계방 열쇠 + 해 기억 조각",
+          "hint": "숫자보다 종이의 찢긴 선이 먼저 맞아야 해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "처음 네가 찾아온 날, 우리는 창가에서 아침 햇빛을 나눠 가졌지. 해가 뜨고 꽃이 피고 달과 별이 나올 때까지, 나는 그날을 책 사이에 남겨두었어."
+    },
+    {
+      "id": "clock",
+      "name": "시계방",
+      "background": "assets/mansion/mansion-escape-clock-v1.png",
+      "index": 2,
+      "entryRequires": "key-clock",
+      "note": "‘우리가 처음 만난 오후 3시 15분. 그때 멈춘 시계가 마지막 선물을 지킨다.’ 주인은 이별을 막으려 시간을 멈춘 게 아니라 기억을 남겼다.",
+      "memoryPiece": "꽃",
+      "next": "garden",
+      "puzzles": [
+        {
+          "id": "clock-1",
+          "title": "설계도 맞추기",
+          "action": "서재 설계도를 작업대 홈에 올리면 작은·중간·큰 톱니의 자리가 나타난다.",
+          "answer": "작은→중간→큰 자리",
+          "prerequisites": [],
+          "result": "톱니 배치 단서",
+          "hint": "설계도와 작업대의 홈 모양을 비교해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "clock-2",
+          "title": "톱니 연결",
+          "action": "3개의 톱니를 맞는 홈에 배치해 손잡이까지 맞물리게 한다.",
+          "answer": "소·중·대 각각 대응 홈",
+          "prerequisites": [
+            "clock-1"
+          ],
+          "result": "태엽 손잡이",
+          "hint": "큰 톱니를 가장 넓은 홈에 놓아요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "clock-3",
+          "title": "만난 시간",
+          "action": "벽의 ‘오후 세 시’ 편지와 ‘15분 뒤 차를 마셨다’ 기록을 조합한다.",
+          "answer": "15:15",
+          "prerequisites": [
+            "clock-2"
+          ],
+          "result": "시침·분침 목표",
+          "hint": "‘세 시’와 ‘15분’은 서로 다른 기록에서 얻어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "clock-4",
+          "title": "시계 되살리기",
+          "action": "시침 3, 분침 3에 맞춘 뒤 태엽을 돌린다.",
+          "answer": "3시 15분",
+          "prerequisites": [
+            "clock-3"
+          ],
+          "result": "울림 순서: 길게·짧게·짧게",
+          "hint": "분침의 숫자 3은 15분이에요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "clock-5",
+          "title": "소리 서랍",
+          "action": "시계 울림 길게·짧게·짧게를 서랍 버튼에 재현한다. 소리와 시각 막대 모두 제공.",
+          "answer": "길게→짧게→짧게",
+          "prerequisites": [
+            "clock-4"
+          ],
+          "result": "온실 열쇠 + 꽃 기억 조각",
+          "hint": "긴 막대 한 번, 짧은 막대 두 번이에요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "오후 세 시에 네가 문을 두드렸고, 십오 분 뒤 우리는 차를 마셨어. 이 시계는 그때를 기억해. 멈춘 시간은 작별이 아니라 다시 만날 약속이야."
+    },
+    {
+      "id": "garden",
+      "name": "온실",
+      "background": "assets/mansion/mansion-escape-garden-v1.png",
+      "index": 3,
+      "entryRequires": "key-garden",
+      "note": "‘작은 씨앗도 돌봄을 받으면 자란다. 선물의 첫 실도 그랬다.’ 친구가 보내온 씨앗은 주인이 다시 누군가를 기다리게 했다.",
+      "memoryPiece": "잎",
+      "next": "moon",
+      "puzzles": [
+        {
+          "id": "garden-1",
+          "title": "씨앗 분류",
+          "action": "잎·꽃·열매 봉투를 그림 표찰이 맞는 세 화분에 놓는다.",
+          "answer": "잎/꽃/열매 표찰 대응",
+          "prerequisites": [],
+          "result": "물주기 표",
+          "hint": "씨앗 봉투의 그림과 화분 표찰을 맞춰요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "garden-2",
+          "title": "물 양 읽기",
+          "action": "물주기 표의 물방울 개수를 세면 잎 1컵, 꽃 3컵, 열매 2컵이다.",
+          "answer": "1·3·2컵",
+          "prerequisites": [
+            "garden-1"
+          ],
+          "result": "화분별 물 양",
+          "hint": "잎, 꽃, 열매 순서로 읽어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "garden-3",
+          "title": "온실 물주기",
+          "action": "계량 물통으로 각 화분에 정확한 컵 수를 채운다. 초과 시 해당 화분만 비우기.",
+          "answer": "1/3/2",
+          "prerequisites": [
+            "garden-2"
+          ],
+          "result": "돋아난 세 꽃무늬",
+          "hint": "물을 많이 주는 것이 정답은 아니에요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "garden-4",
+          "title": "유리 그림자",
+          "action": "물 준 화분을 잎·꽃·열매 순으로 창가 홈에 놓으면 원·별·달 그림자가 생긴다.",
+          "answer": "원→별→달",
+          "prerequisites": [
+            "garden-3"
+          ],
+          "result": "수납장 기호",
+          "hint": "순서대로 화분을 옮긴 뒤 그림자를 봐요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "garden-5",
+          "title": "씨앗 수납장",
+          "action": "세 다이얼을 원·별·달로 맞춰 열면 다음 방 메모와 열쇠가 나온다.",
+          "answer": "원→별→달",
+          "prerequisites": [
+            "garden-4"
+          ],
+          "result": "달빛 방 열쇠 + 잎 기억 조각",
+          "hint": "창의 그림자를 왼쪽부터 그대로 옮겨요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "네가 보내준 씨앗을 심었어. 자꾸 서두르던 나에게 너는 작은 것부터 돌보라고 했지. 한 코씩 뜨는 일도 꽃을 키우는 일과 닮았더라."
+    },
+    {
+      "id": "moon",
+      "name": "달빛 방",
+      "background": "assets/mansion/mansion-escape-moon-v1.png",
+      "index": 4,
+      "entryRequires": "key-moon",
+      "note": "‘멀리 있는 친구도 같은 달을 본다.’ 네 장의 달 엽서에는 여행 중에도 연결되어 있었던 두 친구의 밤이 남아 있다.",
+      "memoryPiece": "달",
+      "next": "flower",
+      "puzzles": [
+        {
+          "id": "moon-1",
+          "title": "달 엽서 복원",
+          "action": "4장의 엽서를 빈칸의 곡선과 우표 테두리로 맞춰 하나의 지도처럼 놓는다.",
+          "answer": "곡선이 이어지는 2×2",
+          "prerequisites": [],
+          "result": "망원경 목표 별자리",
+          "hint": "엽서 사이의 곡선이 끊기지 않게 맞춰요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "moon-2",
+          "title": "망원경 관찰",
+          "action": "복원된 지도에 있는 초승달 옆 세 별을 망원경에서 찾는다. 확대 화면에 고정된 후보 4개.",
+          "answer": "초승달 옆 삼각 별자리",
+          "prerequisites": [
+            "moon-1"
+          ],
+          "result": "달 변화 순서",
+          "hint": "지도와 같은 별 세 개 모양을 찾아요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "moon-3",
+          "title": "달 변화 원판",
+          "action": "그림의 밝아지는 방향을 보고 초승→반달→볼록달→보름달로 놓는다.",
+          "answer": "초승→반달→볼록달→보름",
+          "prerequisites": [
+            "moon-2"
+          ],
+          "result": "거울 카드",
+          "hint": "밝은 부분이 점점 넓어져요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "moon-4",
+          "title": "거울 카드",
+          "action": "뒤집혀 인쇄된 카드 6·2·8을 거울에 비춰 정상 방향으로 읽는다.",
+          "answer": "628",
+          "prerequisites": [
+            "moon-3"
+          ],
+          "result": "달 상자 암호",
+          "hint": "카드 자체를 회전하지 말고 거울에 넣어봐요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "moon-5",
+          "title": "달 상자",
+          "action": "628을 넣으면 꽃다락 열쇠와 마지막 엽서를 얻는다.",
+          "answer": "628",
+          "prerequisites": [
+            "moon-4"
+          ],
+          "result": "꽃다락 열쇠 + 달 기억 조각",
+          "hint": "거울에서 읽은 순서를 유지해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "네 편지가 도착하는 밤마다 같은 달을 바라봤어. 달이 차오를수록 네 여행도 끝에 가까워지겠지. 멀리 있어도 우리는 같은 하늘 아래 있구나."
+    },
+    {
+      "id": "flower",
+      "name": "꽃다락",
+      "background": "assets/mansion/mansion-escape-flower-v1.png",
+      "index": 5,
+      "entryRequires": "key-flower",
+      "note": "‘말하지 못한 고마움은 꽃 사이에 눌러 두었다.’ 꽃다락의 편지는 사라진 친구가 아니라 긴 여행을 떠난 친구의 안부였다.",
+      "memoryPiece": "나비",
+      "next": "ribbon",
+      "puzzles": [
+        {
+          "id": "flower-1",
+          "title": "압화 짝 찾기",
+          "action": "압화 3개와 식물 그림의 잎·꽃잎 모양을 대응한다.",
+          "answer": "데이지/라벤더/튤립",
+          "prerequisites": [],
+          "result": "꽃말 카드 세 장",
+          "hint": "색 외에 잎 모양도 확인해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "flower-2",
+          "title": "꽃말 문장",
+          "action": "감사·기다림·다시 만남 카드를 엽서의 ‘먼저 고맙고, 오래 기다려, 다시 만나자’ 순서로 놓는다.",
+          "answer": "감사→기다림→다시 만남",
+          "prerequisites": [
+            "flower-1"
+          ],
+          "result": "꽃병 배치 순서",
+          "hint": "문장의 앞에서 뒤로 읽어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "flower-3",
+          "title": "꽃병 배치",
+          "action": "꽃말에 대응한 데이지·라벤더·튤립을 3개의 홈에 꽂는다.",
+          "answer": "데이지→라벤더→튤립",
+          "prerequisites": [
+            "flower-2"
+          ],
+          "result": "꽃잎 수 단서",
+          "hint": "카드 뒷면의 꽃 이름을 함께 확인해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "flower-4",
+          "title": "꽃잎 세기",
+          "action": "퍼즐 확대 그림의 데이지 5장, 라벤더 4송이, 튤립 3장의 표시된 요소를 센다. 배경 그림과 분리된 정확한 도판 사용.",
+          "answer": "543",
+          "prerequisites": [
+            "flower-3"
+          ],
+          "result": "서랍 숫자 암호",
+          "hint": "확대 도판의 표시된 꽃잎·송이만 세요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "flower-5",
+          "title": "압화 서랍",
+          "action": "543을 입력해 포장 주문서와 리본 방 열쇠를 얻는다.",
+          "answer": "543",
+          "prerequisites": [
+            "flower-4"
+          ],
+          "result": "리본 방 열쇠 + 나비 기억 조각",
+          "hint": "방금 꽃병에 놓은 순서가 숫자 순서예요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "고맙다는 말을 늦게 배워서 꽃 사이에 눌러두었어. 고마움, 기다림, 다시 만남. 이번에는 네가 돌아오면 꼭 소리 내어 말할게."
+    },
+    {
+      "id": "ribbon",
+      "name": "리본 방",
+      "background": "assets/mansion/mansion-escape-ribbon-v1.png",
+      "index": 6,
+      "entryRequires": "key-ribbon",
+      "note": "‘화려한 포장보다 마음에 맞는 크기가 중요했다.’ 주인은 여행에서 돌아올 친구에게 작은 뜨개 천사를 선물하려 했다.",
+      "memoryPiece": "리본",
+      "next": "cloud",
+      "puzzles": [
+        {
+          "id": "ribbon-1",
+          "title": "주문서 복원",
+          "action": "꽃다락에서 얻은 주문서 3조각의 문장과 테두리를 이어 붙인다.",
+          "answer": "주문서 3조각 완성",
+          "prerequisites": [],
+          "result": "상자와 리본 조건",
+          "hint": "그림과 테두리 두 가지가 함께 이어져야 해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "ribbon-2",
+          "title": "맞는 상자",
+          "action": "주문서 ‘손바닥 크기, 정사각형’에 맞는 세 후보 중 작은 정사각 상자를 고른다.",
+          "answer": "작은 정사각 상자",
+          "prerequisites": [
+            "ribbon-1"
+          ],
+          "result": "길이 측정 조건",
+          "hint": "무늬보다 크기와 모양을 확인해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "ribbon-3",
+          "title": "리본 재기",
+          "action": "눈금판에서 분홍 4, 민트 2, 보라 3칸 길이를 읽는다. 숫자 없는 배경과 별개 정확한 칸 도판 사용.",
+          "answer": "4/2/3",
+          "prerequisites": [
+            "ribbon-2"
+          ],
+          "result": "매듭 순서 카드",
+          "hint": "시작점 0에서 끝까지 칸을 세요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "ribbon-4",
+          "title": "포장 매듭",
+          "action": "긴 것부터 짧은 것으로 리본을 포장 받침에 올리고 순서대로 매듭을 묶는다.",
+          "answer": "분홍→보라→민트",
+          "prerequisites": [
+            "ribbon-3"
+          ],
+          "result": "보관함 암호: 432",
+          "hint": "길이 4, 3, 2가 색의 순서를 정해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "ribbon-5",
+          "title": "포장 보관함",
+          "action": "432를 입력하면 작은 태엽 열쇠와 구름 방 열쇠가 나온다.",
+          "answer": "432",
+          "prerequisites": [
+            "ribbon-4"
+          ],
+          "result": "구름 방 열쇠 + 리본 기억 조각 + 태엽",
+          "hint": "원래 놓인 색 순서가 아니라 묶은 순서예요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "작은 선물이라도 네 손에 꼭 맞으면 좋겠어. 너무 큰 상자도, 지나치게 긴 리본도 필요 없더라. 네가 좋아할 색을 묶으면서 마지막 코를 마무리했어."
+    },
+    {
+      "id": "cloud",
+      "name": "구름 방",
+      "background": "assets/mansion/mansion-escape-cloud-v1.png",
+      "index": 7,
+      "entryRequires": "key-cloud",
+      "note": "‘기억의 노래가 들리면 문을 열어도 괜찮다.’ 마지막 편지에는 친구가 오늘 돌아온다는 소식이 있다. 봉인된 것은 슬픔이 아닌 서프라이즈였다.",
+      "memoryPiece": "종",
+      "next": "star",
+      "puzzles": [
+        {
+          "id": "cloud-1",
+          "title": "오르골 태엽",
+          "action": "리본 방의 작은 태엽을 오르골 옆 같은 모양 홈에 넣는다.",
+          "answer": "태엽 넣기",
+          "prerequisites": [],
+          "result": "세 음의 기호",
+          "hint": "낡은 시계 태엽과 다른 작은 홈이에요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "cloud-2",
+          "title": "종소리 재현",
+          "action": "오르골이 보여주는 별·구름·달·별 순서를 3종의 종으로 재현한다. 기호 점멸/텍스트 순서 제공.",
+          "answer": "별→구름→달→별",
+          "prerequisites": [
+            "cloud-1"
+          ],
+          "result": "빛 프리즘 상자",
+          "hint": "소리 없이도 점멸하는 기호로 풀 수 있어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "cloud-3",
+          "title": "빛 연결",
+          "action": "민트·분홍·보라 프리즘을 대응 광선 홈에 넣어 가운데 흰 빛을 완성한다.",
+          "answer": "3색 프리즘 대응",
+          "prerequisites": [
+            "cloud-2"
+          ],
+          "result": "저울 돌 두 개",
+          "hint": "빛과 같은 색 홈부터 맞춰요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "cloud-4",
+          "title": "저울의 빈칸",
+          "action": "도판 ‘별+별=6, 달+별=8’에서 별3, 달5를 구한다.",
+          "answer": "별=3, 달=5",
+          "prerequisites": [
+            "cloud-3"
+          ],
+          "result": "구름 서랍 암호 353",
+          "hint": "먼저 별 둘을 같은 수로 나눠요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "cloud-5",
+          "title": "기억 서랍",
+          "action": "서랍 기호 별·달·별에 3·5·3을 입력한다.",
+          "answer": "353",
+          "prerequisites": [
+            "cloud-4"
+          ],
+          "result": "별 상자 방 열쇠 + 종 기억 조각",
+          "hint": "세 자리 기호에 계산한 수를 넣어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "오늘 돌아온다는 마지막 편지를 받았어! 오르골이 우리의 노래를 기억하고 있더라. 잠근 방들은 슬픔을 숨긴 곳이 아니라 네가 오기 전까지 놀라움을 지켜준 곳이었어."
+    },
+    {
+      "id": "star",
+      "name": "별 상자 방",
+      "background": "assets/mansion/mansion-escape-star-v1.png",
+      "index": 8,
+      "entryRequires": "key-star",
+      "note": "‘이 방은 친구가 돌아오는 날 열려고 준비한 선물의 마지막 자리.’ 일곱 조각을 모으면 주인의 마음과 뜨개 천사의 탄생 이야기가 하나로 이어진다.",
+      "memoryPiece": null,
+      "next": null,
+      "puzzles": [
+        {
+          "id": "star-1",
+          "title": "기억 조각 모으기",
+          "action": "앞 7방에서 받은 해·꽃·잎·달·나비·리본·종 조각을 둥근 장치의 같은 모양 홈에 놓는다.",
+          "answer": "7조각 대응",
+          "prerequisites": [],
+          "result": "일곱 메모 펼침",
+          "hint": "빠진 조각이 있으면 그 방의 완료 기록으로 돌아갈 수 있어요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "star-2",
+          "title": "편지의 순서",
+          "action": "앞 방 메모의 공통 표식 순서대로 7장을 정리한다. 서재→시계→온실→달→꽃→리본→구름.",
+          "answer": "7방 탐색 순서",
+          "prerequisites": [
+            "star-1"
+          ],
+          "result": "마지막 편지 ‘빛을 따라 돌아와’",
+          "hint": "이미 걸어온 방의 순서가 이야기 순서예요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "star-3",
+          "title": "기억의 네 불빛",
+          "action": "마지막 편지의 ‘아침의 해, 자란 잎, 함께 본 달, 묶은 리본’을 조각에 대응해 누른다.",
+          "answer": "해→잎→달→리본",
+          "prerequisites": [
+            "star-2"
+          ],
+          "result": "상자 장치 활성화",
+          "hint": "문장 속 네 가지 물건을 찾아요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "star-4",
+          "title": "마지막 열쇠",
+          "action": "활성화된 장치에서 열쇠 앞·뒤 두 조각을 맞춰 하나로 조립한다.",
+          "answer": "열쇠 두 조각 맞춤",
+          "prerequisites": [
+            "star-3"
+          ],
+          "result": "별 상자 열쇠",
+          "hint": "별 홈과 손잡이 홈이 동시에 이어져야 해요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        },
+        {
+          "id": "star-5",
+          "title": "선물의 비밀",
+          "action": "별 상자를 열어 작은 뜨개 천사와 친구에게 전하는 마지막 편지를 본다.",
+          "answer": "별 상자 열쇠 사용",
+          "prerequisites": [
+            "star-4"
+          ],
+          "result": "이야기 완료 기록",
+          "hint": "얻은 열쇠를 상자에 올려요.",
+          "ui": "배경의 관련 사물을 누르면 확대 퍼즐 패널. 숫자·문장·정확한 도판은 HTML/SVG/캔버스로 별도 구현.",
+          "status": "설계 완료 / 기능 미연결"
+        }
+      ],
+      "storyMemo": "어서 와. 네가 다녀온 길과 내가 기다린 시간이 이 작은 천사의 날개에 함께 들어 있어. 이 저택의 비밀은 거창하지 않아. 너에게 건네고 싶던 마음을 한 코씩 모아두었을 뿐이야."
+    }
+  ],
+  "saveProposal": {
+    "key": "sejin-mansion-escape-v2",
+    "schema": {
+      "version": 2,
+      "room": "library",
+      "completedPuzzleIds": [],
+      "inventory": [],
+      "readNotes": [],
+      "endingSeen": false
+    }
+  },
+  "rules": [
+    "순서 잠금은 8개의 기존 중앙홀 문을 사용한다.",
+    "클릭 좌표는 배경을 실제 배치한 뒤 정규화 0~1 기준으로 Claude가 측정한다. 현재 좌표 승인 없음.",
+    "완료된 퍼즐 다시 풀기 강제 금지. 물주기/배열 오류는 해당 퍼즐만 초기화.",
+    "그림 속 임의 꽃잎, 시계 눈금, 프리즘 개수는 정답 데이터로 사용하지 않는다.",
+    "핵심 단서 도판은 설계값대로 코딩하여 정확한 개수/기호/순서를 보장한다.",
+    "키·기억조각·태엽은 퀘스트 아이템, 판매 재화로 등록하지 않는다.",
+    "기존 최초 보상 플래그/인형 획득 기록 보존. 보상 증가 또는 신규 가격은 미승인."
+  ],
+  "props": [
+    {
+      "id": "diary",
+      "name": "꽃 일기",
+      "room": "library",
+      "file": "assets/mansion/mansion-prop-diary-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "gearboard",
+      "name": "태엽 작업판",
+      "room": "clock",
+      "file": "assets/mansion/mansion-prop-gearboard-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "seedtray",
+      "name": "씨앗 화분 받침",
+      "room": "garden",
+      "file": "assets/mansion/mansion-prop-seedtray-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "moonwheel",
+      "name": "달 변화 장치",
+      "room": "moon",
+      "file": "assets/mansion/mansion-prop-moonwheel-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "flowerbook",
+      "name": "압화 도안 책",
+      "room": "flower",
+      "file": "assets/mansion/mansion-prop-flowerbook-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "ribbonboard",
+      "name": "리본 측정 받침",
+      "room": "ribbon",
+      "file": "assets/mansion/mansion-prop-ribbonboard-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "musicbox",
+      "name": "기억 오르골",
+      "room": "cloud",
+      "file": "assets/mansion/mansion-prop-musicbox-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    },
+    {
+      "id": "memoryseal",
+      "name": "기억 봉인 장치",
+      "room": "star",
+      "file": "assets/mansion/mansion-prop-memoryseal-v1.png",
+      "role": "확대 패널 바탕 이미지 / 정확한 조작 요소는 별도 구현"
+    }
+  ],
+  "reuseAssets": [
+    "assets/mansion/mansion-book-red-v1.png",
+    "assets/mansion/mansion-book-blue-v1.png",
+    "assets/mansion/mansion-book-yellow-v1.png",
+    "assets/mansion/mansion-book-green-v1.png",
+    "assets/mansion/mansion-chest-closed-v1.png",
+    "assets/mansion/mansion-chest-open-v1.png",
+    "assets/mansion/mansion-clock-face-v1.png",
+    "assets/mansion/mansion-clock-hour-v2.png",
+    "assets/mansion/mansion-clock-minute-v2.png",
+    "assets/mansion/mansion-lantern-on-v1.png",
+    "assets/mansion/mansion-lantern-off-v2.png"
+  ]
+}

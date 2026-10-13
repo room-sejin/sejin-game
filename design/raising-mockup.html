@@ -1,0 +1,788 @@
+﻿<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>세진이 키우기 · 화면 시안</title>
+<style>
+:root{--ink:#594c43;--sub:#887b70;--wall:#f6ede3;--floor:#efdcc3;--card:#fffaf0;--line:#e7dccd;--sky:#8fc3e0;--pink:#f2a7b5;--butter:#f5d58a;--sage:#a9cfa4;--lav:#c9b3e6;--btn:#81b7c5;--btn-d:#6495a2;font-family:"Malgun Gothic",system-ui,sans-serif;color:var(--ink)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#e7f3f5,transparent 65%),#faf6ef;display:flex;flex-direction:column;align-items:center;padding:20px 12px}
+.note{font-size:12px;color:var(--sub);margin:0 0 12px;text-align:center}
+.note b{color:#6e969e;letter-spacing:1px}
+.phone{width:100%;max-width:400px;background:#fff;border-radius:30px;padding:8px;box-shadow:0 14px 45px #75655222}
+.app{background:var(--wall);border-radius:24px;overflow:hidden;display:flex;flex-direction:column;min-height:760px}
+.top{display:flex;align-items:center;gap:10px;padding:14px 16px 10px}
+.lv{flex:1}
+.lv small{font-size:11px;color:var(--sub)}
+.lv strong{font-size:15px;margin-right:6px}
+.bar{height:8px;background:#e9dccb;border-radius:8px;overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;border-radius:8px;background:var(--pink);transition:width .3s}
+.yarn{display:flex;align-items:center;gap:6px;background:#fff9;border:1px solid #fff;border-radius:20px;padding:6px 12px;font-weight:bold;font-size:14px}
+.ball{width:16px;height:16px;border-radius:50%;background:var(--sky);border:1.5px solid #8a6f60;background-image:repeating-linear-gradient(-30deg,transparent 0 3px,#5f413740 3px 4px)}
+.panel{flex:1;display:none;flex-direction:column}
+.panel.on{display:flex}
+/* Room scene */
+.room{position:relative;height:300px;margin:0 12px;border-radius:20px;overflow:hidden;transition:background-color .4s;background:linear-gradient(var(--wp,#f6ede3) 0 72%,#e3cfb6 72% 75%,var(--floor) 75%)}
+.room.night{filter:brightness(.72) saturate(.8)}
+.window{position:absolute;left:22px;top:26px;width:86px;height:110px;border-radius:44px 44px 6px 6px;background:#d4ebef;border:6px solid #e2d3bf}
+.window::before,.window::after{content:"";position:absolute;background:#fbf7ec}
+.window::before{left:calc(50% - 3px);top:0;bottom:0;width:6px}.window::after{left:0;right:0;top:48%;height:6px}
+.room.night .window{background:#6d7fa6}
+.shelf{position:absolute;right:22px;top:70px;width:128px;height:8px;background:#dcc4a4;border:1.5px solid #8a6f60;border-radius:3px}
+.shelf span{position:absolute;bottom:8px;width:20px;height:20px;border-radius:50%;border:1.5px solid #8a6f60}
+.shelf .doll{position:absolute;bottom:8px;right:6px;width:30px;height:37px}
+.sejin{position:absolute;left:50%;bottom:34px;width:118px;aspect-ratio:.806;transform:translateX(-50%);background:url(../assets/character/base-v1.png) 51% 58.5%/150.9% 128.1% no-repeat;cursor:pointer;border:0;padding:0;box-shadow:none;border-radius:0;animation:idle 2.4s ease-in-out infinite}
+.sejin:focus-visible{outline:3px solid #5e5953;outline-offset:4px}
+@keyframes idle{50%{transform:translateX(-50%) translateY(-4px) scaleY(.985)}}
+.room.night .sejin{animation:none;filter:brightness(.9)}
+.coin{position:absolute;left:calc(50% - 11px);bottom:96px;width:22px;height:22px;border-radius:50%;border:1.5px solid #8a6f60;background-image:repeating-linear-gradient(-30deg,transparent 0 3px,#5f413740 3px 4px);pointer-events:none;z-index:3}
+.plus{position:absolute;left:50%;bottom:178px;transform:translateX(-50%);font-weight:bold;font-size:18px;color:#c77683;text-shadow:0 2px 0 #fff,0 0 6px #fff;pointer-events:none;z-index:3}
+.yarn.bump{animation:bump .3s}@keyframes bump{50%{transform:scale(1.15)}}
+.goal{grid-column:1/-1;display:block;width:calc(100% - 16px);margin:0 8px 8px;border:0;border-radius:14px;background:#fff;box-shadow:0 2px 0 #e9d8c8;padding:9px 12px;font:inherit;font-size:13px;font-weight:bold;color:#5b4a42;text-align:left;cursor:pointer}.goal small{display:block;font-weight:normal;font-size:11px;color:#8b766b;margin-top:1px}
+.bubble{position:absolute;left:50%;top:18px;transform:translateX(-50%);max-width:70%;background:#fff;border-radius:16px;padding:9px 14px;font-size:13px;line-height:1.5;text-align:center;box-shadow:0 4px 14px #88756722}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:#fff}
+.dust{position:absolute;bottom:30px;width:22px;height:16px;border-radius:50%;background:#cfc4b8;box-shadow:inset -3px -3px 0 #b9ada1;opacity:0;transition:opacity .4s}
+.room.dirty .dust{opacity:1}
+.zz{position:absolute;left:calc(50% + 40px);top:110px;font-weight:bold;color:#fff;font-size:20px;opacity:0}
+.room.night .zz{opacity:1}
+/* Needs */
+.needs{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;padding:14px 18px 6px}
+.need{font-size:12px;color:var(--sub)}
+.need div{display:flex;justify-content:space-between}
+.need b{color:var(--ink)}
+.need.low b{color:#c77683}
+.care{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px 12px}
+/* Neighbourhood map */
+.map{position:relative;margin:0 12px;border-radius:20px;overflow:hidden;aspect-ratio:36/32;background:#dcebd0;border:3px solid #fff;box-shadow:0 6px 20px #8875670f}
+.map svg,.map .map-art{position:absolute;inset:0;width:100%;height:100%}
+.map .map-art{object-fit:cover;user-select:none}
+.pin{position:absolute;transform:translate(-50%,-100%);background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line);border-radius:12px;padding:5px 10px;font-size:12px;white-space:nowrap;z-index:1}
+.pin::after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-bottom:0;border-top-color:#fff}
+.pin.soon{color:var(--sub)}.pin.lock{background:#fff;color:#7a6a60}.pin.lock small{color:#e58c9c;font-weight:bold;opacity:1}
+.pin[aria-pressed=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}.pin[aria-pressed=true]::after{border-top-color:var(--btn)}
+.q a.play{padding:8px 12px;font-size:13px;text-decoration:none;color:#fff;background:var(--btn);border-radius:12px;font-weight:bold;box-shadow:0 3px 0 var(--btn-d)}
+.sfxbtn{margin-left:6px;border:0;background:#fffaf4;border-radius:999px;width:30px;height:30px;font-size:15px;cursor:pointer;box-shadow:0 2px 0 var(--line)}
+.mapq{margin:0 0 10px;padding:8px 10px;border-radius:16px;background:#fff;border:2px dashed #cdbfe9;display:grid;gap:5px}.mapq[hidden]{display:none}.mqt{font-size:12px;font-weight:bold;color:#8b766b}
+.mq{display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:#f6f0fb;border-radius:12px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer;text-align:left}.mq small{color:var(--sub);font-size:11px;margin-left:3px}.mq b{font-size:12.5px;white-space:nowrap}.mq.ok{background:#fff3cf}
+.pin .qm{position:absolute;right:-12px;top:-17px;width:24px;height:24px;border-radius:50%;background:#ffd23f;border:3px solid #fff;color:#5b3a1e;font-size:15px;font-weight:900;line-height:18px;text-align:center;box-shadow:0 2px 0 #c99a1a,0 0 0 2px #5b3a1e55;animation:qb2 1.1s ease-in-out infinite}.pin .qm.q2{background:#8fd3ff;box-shadow:0 2px 0 #4a9fcf,0 0 0 2px #1e3a5b55;color:#16384f}
+.qb{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#ffd23f;border:2px solid #fff;color:#5b3a1e;font-style:normal;font-weight:900;font-size:13px;line-height:1;box-shadow:0 1px 0 #c99a1a,0 0 0 1.5px #5b3a1e44;vertical-align:middle}.qb.q2{background:#8fd3ff;color:#16384f;box-shadow:0 1px 0 #4a9fcf,0 0 0 1.5px #1e3a5b44}.q a.play .qb{width:18px;height:18px;font-size:12px}@keyframes qb2{50%{transform:translateY(-4px)}}
+.pin small{font-size:9px;margin-left:3px;opacity:.8}
+.walker{position:absolute;width:9%;aspect-ratio:.806;transform:translate(-50%,-92%);background:url(../assets/character/base-v1.png) 51% 58.5%/150.9% 128.1% no-repeat;transition:left .7s ease-in-out,top .7s ease-in-out;z-index:2;pointer-events:none}
+/* Map: invisible tap areas over buildings, bright pop-up info card */
+.map-zone{position:absolute;border:0;padding:0;background:transparent;box-shadow:none;cursor:pointer;border-radius:18px;z-index:1}
+.map-zone:hover{background:#ffffff26}
+.place-pop{position:absolute;left:10px;right:10px;bottom:10px;z-index:4;display:flex;align-items:center;gap:10px;padding:12px 12px 12px 14px;border-radius:18px;background:#fffffffa;border:2px solid #fff;box-shadow:0 8px 24px #5b4a4233;color:var(--ink)}
+.place-pop.at-top{bottom:auto;top:10px}
+.place-pop[hidden]{display:none}
+.place-pop .pop-dot{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid #8a6f60}
+.place-pop .pop-txt{flex:1;min-width:0}
+.place-pop b{font-size:15px;color:#4a3a33}
+.place-pop p{margin:3px 0 0;font-size:12.5px;line-height:1.4;color:#6b5a50}
+.place-pop .tag{background:#eee4d8;color:#6b5a50}.place-pop .tag.on{background:#a9cfa4;color:#fff}
+.place-pop [data-enter],.place-pop button[disabled]{flex:none;border:0;font:inherit;font-size:13px;font-weight:bold;padding:10px 14px;border-radius:12px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}
+.place-pop button[disabled]{background:#cfc2b5;box-shadow:0 3px 0 #b5a697;cursor:default}
+@media (max-width:520px){.place-pop,.place-pop.at-top{position:fixed;top:auto;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:30}}
+.place-pop .pop-x{position:absolute;top:-8px;right:-6px;width:26px;height:26px;border-radius:50%;border:2px solid #fff;background:#8a6f60;color:#fff;font-size:12px;line-height:1;padding:0;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.walker{transition:none}}
+.back{background:none;box-shadow:none;color:var(--sub);padding:4px 0;font-size:13px}
+.tag{display:inline-block;font-size:10px;font-weight:bold;border-radius:8px;padding:2px 7px;margin-left:4px;vertical-align:2px;background:#f1e4d3;color:var(--sub)}
+button{font-family:inherit;border:0;border-radius:14px;background:var(--btn);color:#fff;font-weight:bold;cursor:pointer;box-shadow:0 3px 0 var(--btn-d)}
+button:hover{filter:brightness(1.05)}button:focus-visible{outline:3px solid #5e5953;outline-offset:3px}
+.care button{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);padding:10px 4px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.care i{width:26px;height:26px;border-radius:50%;border:1.5px solid #8a6f60}
+.quest{margin:6px 14px 14px;background:var(--card);border:1px solid #fff;border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 20px #8875670f}
+.quest p{margin:0;font-size:13px;flex:1;line-height:1.5}.quest small{color:var(--sub)}
+.quest button{padding:10px 14px;font-size:13px}
+/* Lists */
+.head{padding:6px 18px 4px}.head h2{margin:4px 0;font-size:19px}.head p{margin:0;font-size:12px;color:var(--sub)}
+.list{display:flex;flex-direction:column;gap:10px;padding:10px 14px}
+.item{background:var(--card);border:1px solid #fff;border-radius:18px;padding:12px;display:flex;gap:12px;align-items:center}
+.item.locked{opacity:.55}
+.thumb{width:56px;height:56px;border-radius:14px;background:#f1e4d3;flex:none;display:grid;place-items:center;position:relative}
+.thumb .doll{width:38px;height:47px}
+.item>div:not(.thumb){flex:1}.item b{font-size:14px}.item p{margin:3px 0 0;font-size:12px;color:var(--sub)}
+.item button,.item a.play{padding:9px 12px;font-size:13px;text-decoration:none;color:#fff;background:var(--btn);border-radius:12px;font-weight:bold;box-shadow:0 3px 0 var(--btn-d)}
+.item button:disabled{background:#cbbfb2;box-shadow:0 3px 0 #b5a99c;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:10px 14px}
+.slot{min-width:0;background:var(--card);border-radius:16px;aspect-ratio:1;display:grid;place-items:center;font-size:11px;color:var(--sub);text-align:center;border:1px solid #fff}
+.slot .doll{width:46px;height:57px;margin:0 auto 4px}
+.slot .doll.unknown{filter:brightness(0) opacity(.12)}
+.doll{background:url(../assets/character/base-v1.png) 51% 58.5%/150.9% 128.1% no-repeat;display:block}
+/* Doll book card: before (stitched outline, pale silhouette) → after (colour card, doll, 완성 ribbon, NEW) */
+.book-doll{position:relative;overflow:visible;padding:8px 4px;transition:background .4s;width:100%;font:inherit;font-weight:normal;color:var(--sub);box-shadow:none;cursor:pointer}
+.book-doll.made{box-shadow:0 4px 12px #8fc3e033}
+.doll-detail{width:150px;height:auto;aspect-ratio:1;margin:0 auto 10px;border-radius:24px;display:grid;place-items:center;cursor:default}
+.doll-detail .doll-art{width:62%}
+.doll-about{text-align:center;font-size:13px;color:#6b5a50;margin:0 8px 12px;line-height:1.5}
+.doll-act{text-align:center}.doll-act button{padding:11px 18px;font-size:14px}.doll-act button[disabled]{background:#cfc2b5;box-shadow:0 3px 0 #b5a697;cursor:default}
+.book-doll>div{width:100%;display:flex;flex-direction:column;align-items:center;gap:2px}
+.book-doll .doll-art{display:block;width:56%;aspect-ratio:.806;background:url(../assets/character/base-v1.png) 51% 58.5%/150.9% 128.1% no-repeat}
+.book-doll b{font-size:12px;color:var(--ink)}.book-doll small{font-size:10px;line-height:1.3}
+.book-doll.todo{background:repeating-linear-gradient(-45deg,#fbf6ee 0 8px,#f6efe4 8px 16px);border:2px dashed #d9c7b2}
+.book-doll.todo.next{border:2px solid #f2a7b5;background:#fff3f5;box-shadow:0 0 0 3px #f2a7b555}.book-doll.todo.next small{color:#c0566b;font-weight:bold}.bprog{display:block;height:8px;border-radius:99px;background:#eadfce;margin-top:6px;overflow:hidden}.bprog i{display:block;height:100%;background:#f2a7b5;border-radius:99px}
+.book-doll.todo .doll-art{filter:brightness(0) opacity(.13)}
+.book-doll .doll-art.no-art{background:#fffdf8;border:2px dashed #cdbba8;border-radius:14px;display:grid;place-items:center;font-size:10px;color:#8b766b;line-height:1.3;animation:none}
+.book-doll.todo b{color:var(--sub);letter-spacing:2px}
+.book-doll.avail{background:#fff8dc;border:2px dashed #e3b84d;box-shadow:0 0 0 3px #fff3b0}.book-doll.avail .doll-art{width:56%;animation:dollBob 2.2s ease-in-out infinite}.book-doll.avail small{color:#a67c1a}
+.book-doll.made{background:radial-gradient(circle at 50% 38%,#fffdf8 0 34%,#e4f0f4 35% 100%);border:2px solid #fff;box-shadow:0 4px 12px #8fc3e033}
+.book-doll.made .doll-art{filter:drop-shadow(0 3px 0 #8a6f6022);animation:dollBob 2.8s ease-in-out infinite}
+.book-doll.made::before{content:"완성";position:absolute;top:6px;left:6px;padding:1px 7px;border-radius:9px;background:var(--sage);color:#fff;font-size:10px;font-weight:bold}
+.new-tag{position:absolute;top:-6px;right:-4px;padding:2px 7px;border-radius:10px;background:#e58c9c;color:#fff;font-size:10px;font-style:normal;font-weight:bold;box-shadow:0 2px 0 #c96f80;animation:newPop .6s ease-out}
+@keyframes dollBob{50%{transform:translateY(-3px) rotate(-2deg)}}
+@keyframes newPop{0%{transform:scale(0)}70%{transform:scale(1.25)}}
+/* Feeding: bowl above Sejin, 냠냠 text */
+.food-bowl{position:absolute;left:0;top:0;width:52px;margin:-26px 0 0 -26px;z-index:5;pointer-events:none}
+.food-bowl svg{display:block;width:100%}
+.munch{position:absolute;left:0;top:0;transform:translate(-50%,-50%);font-weight:bold;font-size:15px;color:#e58c9c;text-shadow:0 2px 0 #fff,0 0 6px #fff;z-index:5;pointer-events:none;white-space:nowrap}
+.crumb{position:absolute;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;z-index:5;pointer-events:none}
+/* Sleeping: the 재우기 button shows a countdown */
+.care button.sleeping{opacity:.75;cursor:default}
+@media (prefers-reduced-motion:reduce){.book-doll.made .doll-art,.new-tag{animation:none}}
+nav{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--line)}
+nav button{background:none;box-shadow:none;color:var(--sub);border-radius:0;padding:12px 0 14px;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:4px}
+nav button i{width:20px;height:20px;border-radius:7px;background:var(--line)}
+nav button[aria-selected=true]{color:var(--ink)}nav button[aria-selected=true] i{background:var(--sky)}
+nav button i.heart-ico{background:#f2a7b5;border-radius:50% 50% 8px 50%;transform:rotate(45deg) scale(.82)}
+nav button[aria-selected=true] i.heart-ico{background:#e58c9c}
+/* The room scene grows to fill the free height so the screen has no empty band above the tabs */
+#p-room .room{flex:1;height:auto;min-height:300px}
+/* Wall items keep their distance from the floor line (72% down) instead of the ceiling. */
+#p-room .window{top:auto;bottom:calc(28% + 68px)}
+#p-room .shelf{top:auto;bottom:calc(28% + 146px)}
+#p-room .shelf2{top:auto;bottom:calc(28% + 26px)}
+#p-room .side{top:auto;bottom:calc(28% + 15px)}
+/* Sejin (and what floats above Sejin) scales with the room height. */
+#p-room .room{--sw:118px}
+#p-room .sejin{width:var(--sw)}
+#p-room .bubble{top:auto;bottom:calc(46px + var(--sw) * 1.24)}
+#p-room .plus{left:calc(50% + var(--sw) * .5);bottom:calc(16px + var(--sw) * 1.1)}
+#p-room .gain{bottom:calc(90px + var(--sw) * 1.24)}
+#p-room .coin{bottom:calc(34px + var(--sw) * .55)}
+.bunting{position:absolute;left:0;top:50px;width:100%;height:46px;pointer-events:none}
+.room.deco-lights .bunting{top:84px}
+.room.short .bunting{display:none}
+#p-room .lights{top:46px}
+/* Top toolbar: decorate, closet, diary */
+.tools{position:absolute;left:10px;top:10px;display:flex;gap:6px;z-index:2}
+.tool{display:flex;align-items:center;gap:4px;padding:6px 10px 6px 8px;border-radius:12px;background:#fffd;color:var(--ink);box-shadow:0 2px 0 var(--line);font-size:11px}
+.tool svg{width:17px;height:17px}
+/* Clothes drawn on top of Sejin (positions in % of the Sejin picture) */
+.acc{position:absolute;display:block;pointer-events:none}.acc svg{display:block;width:100%;height:auto}
+.sec{font-size:13px;font-weight:bold;color:var(--sub);margin:4px 4px 8px}
+.swatches{display:flex;gap:10px;padding:2px 4px 14px}
+.sw{width:42px;height:42px;padding:0;border-radius:12px;border:2px solid #fff;box-shadow:0 2px 0 var(--line)}
+.sw[aria-pressed=true]{outline:3px solid var(--btn);outline-offset:2px}
+.closet{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.cloth{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;border-radius:16px;border:2px solid #fff;background:var(--card);color:var(--ink);box-shadow:none;font-size:12px}
+.cloth svg{height:30px;width:auto}.cloth small{color:var(--sub);font-weight:normal;font-size:11px}
+.cloth[aria-pressed=true]{border-color:var(--btn);background:#eef6f8}
+.cats{display:flex;gap:6px;margin-bottom:2px}
+.cat{padding:8px 14px;border-radius:20px;background:#fff;color:var(--sub);box-shadow:0 2px 0 var(--line);font-size:13px}
+.cat[aria-selected=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.thumb svg{width:38px;height:auto}
+.diary{background:#fffdf7;border-radius:14px;padding:6px 16px 14px;min-height:220px;line-height:28px;font-size:13px;background-image:repeating-linear-gradient(transparent 0 27px,#eee3d4 27px 28px);background-position:0 6px}
+.diary h4{margin:0;font-size:13px;color:var(--sub)}.diary p{margin:0}.diary small{color:var(--sub)}
+#p-room .care{padding-bottom:16px}
+/* Side icons in the room: bag and challenges */
+.side{position:absolute;right:10px;top:92px;display:flex;flex-direction:column;gap:9px;z-index:2}
+.side-btn{position:relative;width:46px;height:50px;padding:0;border-radius:14px;background:#fffd;color:#8a6f60;box-shadow:0 3px 0 var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:10px}
+.side-btn svg{width:22px;height:22px}
+.side-btn em{position:absolute;top:-7px;right:-7px;min-width:19px;height:19px;padding:0 4px;border-radius:10px;border:2px solid #fff;background:#e58c9c;color:#fff;font-size:11px;font-style:normal;display:grid;place-items:center}
+.side-btn em:empty{display:none}
+.side-btn.wiggle{animation:wiggle 1.6s ease-in-out infinite}
+@keyframes wiggle{0%,78%,100%{transform:rotate(0)}84%{transform:rotate(-12deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-5deg)}}
+/* Bottom sheet (bag, challenges) */
+.app{position:relative}
+.sheet{position:absolute;inset:0;z-index:10;display:flex;align-items:flex-end;background:#6d5d5140;border-radius:24px;overflow:hidden}
+.sheet[hidden]{display:none}
+.sheet-card{width:100%;max-height:80%;overflow:auto;background:var(--wall);border-radius:22px 22px 0 0;padding:16px 14px 18px;animation:sheet-up .25s ease-out}
+@keyframes sheet-up{from{transform:translateY(40px);opacity:0}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:0 4px 10px}
+.sheet-head h3{margin:0;font-size:18px}.sheet-head small{display:block;font-size:12px;color:var(--sub);font-weight:normal;margin-top:2px}
+.x{width:34px;height:34px;padding:0;border-radius:12px;background:#fff;color:var(--sub);box-shadow:0 2px 0 var(--line)}
+.count{font-size:12px;color:var(--sub);margin-left:4px;font-weight:normal}
+.empty{text-align:center;color:var(--sub);font-size:13px;line-height:1.7;padding:18px 10px}
+.item button.ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.q{background:var(--card);border:1px solid #fff;border-radius:18px;padding:12px;margin-bottom:10px}
+.q .say{display:flex;gap:10px;align-items:flex-start}
+.q .face{width:34px;height:42px;flex:none}
+.q .line{flex:1;background:#fff;border-radius:4px 14px 14px 14px;padding:8px 12px;font-size:13px;line-height:1.5;box-shadow:0 2px 8px #8875671a}
+.q .meta{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:12px;color:var(--sub)}
+.q .meta .bar{flex:1;margin:0}
+.q .meta button{padding:8px 12px;font-size:12px}
+.q .meta button:disabled{background:#cbbfb2;box-shadow:0 3px 0 #b5a99c;cursor:default}
+.q.claimed{opacity:.6}
+/* Placed decorations */
+.lights,.shelf2{position:absolute;display:none;pointer-events:none}
+.room.deco-lights .lights,.room.deco-shelf2 .shelf2{display:block}
+.lights{left:0;top:4px;width:100%;height:44px}
+.lights .star{animation:twinkle 1.8s ease-in-out infinite}
+.lights .star:nth-child(2n){animation-delay:.6s}.lights .star:nth-child(3n){animation-delay:1.2s}
+@keyframes twinkle{50%{opacity:.45}}
+.room.night .lights .star{filter:drop-shadow(0 0 4px #ffe9a8)}
+.shelf2{left:14px;top:150px;width:92px;height:40px}
+.shelf2 i.plank{position:absolute;left:0;right:0;bottom:0;height:8px;background:#dcc4a4;border:1.5px solid #8a6f60;border-radius:3px}
+.shelf2 .doll{position:absolute;bottom:8px;width:26px;height:32px}
+.room.deco-rug .rug{width:220px;height:40px;background:#fffdf8;border:2px solid #dfe9f0;border-radius:48% 52% 46% 54%/60% 60% 40% 40%;box-shadow:inset 0 -6px 0 #eef4f7}
+/* Use effects */
+.orb{position:absolute;left:0;top:0;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:1.5px solid #8a6f60;z-index:4;pointer-events:none}
+.spark{position:absolute;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;z-index:4;pointer-events:none}
+.gain{position:absolute;left:50%;bottom:188px;transform:translateX(-50%);white-space:nowrap;font-weight:bold;font-size:14px;color:#5e8f9b;text-shadow:0 2px 0 #fff,0 0 6px #fff;z-index:4;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.sejin,.side-btn.wiggle,.lights .star{animation:none}}
+</style><link rel="stylesheet" href="room-art-v1.css"></head>
+<body>
+<p class="note"><b>방구석 세진이</b><span class="testnote"> · 만들고 있는 시험판이에요.</span> 이 기기의 브라우저에 자동 저장돼요.</p>
+<div class="phone"><div class="app">
+ <div class="top">
+  <div class="lv"><strong id="lvText">Lv.1</strong><small id="stageText">낯가림 · 친밀도</small><div class="bar"><i id="xpBar" style="width:40%"></i></div></div>
+  <div class="yarn" aria-label="실뭉치"><span class="ball"></span><span id="yarn">120</span></div><button class="sfxbtn" id="sfxBtn" aria-label="효과음 켜기/끄기" title="효과음">🔊</button>
+ </div>
+
+ <section class="panel on" id="p-room" aria-label="세진이 방">
+  <button class="goal" id="goal" data-go="work" aria-label="오늘 할 일"></button>
+  <div class="room" id="room">
+   <svg class="bunting" viewBox="0 0 376 46" preserveAspectRatio="none" aria-hidden="true"><path d="M-4 4Q188 30 380 4" fill="none" stroke="#cdb9a2" stroke-width="1.5"/><g stroke="#8a6f60" stroke-width="1"><path d="M22 7l18 2-10 18z" fill="#f2a7b5"/><path d="M62 12l18 1-10 18z" fill="#f5d58a"/><path d="M102 15l18 1-9 18z" fill="#8fc3e0"/><path d="M142 17l18 0-9 18z" fill="#a9cfa4"/><path d="M182 17l18 0-9 18z" fill="#c9b3e6"/><path d="M222 16l18-1-9 18z" fill="#f2a7b5"/><path d="M262 14l18-1-8 18z" fill="#f5d58a"/><path d="M302 11l18-2-8 18z" fill="#8fc3e0"/><path d="M342 7l18-2-8 18z" fill="#a9cfa4"/></g></svg>
+   <div class="window"></div>
+   <div class="shelf"><span style="left:8px;background:var(--butter)"></span><span style="left:32px;background:var(--pink)"></span><span style="left:56px;background:var(--sage)"></span><i class="doll" title="완성한 세진이 인형"></i></div>
+   <svg class="lights" viewBox="0 0 376 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6Q94 34 188 10T376 6" fill="none" stroke="#cdb9a2" stroke-width="1.5"/><g fill="#f5d58a" stroke="#8a6f60" stroke-width="1"><path class="star" d="M40 16l2.5 5 5.5.6-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.6z"/><path class="star" d="M100 24l2.5 5 5.5.6-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.6z"/><path class="star" d="M160 16l2.5 5 5.5.6-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.6z"/><path class="star" d="M220 12l2.5 5 5.5.6-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.6z"/><path class="star" d="M280 10l2.5 5 5.5.6-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.6z"/><path class="star" d="M340 8l2.5 5 5.5.6-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.6z"/></g></svg>
+   <div class="shelf2" aria-hidden="true"><i class="doll" style="left:10px"></i><i class="doll" style="left:52px;filter:hue-rotate(260deg)"></i><i class="plank"></i></div>
+   <i class="dust" style="left:150px"></i><i class="dust" style="right:40px;bottom:50px"></i><i class="dust" style="right:110px;bottom:18px"></i>
+   <div class="bubble" id="bubble" aria-live="polite">…왔어? 오늘은 뭐 뜰까?</div>
+   <button class="sejin" id="sejin" aria-label="세진이 쓰다듬기"><span class="acc" id="accNeck"></span><span class="acc" id="accHead"></span></button>
+   <div class="tools">
+    <button class="tool" data-sheet="decor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z" fill="#f5d58a" stroke="#8a6f60" stroke-width="1.6" stroke-linejoin="round"/><rect x="10" y="14" width="4" height="6" fill="#fffaf0" stroke="#8a6f60" stroke-width="1.2"/></svg>꾸미기</button>
+    <button class="tool" data-sheet="diary"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5" fill="#a9cfa4" stroke="#8a6f60" stroke-width="1.6"/><path d="M9 8h6M9 12h6" stroke="#fffaf0" stroke-width="1.8" stroke-linecap="round"/></svg>일기</button>
+   </div>
+   <span class="zz">z z</span>
+   <div class="side">
+    <button class="side-btn" id="bagBtn" aria-label="가방 열기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 8V6.8a3.5 3.5 0 0 1 7 0V8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="4" y="8" width="16" height="13" rx="4.5" fill="#f2a7b5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="12" width="6" height="3" rx="1.5" fill="#fffaf0"/></svg>가방<em id="bagBadge"></em></button>
+    <button class="side-btn" id="fqBtn" aria-label="친구 의뢰 열기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5" fill="#cdbfe9" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 8h7M8.5 12h7M8.5 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>의뢰<em id="fqBadge"></em></button>
+    <button class="side-btn" id="outBtn" aria-label="나가기 · 동네 지도"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="11" height="18" rx="2" fill="#a9cfa4" stroke="currentColor" stroke-width="1.5"/><circle cx="12.5" cy="12" r="1" fill="#fffaf0"/><path d="M17 12h5M20 9.5l2.5 2.5-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>나가기</button>
+   </div>
+  </div>
+  <div class="needs" id="needs"></div>
+  <div id="bannerSlot"><div data-banner="../"></div></div>
+ </section>
+
+ <section class="panel" id="p-work" aria-label="작업실">
+  <div class="head"><h2>작업실</h2><p>도안을 고르면 뜨개 달리기가 시작돼요. 인형을 완성하면 다음 도안이 열려요.</p></div>
+  <div class="list" id="workList"></div>
+ </section>
+
+ <section class="panel" id="p-out" aria-label="외출">
+  <div class="head"><button class="back" data-go="room">‹ 방으로</button><h2>어디 가볼까?</h2><p id="outHint">가고 싶은 건물을 눌러 보세요. 건물 안의 게임과 이야기는 에너지를 쓰지 않아요.</p></div>
+  <div class="mapq" id="mapQuests" hidden></div>
+  <div class="map" id="map">
+   <img class="map-art" src="../assets/maps/map-workshop-event-v3.jpg" alt="" draggable="false" onerror="this.remove()">
+   <i class="walker" id="walker"></i>
+   <div class="place-pop" id="placeCard" role="dialog" aria-label="장소 설명" aria-live="polite" hidden></div>
+  </div>
+  <div data-promo="../"></div>
+ </section>
+
+ <section class="panel" id="p-book" aria-label="인형 도감">
+  <div class="head"><h2>인형 도감</h2><p id="bookCount">완성한 인형 0 / 6</p></div>
+  <div class="grid" id="bookGrid"></div>
+ </section>
+
+ <!-- In-game yarn shop: no longer a bottom tab; opened from the bag ("실뭉치 가게 가기"). -->
+ <section class="panel" id="p-shop" aria-label="실뭉치 가게">
+  <div class="head"><button class="back" data-go="room">‹ 방으로</button><h2>실뭉치 가게</h2><p>실뭉치로 간식, 방 꾸미기, 옷을 사요.</p></div>
+  <div class="list" id="shop"></div>
+ </section>
+
+ <!-- The author's real doll shop: Instagram / store links (set in ../sejin-promo.js). -->
+ <section class="panel" id="p-store" aria-label="작가의 인형 가게">
+  <div class="head"><h2>작가의 인형 가게</h2><p>게임 속 친구들을 실제 손뜨개 인형으로 만나요.</p></div>
+  <div data-store="../"></div>
+ </section>
+
+ <nav role="tablist">
+  <button role="tab" aria-selected="true" data-tab="room"><i></i>방</button>
+  <button role="tab" aria-selected="false" data-tab="work"><i></i>작업실</button>
+  <button role="tab" aria-selected="false" data-tab="book"><i></i>도감</button>
+  <button role="tab" aria-selected="false" data-tab="store"><i class="heart-ico"></i>인형 가게</button>
+ </nav>
+ <div class="sheet" id="sheet" hidden><div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="sheet-head"><h3 id="sheetTitle"></h3><button class="x" id="sheetClose" aria-label="닫기">✕</button></div><div id="sheetBody"></div></div></div>
+</div></div>
+
+<script src="../sejin-save.js"></script>
+<script src="../sejin-places.js"></script>
+<script src="../sejin-quests.js"></script><script src="../sejin-sfx.js"></script>
+<script src="../sejin-items.js"></script>
+<script src="../sejin-promo.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const needs={배부름:62,청결:34,기분:70,에너지:80};
+let xp=40,yarn=120,night=false;
+// Energy clock (see SejinSave.ENERGY): regenAt = start of the current +1 regen step; napReadyAt = when a nap is possible again.
+let regenAt=Date.now(),napReadyAt=0;
+const REPEAT_YARN_LIMIT=80;let repeatYarnToday=0;   // 반복 플레이(처음이 아닌 미니게임·합치기·도안)로 하루에 받을 수 있는 실뭉치 상한 (startDay에서 초기화, 테스트 모드는 무제한)
+function capRepeat(y){if(!y||SejinSave.testMode)return y;const ok=Math.max(0,Math.min(y,REPEAT_YARN_LIMIT-repeatYarnToday));repeatYarnToday+=ok;return ok;}
+const PET_XP_LIMIT=10,PET_COIN_LIMIT=30;let petsToday=0;   // resets each day (startDay)
+function render(){
+ $('#needs').innerHTML=Object.entries(needs).map(([k,v])=>`<div class="need${v<40?' low':''}"><div><span>${k}</span><b>${v}</b></div><div class="bar"><i style="width:${v}%;background:${{배부름:'var(--butter)',청결:'var(--sky)',기분:'var(--pink)',에너지:'var(--lav)'}[k]}"></i></div></div>`).join('');
+ $('#room').classList.toggle('dirty',needs.청결<40);$('#room').classList.toggle('night',night);
+ const {lv,rest,need}=levelInfo();$('#xpBar').style.width=rest/need*100+'%';$('#lvText').textContent='Lv.'+lv;$('#stageText').textContent=(angelNow()?'🪽 천사 · ':'')+stageName(lv)+' · 친밀도';$('#yarn').textContent=yarn;
+ if(shownLevel!==null&&lv>shownLevel)levelUp(lv);
+ shownLevel=lv;renderPins();pick(pickedPlace);
+}
+// Level up (friendship only; places open by making dolls, see applyResults).
+let shownLevel=null;
+function levelUp(lv){
+ setTimeout(()=>say(`친밀도 Lv.${lv}! 우리 더 친해졌다.`),1200);
+ note(`세진이와 더 친해졌다. (Lv.${lv})`);
+}
+const say=t=>$('#bubble').textContent=t;
+const up=(k,n)=>needs[k]=Math.min(100,needs[k]+n);
+function act(a){
+ if(night&&a!=='sleep'){say('쿨… 쿨…');return;}
+ if(a==='food'){up('배부름',25);xp+=5;say('냠… 고마워. 따뜻하다.');}
+ if(a==='wash'){up('청결',35);xp+=5;say(needs.청결>60?'방이 반짝반짝해졌어!':'조금 더 치우면 좋겠다…');}
+ // Petting: mood always goes up, but friendship xp only for the first PET_XP_LIMIT pets of the day
+ // (and yarn coins only up to PET_COIN_LIMIT), so tapping fast cannot farm levels or 실뭉치.
+ if(a==='pet'){up('기분',12);petsToday++;if(petsToday<=PET_XP_LIMIT)xp+=8;
+  say(petsToday===PET_XP_LIMIT+1?'오늘은 많이 쓰다듬어 줬네… 고마워. (오늘 경험치는 다 받았어요)':['…헤헤.','부끄러워…','조금 더 해 줘.'][Math.floor(Math.random()*3)]);}
+ if(a==='knit'){tab('work');return;}
+ if(a==='out'){$('#outHint').textContent=needs.기분<40?'"오늘은 좀 기운이 없어…" 기분이 낮아요. 친구를 만나면 기분이 좋아질지도 몰라요.':'가고 싶은 건물을 눌러 보세요. ⚡ 에너지 '+needs.에너지+' / 100 · 뜨개 달리기 한 판에만 15를 써요. 건물 안의 게임과 이야기는 에너지를 쓰지 않아요.';tab('out');return;}
+ if(a==='sleep'){night=!night;say(night?'잘 자… 내일 또 와 줄 거지?':'잘 잤다! 오늘도 같이 있자.');}
+ render();
+}
+document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>act(b.dataset.act));
+$('#outBtn').onclick=()=>act('out');
+// Clicker bonus: petting Sejin sometimes drops a yarn coin (+1).
+const COIN_CHANCE=.4,COIN_COLORS=['#8fc3e0','#f2a7b5','#f5d58a','#a9cfa4','#c9b3e6'];
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function dropCoin(){
+ const room=$('#room'),coin=document.createElement('i'),plus=document.createElement('span');
+ coin.className='coin';coin.style.backgroundColor=COIN_COLORS[Math.floor(Math.random()*COIN_COLORS.length)];
+ plus.className='plus';plus.textContent='+1';room.append(coin,plus);
+ const dx=(Math.random()<.5?-1:1)*(40+Math.random()*50),spin=dx*4;
+ if(still)coin.remove();
+ else coin.animate([{transform:'translate(0,0) scale(.5)'},{transform:`translate(${dx*.45}px,-70px) rotate(${spin*.4}deg)`,offset:.35},{transform:`translate(${dx}px,64px) rotate(${spin}deg)`,offset:.75},{transform:`translate(${dx*1.08}px,50px) rotate(${spin*1.1}deg)`,offset:.87},{transform:`translate(${dx*1.14}px,64px) rotate(${spin*1.2}deg)`}],{duration:900,easing:'ease-in',fill:'forwards'}).onfinish=()=>coin.animate([{opacity:1},{opacity:0,transform:getComputedStyle(coin).transform+' translateY(-6px)'}],{duration:500,delay:300,fill:'forwards'}).onfinish=()=>coin.remove();
+ plus.animate([{opacity:0,transform:'translate(-50%,8px)'},{opacity:1,transform:'translate(-50%,-6px)',offset:.25},{opacity:0,transform:'translate(-50%,-34px)'}],{duration:still?600:1000,easing:'ease-out',fill:'forwards'}).onfinish=()=>plus.remove();
+ yarn+=1;render();const y=$('.yarn');y.classList.remove('bump');void y.offsetWidth;y.classList.add('bump');
+}
+$('#sejin').onclick=()=>{act('pet');if(!night&&petsToday<=PET_COIN_LIMIT&&Math.random()<COIN_CHANCE)dropCoin();};
+function tab(t){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>tab(b.dataset.go));
+// Places, unlock levels and the friendship curve live in ../sejin-places.js (shared with place.html).
+const {PLACES,LEVEL_XP,stageName}=SejinPlaces;
+const levelInfo=()=>SejinPlaces.levelInfo(xp);
+const level=()=>levelInfo().lv;
+const isOpen=p=>SejinPlaces.isOpen(p,dolls);   // places open by finished dolls (dolls is declared below; used only after load)
+const map=$('#map'),walker=$('#walker'),card=$('#placeCard');
+const pct=(v,max)=>v/max*100+'%';
+// Tap a building (or its name tag): Sejin walks there and a bright info card pops up.
+// Tap the same building again, or 들어가기 in the card, to go in (open places → ../place.html).
+let pickedPlace='home',cardOpen=false;
+PLACES.forEach(p=>{
+ const [l,t,r,b]=p.hit,zone=document.createElement('button');
+ zone.className='map-zone';zone.dataset.zone=p.id;zone.setAttribute('aria-label',p.name+' 건물');zone.tabIndex=-1;
+ Object.assign(zone.style,{left:pct(l,360),top:pct(t,320),width:pct(r-l,360),height:pct(b-t,320)});
+ zone.onclick=()=>tapPlace(p.id);map.insertBefore(zone,walker);
+ const pin=document.createElement('button');pin.dataset.place=p.id;pin.setAttribute('aria-pressed','false');pin.style.left=pct(p.x,360);pin.style.top=pct(p.y,320);pin.onclick=()=>tapPlace(p.id);map.appendChild(pin);});
+// 받은 친구 의뢰를 지도 화면 위쪽에 요약: 어떤 소품이 몇 개 필요한지, 가방에 몇 개 있는지.
+function renderMapQuests(){
+ const box=document.getElementById('mapQuests');if(!box||!window.SejinQuests)return;
+ const Q=SejinQuests,have=id=>bag[id]||0;
+ const rows=SejinPlaces.FRIENDS.filter(f=>{const pl=SejinPlaces.byId(f.place);return pl&&isOpen(pl);}).map(f=>{
+  const st=Q.status(f.id,have),q=Q.get(f.id);
+  if(st==='active'||st==='ready'){const it=SejinItems.byId[q.id],n=have(q.id);
+   return `<button class="mq${st==='ready'?' ok':''}" data-mqp="${f.place}"><span>${st==='ready'?'<i class="qb">!</i>':'<i class="qb q2">?</i>'} ${f.name} <small>${f.placeName}</small></span><b>${SejinItems.img(it)} ${it.name} 가방 ${Math.min(n,1)}/1 ${n?'✔':''}</b></button>`;}
+  if(st==='new')return `<button class="mq ok" data-mqp="${f.place}"><span><i class="qb">!</i> ${f.name} <small>${f.placeName}</small></span><b>새 부탁이 있어요</b></button>`;
+  return '';}).join('');
+ box.hidden=!rows;box.innerHTML=rows?'<div class="mqt">📜 받은 의뢰</div>'+rows:'';
+ box.querySelectorAll('[data-mqp]').forEach(b=>b.onclick=()=>tapPlace(b.dataset.mqp));
+}function renderPins(){
+ PLACES.forEach(p=>{const b=map.querySelector(`[data-place="${p.id}"]`),open=isOpen(p);
+  b.className='pin'+(!open?' lock':'');
+  const qm=open&&p.npc&&window.SejinQuests?SejinQuests.marker(p.npc.id,id=>bag[id]||0):'';
+  b.innerHTML=(qm?'<span class="qm'+(qm==='?'?' q2':'')+'">'+qm+'</span>':'')+p.name+(open?'':'<small>잠김</small>');
+  b.setAttribute('aria-label',p.name+(open?'':' · '+SejinPlaces.needText(p)));});
+ renderMapQuests();
+}
+function enterPlace(id){
+ const p=SejinPlaces.byId(id);
+ if(p.home){closeCard();tab('room');return;}
+ if(!isOpen(p)){if(!still)card.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:260});return;}
+ location.href='../place.html?place='+p.id;
+}
+function tapPlace(id){if(cardOpen&&pickedPlace===id){enterPlace(id);return;}pick(id,true);}
+function closeCard(){cardOpen=false;card.hidden=true;map.querySelectorAll('.pin').forEach(b=>b.setAttribute('aria-pressed','false'));}
+function pick(id,show){
+ const p=PLACES.find(q=>q.id===id),open=isOpen(p);pickedPlace=id;
+ walker.style.left=pct(p.wx,360);walker.style.top=pct(p.wy,320);
+ if(show)cardOpen=true;
+ if(!cardOpen){card.hidden=true;return;}
+ map.querySelectorAll('.pin').forEach(b=>b.setAttribute('aria-pressed',b.dataset.place===id));
+ const tag=p.home?'우리 집':!open?'잠김':p.unlock?'열림':'언제나 열림';
+ const btn=p.home?'<button data-enter>방으로</button>':!open?'<button disabled>잠겨 있어요</button>':'<button data-enter>들어가기</button>';
+ const desc=open?p.desc:`작업실에서 ${SejinPlaces.needText(p)}.`;
+ // The card sits on the side of the map away from the building so it never covers it.
+ card.classList.toggle('at-top',p.hit[1]+p.hit[3]>320);
+ card.innerHTML=`<button class="pop-x" data-close aria-label="설명 닫기">✕</button><i class="pop-dot" style="background:${p.color}"></i><div class="pop-txt"><b>${p.name}</b><span class="tag${open?' on':''}">${tag}</span><p>${desc}</p></div>${btn}`;
+ card.querySelector('[data-enter]')?.addEventListener('click',()=>enterPlace(id));
+ card.querySelector('[data-close]').onclick=closeCard;
+ if(show){card.hidden=false;if(!still)card.animate([{opacity:0,transform:'translateY(8px) scale(.97)'},{opacity:1,transform:'none'}],{duration:220,easing:'ease-out'});}
+}
+// Pins and the card are drawn by render() at the end of this script (after the doll save is loaded).
+// ---- 친구들 tab: love (hearts), what each friend likes, and where those things come from ----
+function renderFriends(){
+ const st=(()=>{try{return JSON.parse(localStorage.getItem('sejin-npc-v1'))||{};}catch(e){return {};}})();
+ const ico=id=>{const x=SejinItems.byId[id];return x?SejinItems.img(x)+' '+x.name:id;};
+ const how=id=>{const r=SejinItems.CRAFTS.find(c=>c.id===id);return r?Object.entries(r.needs).map(([k,n])=>SejinItems.byId[k].name+(n>1?' ×'+n:'')).join(' + '):'';};
+ $('#friendList').innerHTML=SejinPlaces.FRIENDS.map(f=>{
+  const e=st[f.id]||{},love=e.love!=null?e.love:(e.talks||0)*2,h=Math.min(5,Math.floor(love/6)),met=love>0||(e.talks||0)>0;
+  return `<div class="item"><div class="thumb" style="width:64px;height:64px"><img src="../assets/${f.art}" alt="" style="width:100%;height:100%;object-fit:contain"></div><div style="min-width:0"><b>${f.name}</b> <span style="color:#e58c9c;letter-spacing:1px">${'♥'.repeat(h)+'♡'.repeat(5-h)}</span>
+   <p>${f.placeName}에 살아요${met?'':' · 아직 대화한 적 없어요'}</p>
+   <p>${h>=5?'✨ 숨은 도안을 받았어요 (공방 도안 채우기)':'🔒 ♥5가 되면 숨은 도안을 선물해요'}</p>
+   <p>좋아하는 것:${(f.likes||[]).map(ico).join(', ')||'?'}</p>
+   <p style="color:var(--sub)">${(f.likes||[]).map(id=>ico(id)+' = '+how(id)).join(' / ')} (공방에서 만들어요)</p></div></div>`;}).join('');
+}
+// ---- Items: shop → bag → use (consumables) or place (decorations) ----
+const ITEMS={
+ cookie:{spr:'items/snack-cookie-v1.png',name:'딸기 쿠키',desc:'배부름 +15 · 기분 +10',price:10,color:'var(--pink)',use:{배부름:15,기분:10},line:'냠냠… 딸기 맛이야!'},
+ milk:{spr:'items/snack-milk-v1.png',name:'따뜻한 우유',desc:'에너지 +20',price:15,color:'#fbf1e2',use:{에너지:20},line:'후… 몸이 따뜻해졌어.'},
+ // Energy snacks: 실뭉치 from the runs buys energy for more runs.
+ candy:{spr:'items/snack-starcandy-v1.png',name:'별사탕',desc:'에너지 +10 · 기분 +5',price:8,color:'var(--butter)',use:{에너지:10,기분:5},line:'오도독! 달콤해서 힘이 난다.'},
+ drink:{spr:'items/snack-honey-v1.png',name:'꿀 에너지 음료',desc:'에너지 +50',price:35,color:'#f5c26b',use:{에너지:50},line:'꿀꺽꿀꺽… 힘이 불끈 솟아!'},
+ soap:{spr:'items/snack-soap-v1.png',name:'거품 비누',desc:'청결 +30',price:15,color:'var(--sky)',use:{청결:30},line:'뽀득뽀득! 거품이 몽글몽글해.'},
+ // Materials, ribbons and crafts come from the shared catalog (sejin-items.js): keep-items, neither eaten nor placed.
+};
+Object.assign(ITEMS,SejinItems.asRoomItems());
+const bag={cookie:2,milk:1},placed=new Set();
+const room=$('#room'),sheet=$('#sheet');
+const icon=it=>it.spr?`<div class="thumb"><img src="../assets/${it.spr}" alt="" style="width:36px;height:36px;object-fit:contain"></div>`:it.emoji?`<div class="thumb"><span style="font-size:26px;line-height:1">${it.emoji}</span></div>`:`<div class="thumb"><i style="width:30px;height:30px;border-radius:50%;background:${it.color};border:1.5px solid #8a6f60"></i></div>`;
+function renderShop(){
+ $('#shop').innerHTML=Object.entries(ITEMS).map(([id,it])=>{const own=it.deco&&bag[id];return `<div class="item">${icon(it)}<div><b>${it.name}</b><p>${it.desc}</p></div><button data-buy="${id}"${own?' disabled':''}>${own?'구매함':it.price}</button></div>`;}).join('');
+ document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy,b));
+}
+function buy(id,b){
+ const it=ITEMS[id];if(yarn<it.price){b.textContent='부족해요';setTimeout(renderShop,900);return;}
+ yarn-=it.price;bag[id]=(bag[id]||0)+1;render();
+ const nb=$(`[data-buy="${id}"]`);nb.textContent='가방에 쏙!';nb.disabled=true;setTimeout(renderShop,900);
+ $('#bagBtn').animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],{duration:300});
+}
+function renderBadges(){
+ const n=Object.entries(bag).filter(([id,c])=>c>0&&!ITEMS[id].deco).reduce((s,[,c])=>s+c,0);$('#bagBadge').textContent=n||'';
+ const ready=QUESTS.filter(q=>progress[q.id]>=q.need&&!claimed.has(q.id)).length;
+ fqBadge();   // 매일 '부탁'(도전과제) 아이콘은 삭제 — 친구 의뢰만 남김
+}
+// ---- Bottom sheet ----
+let sheetKind='';
+function fqBadge(){try{const Q=window.SejinQuests;if(!Q||!window.SejinPlaces)return;const n=SejinPlaces.FRIENDS.filter(f=>{const pl=SejinPlaces.byId(f.place);return pl&&isOpen(pl)&&['ready','new'].includes(Q.status(f.id,id=>bag[id]||0));}).length;$('#fqBadge').textContent=n||'';$('#fqBtn').classList.toggle('wiggle',n>0);}catch(e){}}
+function angelNow(){try{return localStorage.getItem('sejin-angel-v1')==='1'&&localStorage.getItem('sejin-form-v1')!=='normal';}catch(e){return false;}}
+function openSheet(kind){sheetKind=kind;sheet.hidden=false;fillSheet();$('#sheetClose').focus();}
+function closeSheet(){sheet.hidden=true;sheetKind='';}
+let bagCat='mat';   // 먹을 것은 방의 간식 서랍에서만 다룬다 (가방에는 재료·소품만)
+function fillSheet(){
+ if(sheetKind==='bag'){
+  $('#sheetTitle').innerHTML='가방<small>산 물건을 쓰거나 방에 놓아요.</small>';
+  const BAG_CATS=[['mat','재료 · 소품']],catOf=it=>it.keep?'mat':it.deco?'deco':'food';
+  const all=Object.entries(bag).filter(([,c])=>c>0);
+  const cnt=k=>all.filter(([id])=>ITEMS[id]&&catOf(ITEMS[id])===k).reduce((s,[,c])=>s+c,0);
+  const KO={material:['재료',0],ribbon:['리본',1],yarn:['실',2],craft:['소품',3]},kindOf=id=>(window.SejinItems&&SejinItems.byId[id]||{}).kind||'';
+  const owned=all.filter(([id])=>ITEMS[id]&&catOf(ITEMS[id])===bagCat).sort((x,y)=>bagCat==='mat'?((KO[kindOf(x[0])]||[0,9])[1]-(KO[kindOf(y[0])]||[0,9])[1])||ITEMS[x[0]].name.localeCompare(ITEMS[y[0]].name,'ko'):0);
+  let lastKind='';
+  const tabs=BAG_CATS.length<2?'':`<div class="cats" role="tablist">${BAG_CATS.map(([k,n])=>`<button class="cat" role="tab" data-bagcat="${k}" aria-selected="${k===bagCat}">${n}${cnt(k)?' '+cnt(k):''}</button>`).join('')}</div>`;
+  $('#sheetBody').innerHTML=tabs+(owned.length?'<div class="list" style="padding:0">'+owned.map(([id,c])=>{const it=ITEMS[id],on=placed.has(id);const kd=bagCat==='mat'?kindOf(id):'',hd=kd&&kd!==lastKind&&KO[kd]?(lastKind=kd,'<div class="sec">'+KO[kd][0]+'</div>'):'';
+   return hd+`<div class="item">${icon(it)}<div><b>${it.name}</b>${it.deco?'':`<span class="count">×${c}</span>`}<p>${it.desc}</p></div><button data-use="${id}" class="${on||it.keep?'ghost':''}">${it.keep?'공방·선물':it.deco?(on?'치우기':'놓기'):'쓰기'}</button></div>`;}).join('')+'</div>'
+   :'<p class="empty">'+(bagCat==='mat'?'재료와 소품이 없어요.<br>공원·산책로에서 채집하거나 실타래를 합쳐 보세요.':bagCat==='deco'?'꾸미기 물건이 없어요.':'먹을 것이 없어요.')+'</p>')
+   +(bagCat==='food'?'<div style="text-align:center;margin-top:12px"><button data-shop style="padding:10px 18px">실뭉치 가게 가기 · 에너지 간식</button></div>':'');
+  document.querySelectorAll('[data-bagcat]').forEach(b=>b.onclick=()=>{bagCat=b.dataset.bagcat;fillSheet();});
+  document.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>useItem(b.dataset.use));
+  $('[data-shop]')?.addEventListener('click',()=>{closeSheet();tab('shop');});
+ } else if(sheetKind==='friendq'){
+  // 친구 의뢰: every unlocked friend's request — accepted ones show what to bring and whether it is ready.
+  const Q=window.SejinQuests,fl=SejinPlaces.FRIENDS.filter(f=>{const pl=SejinPlaces.byId(f.place);return pl&&isOpen(pl);});
+  const open=fl.filter(f=>['active','ready','new'].includes(Q.status(f.id,id=>bag[id]||0))).length;
+  $('#sheetTitle').innerHTML=`친구 의뢰<small>${open?'친구들의 부탁이에요. 소품을 만들어 전해 주세요.':'지금은 받은 의뢰가 없어요. 친구를 만나러 가 봐요.'}</small>`;
+  $('#sheetBody').innerHTML=fl.length?fl.map(f=>{
+   const st=Q.status(f.id,id=>bag[id]||0),q=Q.get(f.id),it=q&&SejinItems.byId[q.id];
+   const head=`<div class="say"><i class="doll face"></i><div class="line"><b>${f.name}</b> · ${f.placeName}</div></div>`;
+   let body='',btn='';
+   if(st==='active'||st==='ready'){
+    const have=bag[q.id]||0;
+    body=`<div class="meta"><span>${SejinItems.img(it)} <b>${it.name}</b> 1개를 전해 줘요</span><span style="flex:1"></span><span>${have?'가방 '+have+'개 ✔':'가방 0개'}</span></div><div class="meta"><span style="color:var(--sub)">만드는 법: ${Object.entries(SejinItems.CRAFTS.find(c=>c.id===q.id).needs).map(([k,n])=>SejinItems.byId[k].name+(n>1?' ×'+n:'')).join(' + ')}</span></div><div class="meta"><span>보상 실뭉치 ${Q.rewardOf(q.id)} · 호감도 +3</span></div>`;
+    btn=st==='ready'?`<a class="play" href="../place.html?place=${f.place}"><i class="qb">!</i> 전달하러 가기</a>`:`<a class="play" href="../place.html?place=workshop">🛠️ 공방 가기</a>`;
+   }else if(st==='new'){
+    body=`<div class="meta"><span>새 부탁이 기다리고 있어요 <i class="qb">!</i></span></div>`;btn=`<a class="play" href="../place.html?place=${f.place}">만나러 가기</a>`;
+   }else{
+    body=`<div class="meta"><span>오늘 부탁은 끝났어요 ✔ 내일 또 와요</span></div>`;
+   }
+   return `<div class="q${st==='none'?' claimed':''}">${head}${body}${btn?`<div class="meta"><span style="flex:1"></span>${btn}</div>`:''}</div>`;}).join(''):'<p class="empty">아직 만난 친구가 없어요.<br>나가기에서 친구를 만나러 가 봐요.</p>';
+ } else {
+  const left=QUESTS.filter(q=>!claimed.has(q.id)).length;
+  $('#sheetTitle').innerHTML=`오늘의 부탁<small>${left?'세진이의 부탁 '+left+'개가 남았어요. 부탁은 하루에 한 번씩이에요.':'오늘 부탁을 모두 들어줬어요! 내일 새 부탁이 와요.'}</small>`;
+  $('#sheetBody').innerHTML=QUESTS.map(q=>{const p=Math.min(progress[q.id],q.need),done=p>=q.need,got=claimed.has(q.id);
+   const btn=got?'<button disabled>오늘 받음 · 내일 다시</button>':done?`<button data-claim="${q.id}">받기</button>`:q.go?`<button data-questgo="${q.go}">${q.goLabel}</button>`:'';
+   return `<div class="q${got?' claimed':''}"><div class="say"><i class="doll face"></i><div class="line">"${q.text}"</div></div><div class="meta"><span>${q.goal}</span><div class="bar"><i style="width:${p/q.need*100}%;background:var(--sage)"></i></div><span>${p}/${q.need}</span></div><div class="meta"><span>보상 실뭉치 ${q.reward}</span><span style="flex:1"></span>${btn}</div></div>`;}).join('');
+  document.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>claim(b.dataset.claim,b));
+  document.querySelectorAll('[data-questgo]').forEach(b=>b.onclick=()=>{closeSheet();tab(b.dataset.questgo);});
+ }
+}
+$('#bagBtn').onclick=()=>openSheet('bag');$('#fqBtn').onclick=()=>openSheet('friendq');
+$('#sheetClose').onclick=closeSheet;sheet.onclick=e=>{if(e.target===sheet)closeSheet();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)closeSheet();});
+// ---- Effects ----
+const within=(el,host=room)=>{const a=el.getBoundingClientRect(),b=host.getBoundingClientRect();return [a.left+a.width/2-b.left,a.top+a.height/2-b.top];};
+function burst(x,y,host=room,n=12){if(still)return;for(let i=0;i<n;i++){const s=document.createElement('i'),a=i/n*Math.PI*2,r=34+Math.random()*22;s.className='spark';s.style.background=COIN_COLORS[i%COIN_COLORS.length];host.append(s);
+ s.animate([{transform:`translate(${x}px,${y}px) scale(1)`},{transform:`translate(${x+Math.cos(a)*r}px,${y+Math.sin(a)*r}px) scale(0)`}],{duration:650,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'}).onfinish=()=>s.remove();}}
+function gain(text){const g=document.createElement('span');g.className='gain';g.textContent=text;room.append(g);g.animate([{opacity:0,transform:'translate(-50%,8px)'},{opacity:1,transform:'translate(-50%,-4px)',offset:.2},{opacity:1,transform:'translate(-50%,-14px)',offset:.7},{opacity:0,transform:'translate(-50%,-28px)'}],{duration:1500,fill:'forwards'}).onfinish=()=>g.remove();}
+function useItem(id){
+ const it=ITEMS[id];closeSheet();tab('room');
+ if(it.deco){const on=!placed.has(id);on?placed.add(id):placed.delete(id);room.classList.toggle('deco-'+id,on);
+  if(on){const el=id==='rug'?$('.rug'):room.querySelector('.'+id),pre=id==='rug'?'translateX(-50%) ':'';
+   if(!still)el.animate([{transform:pre+'scale(.2)',opacity:0},{transform:pre+'scale(1.1)',opacity:1,offset:.7},{transform:pre+'scale(1)'}],{duration:450,easing:'ease-out'});
+   burst(...within(el));say(it.line);up('기분',5);}
+  else say('다시 가방에 넣어 둘게.');
+  render();return;}
+ if(night){say('쿨… 쿨… (자는 중이에요)');return;}
+ // The effect lands right away (and is saved); the flying orb below is only the picture of it.
+ bag[id]--;Object.entries(it.use).forEach(([k,v])=>up(k,v));xp+=3;progressQuest('use');render();
+ const orb=document.createElement('i');orb.className='orb';orb.style.background=it.color;room.append(orb);
+ const [x0,y0]=within($('#bagBtn')),[x1,y1]=within($('#sejin'));
+ const done=()=>{orb.remove();say(it.line);
+  gain(Object.entries(it.use).map(([k,v])=>`${k} +${v}`).join('  '));burst(x1,y1-10);
+  if(!still)$('#sejin').animate([{transform:'translateX(-50%) scale(1)'},{transform:'translateX(-50%) scale(1.12,.88)'},{transform:'translateX(-50%) scale(.94,1.07)'},{transform:'translateX(-50%) scale(1)'}],{duration:450});};
+ if(still)done();
+ else orb.animate([{transform:`translate(${x0}px,${y0}px) scale(.6)`},{transform:`translate(${(x0+x1)/2}px,${Math.min(y0,y1)-60}px) scale(1.15)`,offset:.5},{transform:`translate(${x1}px,${y1-10}px) scale(.3)`}],{duration:650,easing:'ease-in-out',fill:'forwards'}).onfinish=done;
+}
+// ---- Today's requests (challenges) ----
+const QUESTS=[
+ {id:'pet',text:'오늘은 그냥… 옆에 있어 줘.',goal:'세진이 쓰다듬기',need:3,reward:10},
+ {id:'wash',text:'방이 좀 먼지투성이야…',goal:'쓰레기 치우기 1번',need:1,reward:10},
+ {id:'use',text:'출출한데… 가방에 간식 있어?',goal:'가방 아이템 쓰기 1번',need:1,reward:15},
+ {id:'knit',text:'하늘색 실로 인형 하나 떠 줄래?',goal:'뜨개 달리기 성공 1번',need:1,reward:30,go:'work',goLabel:'작업실로'},
+];
+const progress={pet:0,wash:0,use:0,knit:0},claimed=new Set();
+// Requests are daily: after a new day starts, progress and rewards reset (see startDay).
+let day=SejinSave.today();
+function progressQuest(id){const q=QUESTS.find(x=>x.id===id);if(!q)return;const before=progress[id]>=q.need;progress[id]++;if(!before&&progress[id]>=q.need)setTimeout(()=>say('앗, 부탁 들어줬네! 고마워.'),900);renderBadges();}
+function claim(id,b){const q=QUESTS.find(x=>x.id===id);claimed.add(id);yarn+=q.reward;xp+=10;render();
+ const card=$('.sheet-card');burst(...within(b,card),card,10);const y=$('.yarn');y.classList.remove('bump');void y.offsetWidth;y.classList.add('bump');setTimeout(fillSheet,350);}
+// Hook care actions into request progress, and keep shop/badges in sync with every render.
+const baseAct=act;act=a=>{const wasNight=night;baseAct(a);if(!wasNight&&(a==='pet'||a==='wash'))progressQuest(a);};
+const baseRender=render;render=()=>{baseRender();renderShop();renderBadges();};
+// Sejin grows with the room height (the room stretches to fill the screen).
+new ResizeObserver(([e])=>{room.style.setProperty('--sw',Math.round(Math.max(118,Math.min(170,e.contentRect.height*.36)))+'px');room.classList.toggle('short',e.contentRect.height<380);}).observe(room);
+
+// ---- Sejin's diary: today's events in Sejin's words (repeats are counted) ----
+const diary=new Map();
+function note(text){diary.set(text,(diary.get(text)||0)+1);}
+const DIARY_ACT={food:'밥을 먹었다. 배가 따뜻해졌다.',wash:'방을 치웠다. 먼지 뭉치들이 사라졌다.',pet:'누가 쓰다듬어 줬다. …좋았다.'};
+const actWithQuest=act;act=a=>{const wasNight=night;actWithQuest(a);if(!wasNight&&DIARY_ACT[a])note(DIARY_ACT[a]);if(a==='sleep'&&night)note('일찍 잠자리에 들었다.');};
+// Object particle 을/를 chosen by whether the last syllable has a final consonant.
+const obj=w=>{const c=w.charCodeAt(w.length-1)-0xAC00;return w+(c>=0&&c<11172&&c%28?'을':'를');};
+const baseUse=useItem;useItem=id=>{const it=ITEMS[id],had=placed.has(id),awake=!night;
+ if(it.keep){closeSheet();tab('room');say('이건 공방에서 소품을 만들거나, 친구에게 선물할 때 쓰는 거야.');return;}
+ baseUse(id);
+ if(it.deco){if(!had)note(obj(it.name)+' 방에 놓았다. '+it.line);}else if(awake)note(obj(it.name)+(it.use.청결?' 썼다. ':' 먹었다. ')+it.line);};
+
+// ---- Room decorating: wallpaper colours and furniture ----
+const WALLPAPERS=[['원래 색','transparent'],['크림','#f6ede3'],['하늘','#e4f0f4'],['분홍','#f8e6e8'],['민트','#e6f1e4'],['라벤더','#eee7f5']];
+let wallpaper='transparent';
+// ---- Closet: clothes drawn as small pictures on top of Sejin ----
+// 옷장 아이템은 모두 제거됨 (사용자 결정: 포즈마다 옷을 만들 수 없어서). 옷장 버튼도 제거. 나중에 포즈별 옷 그림이 생기면 여기에 다시 추가.
+const CLOTHES={};
+const ownedClothes=new Set(),wearing={head:null,neck:null};
+function dress(){for(const slot of ['head','neck']){const el=$(slot==='head'?'#accHead':'#accNeck'),c=CLOTHES[wearing[slot]];
+ el.innerHTML=c?c.svg:'';if(c){const [l,t,w]=c.pos;Object.assign(el.style,{left:l+'%',top:t+'%',width:w+'%'});}}}
+function wear(id){
+ const c=CLOTHES[id];
+ if(!ownedClothes.has(id)){if(yarn<c.price){say('실뭉치가 조금 모자라…');return;}yarn-=c.price;ownedClothes.add(id);}
+ const off=wearing[c.slot]===id;wearing[c.slot]=off?null:id;dress();render();
+ if(!off){say(c.line+' 어때? 어울려?');note(obj(c.name)+' 입어 봤다.');up('기분',3);const [x,y]=within($('#'+(c.slot==='head'?'accHead':'accNeck')));burst(x,y);
+  if(!still)$('#sejin').animate([{transform:'translateX(-50%) rotate(0)'},{transform:'translateX(-50%) rotate(-6deg)'},{transform:'translateX(-50%) rotate(5deg)'},{transform:'translateX(-50%) rotate(0)'}],{duration:500});}
+ else say('다시 벗어 둘게.');
+ fillSheet();
+}
+const baseFill=fillSheet;fillSheet=()=>{
+ const T=$('#sheetTitle'),B=$('#sheetBody');
+ if(sheetKind==='decor'){
+  T.innerHTML='방 꾸미기<small>방의 색감을 골라요.</small>';
+  B.innerHTML='';
+
+  B.querySelectorAll('[data-wp]').forEach(b=>b.onclick=()=>{wallpaper=b.dataset.wp;room.style.setProperty('--wp',wallpaper);note('방 색감을 바꿨다. 분위기가 포근해졌다.');say('와… 방이 달라 보여!');fillSheet();});
+  B.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>useItem(b.dataset.place));
+  B.querySelectorAll('[data-shop]').forEach(b=>b.onclick=()=>{closeSheet();tab('shop');});
+ } else if(sheetKind==='closet'){
+  T.innerHTML='세진이 옷장<small>한 번 더 누르면 벗어요. 머리 하나, 목·가슴 하나씩 입을 수 있어요.</small>';
+  const card=([id,c])=>{const own=ownedClothes.has(id),on=wearing[c.slot]===id;return `<button class="cloth" data-wear="${id}" aria-pressed="${on}">${c.svg}${c.name}<small>${on?'입는 중':own?'입기':c.price+' 실뭉치'}</small></button>`;};
+  const list=slot=>Object.entries(CLOTHES).filter(([,c])=>c.slot===slot).map(card).join('');
+  B.innerHTML=`<div class="sec">머리</div><div class="closet">${list('head')}</div><div class="sec">목 · 가슴</div><div class="closet">${list('neck')}</div>`;
+  B.querySelectorAll('[data-wear]').forEach(b=>b.onclick=()=>wear(b.dataset.wear));
+ } else if(sheetKind==='diary'){
+  T.innerHTML='세진이의 일기<small>오늘 함께한 일을 세진이가 적어 둬요.</small>';
+  const lines=[...diary].map(([t,n])=>`<p>· ${t}${n>1?` <small>×${n}</small>`:''}</p>`).join('');
+  const [,m,d]=day.split('-').map(Number);
+  B.innerHTML=`<div class="diary"><h4>${m}월 ${d}일 · 맑음</h4>${lines||'<p>오늘은 아직 아무 일도 없었다… 조용한 하루.</p>'}</div>`;
+ } else baseFill();
+};
+document.querySelectorAll('[data-sheet]').forEach(b=>b.onclick=()=>openSheet(b.dataset.sheet));
+
+// ---- Shop with categories: snacks / room decor / clothes ----
+const SHOP_CATS=[['snack','간식']];   // 방 꾸미기 소품·옷은 제거됨
+let shopCat='snack';
+const pop=el=>el.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],{duration:300});
+renderShop=function(){
+ const rows=shopCat==='clothes'
+  ?Object.entries(CLOTHES).map(([id,c])=>{const own=ownedClothes.has(id);return `<div class="item"><div class="thumb">${c.svg}</div><div><b>${c.name}</b><p>${c.slot==='head'?'머리':'목 · 가슴'} · ${c.line}</p></div><button data-cloth="${id}"${own?' disabled':''}>${own?'가진 옷':c.price}</button></div>`;})
+  :Object.entries(ITEMS).filter(([,it])=>!it.keep&&!!it.deco===(shopCat==='decor')).map(([id,it])=>{const own=it.deco&&bag[id];return `<div class="item">${icon(it)}<div><b>${it.name}</b>${!it.deco&&bag[id]?`<span class="count">가방에 ${bag[id]}개</span>`:''}<p>${it.desc}</p></div><button data-buy="${id}"${own?' disabled':''}>${own?'구매함':it.price}</button></div>`;});
+ $('#shop').innerHTML=(SHOP_CATS.length<2?'':`<div class="cats" role="tablist">${SHOP_CATS.map(([k,n])=>`<button class="cat" role="tab" data-cat="${k}" aria-selected="${k===shopCat}">${n}</button>`).join('')}</div>`)+rows.join('');
+ document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{shopCat=b.dataset.cat;renderShop();});
+ document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy,b));
+ document.querySelectorAll('[data-cloth]').forEach(b=>b.onclick=()=>{const c=CLOTHES[b.dataset.cloth];
+  if(yarn<c.price){b.textContent='부족해요';setTimeout(renderShop,900);return;}
+  yarn-=c.price;ownedClothes.add(b.dataset.cloth);render();const nb=$(`[data-cloth="${b.dataset.cloth}"]`);nb.textContent='옷장에 쏙!';setTimeout(renderShop,900);pop($('[data-sheet=closet]'));});
+};
+
+// ---- Doll book: a doll opens the first time it is finished in the workroom ----
+// Each finished doll can later become the room character (like Sejin now). `art` = its standing picture;
+// a doll without art yet shows how it will work but cannot be chosen. `example` marks planned entries.
+// The list lives in ../sejin-places.js (DOLLS) because dolls also open places on the map.
+const DOLL_BOOK=SejinPlaces.DOLLS;
+let partner='sejin',dollView=null;   // partner = the doll living in the room
+const BOOK_SIZE=6,dolls={},dollsSeen=new Set();   // dolls[id] = how many were finished; seen = already looked at in the book
+// Before: a pale stitched silhouette. After: the doll in full colour on a card, with a NEW ribbon until first seen.
+const VDOLLS=SejinPlaces.VILLAGE_DOLLS||[];
+// 천사 마을 인형은 천사 마을이 열린 뒤(천사로 변신한 적이 있거나 테스트 모드)에만 도감에 나타난다.
+const villageOpen=()=>{try{return !!SejinSave.testMode||localStorage.getItem('sejin-angel-v1')==='1';}catch(e){return false;}};
+const ALL_DOLLS=()=>DOLL_BOOK.concat(villageOpen()?VDOLLS:[]);
+// 천사 마을 인형의 도안이 등록됐는지: 그 장소의 퍼즐을 풀었거나(별빛 안내자는 네 곳을 모두 열었거나) 테스트 모드
+function vdReg(d){if(!d.place)return true;if(SejinSave.testMode)return true;try{const s=(JSON.parse(localStorage.getItem('sejin-village-v1'))||{}).solved||{};return d.place==='plaza'?['pond','cloudshop','giftshop','house'].every(k=>s[k]):!!s[d.place];}catch(e){return false;}}
+function renderBook(){
+ const ALL=ALL_DOLLS();
+ {const got=ALL.filter(d=>dolls[d.id]).length;$('#bookCount').innerHTML=`모은 인형 ${got} / ${ALL.length}<span class="bprog"><i style="width:${got/ALL.length*100}%"></i></span>`;}
+ $('#bookGrid').innerHTML=ALL.map(d=>{
+  const cs=d.card?`style="background:url(../assets/${d.card}) center/contain no-repeat;aspect-ratio:1"`:'',art=(d.art||d.card)?'':(d.emoji?`<span style="font-size:30px">${d.emoji}</span>`:'그림<br>준비 중');
+  if(dolls[d.id])return `<button class="slot book-doll made${dollsSeen.has(d.id)?'':' fresh'}" data-doll="${d.id}" aria-label="${d.name} 자세히 보기"><div><span class="doll-art${d.art||d.card?'':' no-art'}" ${cs} role="img" aria-label="${d.name} 그림">${art}</span><b>${d.name}</b><small>${dolls[d.id]}개 완성${partner===d.id?' · 함께 지내는 중':''}</small>${dollsSeen.has(d.id)?'':'<em class="new-tag">NEW</em>'}</div></button>`;
+  if(d.place&&vdReg(d))return `<button class="slot book-doll avail" data-doll="${d.id}" aria-label="${d.name} 만들 수 있어요"><div><span class="doll-art${d.card?'':' no-art'}" ${cs}>${d.card?'':`<span style="font-size:30px">${d.emoji}</span>`}</span><b>${d.name}</b><small>만들 수 있어요 · 실뭉치 ${d.cost}</small></div></button>`;
+  const di=DOLL_BOOK.indexOf(d),nx=DOLL_BOOK.find(x=>!dolls[x.id]),isNext=nx===d,hint=di<0?d.hint:isNext?'▶ 다음 목표! 작업실 · '+d.stage:'🔒 '+DOLL_BOOK[di-1].name+' 다음에 열려요';
+  return `<button class="slot book-doll todo${isNext?' next':''}" data-doll="${d.id}" aria-label="아직 만들지 않은 인형 자세히 보기"><div><span class="doll-art" ${cs} role="img" aria-label="아직 만들지 않은 인형"></span><b>???</b><small>${hint}</small></div></button>`;}).join('')+(villageOpen()?'':'<div class="slot book-doll todo" style="grid-column:1/-1;aspect-ratio:auto;padding:14px 10px;cursor:default"><div><b>🔒 천사 마을</b><small>천사 마을이 열리면 새 인형 친구 5명이 도감에 나타나요</small></div></div>');
+}
+$('#bookGrid').addEventListener('click',e=>{const b=e.target.closest('[data-doll]');if(b){dollView=b.dataset.doll;openSheet('doll');}});
+// Doll detail sheet: picture, how many made, and "live with this doll in the room".
+const fillBeforeDoll=fillSheet;fillSheet=()=>{
+ if(sheetKind!=='doll'){fillBeforeDoll();return;}
+ const d=ALL_DOLLS().find(x=>x.id===dollView),made=!!dolls[d.id],village=!!d.place,reg=village&&vdReg(d);
+ $('#sheetTitle').innerHTML=(made||reg?d.name:'아직 만들지 않은 인형')+`<small>${made?dolls[d.id]+'개 완성':reg?'만들 수 있어요':d.hint}</small>`;
+ const showCard=d.card&&(made||reg),emo=showCard?'':d.emoji&&!d.art&&(made||reg)?`<span style="font-size:54px">${d.emoji}</span>`:(d.art||!made?'':'그림 준비 중');
+ const pic=`<div class="doll-detail book-doll ${made?'made':reg?'avail':'todo'}"><span class="doll-art${d.art||showCard||!made&&!reg?'':' no-art'}"${showCard?` style="background:url(../assets/${d.card}) center/contain no-repeat;aspect-ratio:1"`:''}>${emo}</span></div>`;
+ let action;
+ if(!made&&village&&reg)action=`<p class="miss-note">천사 마을의 이곳을 열었어요! 만들지 않아도 괜찮지만, 만들면 도감이 채워지고 나중에 방에서 함께 지낼 수 있어요.</p><button data-make="${d.id}"${yarn>=d.cost?'':' disabled'}>${yarn>=d.cost?`만들기 · 실뭉치 ${d.cost}`:`실뭉치가 모자라요 (${d.cost})`}</button>`;
+ else if(!made&&village)action='<p class="miss-note">천사 마을에서 이곳의 퍼즐을 풀어 열면 만들 수 있어요. 인형을 꼭 만들 필요는 없어요.</p>';
+ else if(!made)action='<p class="miss-note">열리면 방에서 세진이 대신 이 친구와 함께 지낼 수 있어요. (예시)</p>';
+ else if(partner===d.id)action='<button disabled>지금 방에서 함께 지내는 중</button>';
+ else if(!d.art)action='<button disabled>방에서 함께 지내기는 준비 중이에요</button>';
+ else action=`<button data-partner="${d.id}">이 친구와 방에서 지내기</button>`;
+ $('#sheetBody').innerHTML=pic+`<p class="doll-about">${made||reg?d.about:'어떤 친구일까? 작업실에서 만들어 보세요.'}</p><div class="doll-act">${action}</div>`;
+ $('#sheetBody [data-partner]')?.addEventListener('click',b=>{partner=b.currentTarget.dataset.partner;render();fillSheet();say('오늘은 우리 같이 지내자!');});
+ // 천사 마을 인형 만들기: 실뭉치만 내면 바로 도감에 들어온다 (게임 없이, 선택 사항)
+ $('#sheetBody [data-make]')?.addEventListener('click',b=>{const id=b.currentTarget.dataset.make,dd=ALL_DOLLS().find(x=>x.id===id);if(!dd||dolls[id]||yarn<dd.cost)return;yarn-=dd.cost;dolls[id]=1;note(`${obj(dd.name)} 만들었다. 도감이 채워졌다.`);render();renderBook();fillSheet();say('와, 도감에 새 친구가 들어왔어!');save();});
+};
+// Opening the book shows the NEW cards once (with a little sparkle), then they count as seen.
+function viewBook(){
+ const fresh=[...document.querySelectorAll('.book-doll.fresh')];if(!fresh.length)return;
+ fresh.forEach(el=>{dollsSeen.add(el.dataset.doll);if(!still)burst(...within(el.querySelector('.doll-art'),el),el,10);});
+ save();
+}
+
+// ---- Save: everything the room keeps is written to this browser after each change ----
+function snapshot(){
+ return {v:1,day,needs:{...needs},xp,yarn,night,bag:{...bag},placed:[...placed],ownedClothes:[...ownedClothes],wearing:{...wearing},
+  progress:{...progress},claimed:[...claimed],diary:[...diary],dolls:{...dolls},dollsSeen:[...dollsSeen],partner,regenAt,napReadyAt,petsToday,repeatYarnToday};
+}
+function restore(s){
+ if(!s||s.v!==1)return;
+ Object.assign(needs,s.needs);xp=s.xp??xp;yarn=s.yarn??yarn;night=!!s.night;
+ Object.keys(bag).forEach(k=>delete bag[k]);Object.assign(bag,s.bag);
+ placed.clear();(s.placed||[]).filter(id=>ITEMS[id]).forEach(id=>{placed.add(id);room.classList.add('deco-'+id);});
+ ownedClothes.clear();(s.ownedClothes||[]).filter(id=>CLOTHES[id]).forEach(id=>ownedClothes.add(id));
+ Object.assign(wearing,s.wearing);Object.assign(dolls,s.dolls);(s.dollsSeen||[]).forEach(id=>dollsSeen.add(id));if(DOLL_BOOK.some(d=>d.id===s.partner))partner=s.partner;regenAt=s.regenAt||regenAt;napReadyAt=s.napReadyAt||0;petsToday=s.petsToday||0;repeatYarnToday=s.repeatYarnToday||0;
+ day=s.day||day;Object.assign(progress,s.progress);(s.claimed||[]).forEach(id=>claimed.add(id));
+ diary.clear();(s.diary||[]).forEach(([t,n])=>diary.set(t,n));
+}
+// A new day brings new requests and a fresh diary page.
+function startDay(){
+ const now=SejinSave.today();if(now===day)return false;
+ day=now;Object.keys(progress).forEach(k=>progress[k]=0);claimed.clear();diary.clear();petsToday=0;repeatYarnToday=0;return true;
+}
+// Results left by minigames (knit.html) while the room was closed.
+// A doll is made by one run: 세진이 인형 by reaching the end, the others by reaching the end with the doll's thread
+// (DOLLS[].yarn) gathered in that same run (r.clear is then true). Thread left over — or from a run that did not
+// make the doll — becomes 실뭉치.
+function applyResults(){
+ const firsts=[];let coins=0;
+ for(const r of SejinSave.takeResults()){
+  if(r.game==='energy'){needs.에너지=Math.max(0,needs.에너지-(r.use||0));continue;}   // a doll run started
+  if(r.game==='merge'){const y=capRepeat(r.yarn||0);yarn+=y;xp+=2;note(`실 가게에서 실타래 합치기를 했다. (점수 ${r.score})`);if(y)setTimeout(()=>gain('실타래 합치기 · 실뭉치 +'+y),1400);continue;}
+  if(r.game==='pattern'){const y=r.first?(r.yarn||0):capRepeat(r.yarn||0);yarn+=y;xp+=r.first?10:2;setTimeout(()=>gain(y?'도안 완성 · 실뭉치 +'+y:'도안 완성 · 오늘 반복 보상은 다 받았어요'),1400);note(r.first?`공방에서 ${obj(r.name+' 도안')} 처음 완성했다!`:`공방에서 ${obj(r.name+' 도안')} 또 채웠다.`);continue;}
+  if(r.game==='pickup'){for(const [id,c] of Object.entries(r.items||{})){if(!ITEMS[id])continue;bag[id]=(bag[id]||0)+c;note(`${r.place||'밖'}에서 ${ITEMS[id].name}을 주웠다.`);setTimeout(()=>gain(ITEMS[id].name+' +'+c),1200);}continue;}
+  if(r.game==='craft'){const ok=Object.entries(r.uses||{}).every(([k,n])=>(bag[k]||0)>=n);if(ok){for(const [k,n] of Object.entries(r.uses||{}))bag[k]-=n;for(const [k,n] of Object.entries(r.makes||{}))bag[k]=(bag[k]||0)+n;const nm=Object.keys(r.makes||{}).map(k=>ITEMS[k]&&ITEMS[k].name).filter(Boolean).join(', ');note(`공방에서 ${nm} 만들었다.`);xp+=3;}continue;}
+  if(r.game==='sell'){const it=ITEMS[r.item],n=r.count||1;if(it&&(bag[r.item]||0)>=n){bag[r.item]-=n;yarn+=r.gain||0;note(`실 가게에 ${it.name}${n>1?' '+n+'개':''} 팔았다.`);}continue;}
+  if(r.game==='spend'){yarn=Math.max(0,yarn-(r.cost||0));continue;}
+  if(r.game==='buy'){const it=ITEMS[r.item],n=r.count||1;if(it&&yarn>=(r.cost||0)){yarn-=r.cost||0;bag[r.item]=(bag[r.item]||0)+n;note(`${r.place||'가게'}에서 ${obj(it.name)} 샀다.`);}continue;}
+  if(r.game==='give'){const it=ITEMS[r.item],n=r.count||1;if(it&&(bag[r.item]||0)>=n){bag[r.item]-=n;yarn+=r.reward||0;xp+=6;note(`${r.friend||'친구'}에게 ${it.name} ${n}개를 선물했다. 고맙다고 했다.`);setTimeout(()=>gain('미션 완료 · 실뭉치 +'+(r.reward||0)),1400);}continue;}
+  if(r.game==='minigame'){const raw=r.yarn||0,y=(r.first||/친구 부탁/.test(r.label||''))?raw:capRepeat(raw);yarn+=y;xp+=r.first?6:2;setTimeout(()=>gain((r.label||'미니게임')+(y||!raw?' · 실뭉치 +'+y:' · 오늘 반복 보상은 다 받았어요')),1400);note(`${r.place||'밖'}에서 ${r.label} 놀이를 했다.`);continue;}
+  if(r.game!=='knit')continue;
+  const d=SejinPlaces.dollById(r.doll)||SejinPlaces.dollById('sejin');
+  if(r.clear)coins+=r.reward||0;   // thread picked up in a run stays in the run; a finished doll pays a fixed reward
+  if(!r.clear)continue;
+  progressQuest('knit');xp+=10;
+  if(!dolls[d.id])firsts.push(d);dolls[d.id]=(dolls[d.id]||0)+1;note(`작업실에서 ${obj(d.name)} 끝까지 떴다!`);
+ }
+ firsts.forEach((d,i)=>setTimeout(()=>announceDoll(d),2200+i*2600));
+ if(coins){yarn+=coins;note(`인형을 완성해서 실뭉치 ${coins}개를 받았다.`);setTimeout(()=>gain('인형 완성 · 실뭉치 +'+coins),900);}
+}
+// A first doll goes into the book and may open a place on the map.
+function announceDoll(d){const opened=PLACES.filter(p=>p.unlock===d.id).map(p=>p.name);
+ say(`첫 ${d.name} 완성! 도감에 등록됐어.`+(opened.length?` 이제 ${opened.join(', ')}에 갈 수 있어!`:''));
+ if(opened.length)note(`${opened.join(', ')}에 갈 수 있게 됐다.`);}
+const save=()=>SejinSave.save(snapshot());
+// Play-test switch: raising-mockup.html?test=on opens every doll stage (places and the doll book stay as they are).
+{const t=new URLSearchParams(location.search).get('test');if(t==='on')SejinSave.testMode=true;if(t==='off')SejinSave.testMode=false;}
+// Energy comes back by itself over time (also while the game was closed).
+function applyRegen(){const r=SejinSave.regen({needs,regenAt});needs.에너지=r.energy;regenAt=r.regenAt;}
+restore(SejinSave.load());applyRegen();startDay();applyResults();
+setInterval(()=>{const before=needs.에너지;applyRegen();if(needs.에너지!==before)render();},30000);
+// Workroom: one 뜨개 달리기 stage per doll, easiest first (★ = difficulty). A doll opens when the one before
+// it has been finished; finishing a doll may also open a place on the map.
+function renderWork(){
+ const test=SejinSave.testMode;
+ $('#workList').innerHTML=(test?'<p class="miss-note">테스트 모드: 모든 스테이지가 열려 있어요. 끄려면 주소 끝에 ?test=off 를 붙여 열어 주세요.</p>':'')+DOLL_BOOK.map((d,i)=>{const made=dolls[d.id],open=test||i===0||dolls[DOLL_BOOK[i-1].id],place=PLACES.find(p=>p.unlock===d.id);
+  const info=[d.stage+' 스테이지',d.yarn?'한 판에 실 '+d.yarn+'개':'',made?made+'개 완성':'',place?(made?place.name+' 열림':'완성하면 '+place.name+' 열림'):''].filter(Boolean).join(' · ');
+  const thumb=d.art?'<i class="doll"></i>':open?'<i class="doll" style="filter:grayscale(1) opacity(.45)"></i>':'?';
+  const go=`<a class="play" href="../knit.html${i?'?doll='+d.id:''}">${made?'또 뜨기':'뜨개 시작'}</a>`;
+  return `<div class="item${open?'':' locked'}"><div class="thumb">${thumb}</div><div style="flex:1;min-width:0"><b>${d.name}</b> ${'★'.repeat(i+1)}${d.example?' <small>(예시)</small>':''}<p>${open?info:obj(DOLL_BOOK[i-1].name)+' 먼저 완성하면 열려요'}</p></div>${open?go:'<button disabled>잠김</button>'}</div>`;}).join('');
+}
+function renderGoal(){
+ const tn=document.querySelector('.testnote');if(tn)tn.hidden=!SejinSave.testMode;   // '시험판' 문구는 테스트 모드에서만
+ const g=$('#goal');if(!g)return;
+ const next=DOLL_BOOK.find(d=>!dolls[d.id]);
+ g.innerHTML=next?(next.id==='sejin'?'🎯 오늘 할 일: 첫 세진이 인형 만들기':`🎯 다음 목표: ${obj(next.name)} 만들기`)+'<small>작업실에서 뜨개 달리기를 해요 · 눌러서 가기</small>':'🎯 오늘 할 일: 친구 부탁 들어주기<small>나가기 지도에서 친구를 만나 보세요 · 눌러서 가기</small>';
+ g.dataset.go=next?'work':'out';
+}
+const renderAll=render;render=()=>{renderAll();renderGoal();renderBook();renderWork();save();};
+const questProgress=progressQuest;progressQuest=id=>{questProgress(id);save();};
+// Coming back with the browser's back button can show the old page from memory: re-read results then.
+addEventListener('pageshow',e=>{if(e.persisted){applyResults();render();}});
+// Day change while the room stays open.
+setInterval(()=>{if(startDay()){render();if(sheetKind==='quest'||sheetKind==='diary')fillSheet();}},60000);
+addEventListener('pagehide',save);
+const tabBefore=tab;tab=t=>{tabBefore(t);if(t==='book')setTimeout(viewBook,250);};
+// Back from a place page (place.html → raising-mockup.html#out=workshop): open the map at that place.
+if(location.hash==='#work'){history.replaceState(null,'',location.pathname+location.search);tab('work');}   // back from 뜨개 달리기
+if(location.hash==='#shop'){history.replaceState(null,'',location.pathname+location.search);shopCat='snack';tab('shop');}   // "간식 먹으러 가기" from a run
+const backToMap=location.hash.match(/^#out(?:=(\w+))?$/);
+if(backToMap){history.replaceState(null,'',location.pathname+location.search);tab('out');if(SejinPlaces.byId(backToMap[1])){pickedPlace=backToMap[1];cardOpen=true;card.hidden=false;}}
+dress();
+render();
+</script>
+<script src="furniture-model.js"></script>
+<script src="furniture-ui.js"></script>
+<script src="sejin-character.js"></script>
+<script src="room-cleaning.js"></script>
+<script src="room-care.js"></script>
+<script src="room-responsive.js"></script><script src="room-colors.js"></script><script src="room-settings.js"></script><script src="room-pou.js"></script><script>(()=>{const b=document.getElementById('sfxBtn');if(!b)return;const off=()=>{try{return localStorage.getItem('sejin-mute-v1')==='1';}catch(e){return false;}};const show=()=>{b.textContent=off()?'🔇':'🔊';};show();b.onclick=()=>{window.SejinSfx&&SejinSfx.setMute(!off());show();if(!off())window.SejinSfx&&SejinSfx.play('ok');};})();
+</script></body></html>

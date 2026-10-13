@@ -1,0 +1,67 @@
+{
+  "id": "coloring-gift-v1",
+  "name": "리본 선물",
+  "difficulty": "쉬움",
+  "palette": {
+    "A": [
+      "색 1",
+      "#67371f"
+    ],
+    "B": [
+      "색 2",
+      "#e982a5"
+    ],
+    "C": [
+      "색 3",
+      "#a795df"
+    ],
+    "D": [
+      "색 4",
+      "#f6aac7"
+    ],
+    "E": [
+      "색 5",
+      "#c8b6f1"
+    ],
+    "F": [
+      "색 6",
+      "#fff1cd"
+    ]
+  },
+  "rows": [
+    "....................",
+    "....................",
+    ".....AAA.....AA.....",
+    "....AFDDA...DDDD....",
+    "....DDADDA.DDAFDA...",
+    "....DBBBDAADBBBDA...",
+    "....AADDBDDABDBA....",
+    ".....DAAABBAAAAEEA..",
+    "...BEEEDDDEEADFDCA..",
+    "...EEEAFDEEEEEABCA..",
+    "...EEEADAEEEECABA...",
+    "...AEEADAEEEECABC...",
+    "...AEEBBBAAECAAFC...",
+    "...AEECFDEEECCADC...",
+    "...AEECDDEEECCADC...",
+    "...AEECDDEEECCADA...",
+    "....AECDDEEECCAA....",
+    "........AAEECA......",
+    "....................",
+    "...................."
+  ],
+  "sourceReference": "assets/sejin-coloring-gift-v1.png",
+  "gridSize": 20,
+  "filledCells": 196,
+  "colorCounts": {
+    "A": 57,
+    "B": 18,
+    "C": 22,
+    "D": 41,
+    "E": 52,
+    "F": 6
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+}

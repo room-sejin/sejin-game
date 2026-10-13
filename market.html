@@ -1,0 +1,167 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 장터 그림 잇기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#fbf3ea;--btn:#f2a7b5;--btn-d:#d68a9a}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.page{max-width:640px;margin:0 auto;padding:12px 14px 24px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.stage{position:relative;border-radius:22px;overflow:hidden;border:3px solid #fff;box-shadow:0 8px 24px #8875671f;background:#e9f3e2 center/cover no-repeat;padding:12px}
+.hud{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:8px}
+.hud span,.hud button{background:#fffffff0;border:0;border-radius:12px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:bold;box-shadow:0 2px 0 var(--line);color:var(--ink)}
+.hud button{cursor:pointer}.hud button:disabled{opacity:.45;cursor:default}
+.hud .bar{flex:1 0 100%;height:7px;padding:0;background:#ffffff99;border-radius:5px;overflow:hidden;box-shadow:none}.hud .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#a9cfa4,#f5d58a,#f2a7b5);transition:width .25s linear}
+.board{position:relative;display:grid;gap:4px;background:#fffaf0ee;border-radius:18px;padding:8px;box-shadow:0 4px 14px #8875672a;margin:0 auto;max-width:560px}
+.cell{aspect-ratio:1;border:0;border-radius:12px;background:#fff;padding:4px;display:grid;place-items:center;box-shadow:0 2px 0 var(--line);cursor:pointer;transition:transform .12s,opacity .2s}
+.cell img{width:92%;height:92%;object-fit:contain;pointer-events:none}
+.cell.sel{outline:4px solid #f5c04a;transform:translateY(-3px);background:#fff6d8}
+.cell.hint{outline:4px solid #8fc3e0;animation:pulse .6s ease-in-out infinite alternate}
+.cell.gone{visibility:hidden;pointer-events:none}.cell.shake{animation:shake .3s}
+@keyframes pulse{to{transform:scale(1.08)}}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+svg.path{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+svg.path polyline{fill:none;stroke:#f2a7b5;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.tip{margin:10px 2px 0;font-size:12.5px;color:var(--sub);text-align:center;min-height:1.4em}
+.done-card{position:fixed;inset:0;display:grid;place-items:center;background:#6d5d5140;padding:16px;z-index:5}.done-card[hidden]{display:none}
+.done-card>div{background:#fffaf0;border-radius:24px;padding:22px 20px;text-align:center;max-width:360px;width:100%;box-shadow:0 10px 35px #88756733}
+.done-card h2{margin:6px 0;font-size:21px}.done-card p{color:var(--sub);font-size:14px;line-height:1.6;margin:8px 0 16px}
+.acts{display:flex;flex-direction:column;gap:8px}
+.acts button,.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+@media (prefers-reduced-motion:reduce){.cell.hint,.cell.shake{animation:none}.cell{transition:none}}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="place.html?place=plaza">‹ 광장으로</a><h1>장터 그림 잇기<small id="sub">같은 그림 두 개를 이어서 없애요</small></h1></div>
+ <div id="stages"></div>
+ <section class="stage" id="stage">
+  <div class="hud"><span id="left"></span><span id="timer" hidden></span><button id="hintBtn" type="button">💡 힌트 3</button><button id="shuffleBtn" type="button">🔀 섞기 3</button><div class="bar" id="bar" hidden><i></i></div></div>
+  <div class="board" id="board"></div>
+ </section>
+ <p class="tip" id="tip"></p>
+</main>
+<div class="done-card" id="doneCard" hidden><div role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+ <div style="font-size:42px" id="doneIcon">🧺</div><h2 id="doneTitle"></h2><p id="doneText"></p>
+ <div class="acts"><button id="next">다음 장터</button><button id="again">다시 하기</button><button class="ghost" id="pickStage">장터 선택</button><a class="ghost" href="place.html?place=plaza">광장으로</a></div>
+</div></div>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script src="stage-bar.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ // 장터 그림 잇기 (이벤트 광장) — 같은 그림 두 개를, 꺾임 두 번 이하의 빈 길로 이을 수 있으면 사라진다.
+ // 12개 장터(배경 그림)마다 판이 커지고 그림 종류가 늘며, 뒤쪽 장터는 제한 시간이 생긴다. 저장 키는 예전 '리본 찾기'와 같은 'ribbon'(진행 보존).
+ const $=s=>document.querySelector(s),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const COMMON=[['yarn','실타래'],['spool','실패'],['hook','코바늘'],['scissors','가위'],['button','단추'],['ribbon','리본'],['flower','꽃'],['thimble','골무']].map(([k,n])=>({id:'c-'+k,name:n,src:`assets/link-puzzle/link-item-${k}-v1.png`}));
+ const th=(pre,list)=>list.map(([k,n,v])=>({id:pre+'-'+k,name:n,src:`assets/link-puzzle/link-${pre}-${k}-${v||'v1'}.png`}));
+ const CH=[
+  {name:'봄 새싹 장터',bg:'01-spring',theme:th('spring',[['wateringcan','물뿌리개'],['sprout','새싹'],['seedbag','씨앗 봉투']])},
+  {name:'포근한 실 장터',bg:'02-yarn',theme:th('yarn',[['yarnbasket','실 바구니'],['skein','실타래'],['needles','뜨개바늘']])},
+  {name:'달콤한 빵 장터',bg:'03-bakery',theme:th('bakery',[['cookie','쿠키'],['croissant','크루아상'],['loaf','식빵']])},
+  {name:'꽃바람 장터',bg:'04-flower',theme:th('flower',[['bouquet','꽃다발'],['vase','꽃병'],['wreath','화관']])},
+  {name:'비 갠 우산 장터',bg:'05-rain',theme:th('rain',[['umbrella','우산'],['rainboots','장화'],['raincloud','비구름']])},
+  {name:'여름 바닷가 장터',bg:'06-seaside',theme:th('seaside',[['shell','조개'],['starfish','불가사리'],['sunhat','밀짚모자']])},
+  {name:'가을 열매 장터',bg:'07-harvest',theme:th('harvest',[['acorn','도토리'],['apple','사과'],['pumpkin','호박']])},
+  {name:'등나무 공예 장터',bg:'08-wisteria',theme:th('wisteria',[['hoop','자수틀'],['pottery','도자기'],['pouch','주머니']])},
+  {name:'마을 축제 장터',bg:'09-festival',theme:th('festival',[['balloon','풍선'],['bunting','깃발 줄'],['pinwheel','바람개비']])},
+  {name:'겨울 뜨개 장터',bg:'10-snow',theme:th('snow',[['beanie','털모자'],['mittens','벙어리장갑'],['scarf','목도리']])},
+  {name:'노을 선물 장터',bg:'11-evening',theme:th('evening',[['giftbox','선물 상자'],['lantern','등불'],['letter','편지']])},
+  {name:'별빛 야시장',bg:'12-starlight',theme:th('starlight',[['moon','달'],['starjar','별 병'],['telescope','망원경','v2']])},
+ ];
+ // 장터마다 [행, 열, 그림 종류, 제한 시간(초, 0=없음)] — 행×열은 짝수
+ const LV=[[4,6,5,0],[4,7,6,0],[5,6,7,0],[6,6,8,0],[6,6,8,240],[6,7,9,240],[6,8,9,230],[7,8,10,220],[7,8,10,200],[8,8,11,200],[8,8,11,180],[8,9,11,170]];
+ const rnd=n=>Math.floor(Math.random()*n),shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(p=>p[1]);
+ let stage=1,R,C,g,types,left,hints,shuffles,mistakes,sel,over,busy,t0,tick,timeLeft,bar;
+ const cfg=()=>({ch:CH[stage-1],lv:LV[stage-1]});
+ // ---------- 길 찾기: 꺾임 2번 이하, 비어 있는 칸(-1)만 지나간다. 테두리 한 칸은 항상 비어 있다. ----------
+ function findPath(a,b){
+  const H=R+2,W=C+2,D=[[1,0],[-1,0],[0,1],[0,-1]],seen=new Map(),q=[];
+  for(let d=0;d<4;d++)q.push({r:a[0],c:a[1],d,t:0,p:[a]});
+  while(q.length){const s=q.shift();let r=s.r+D[s.d][0],c=s.c+D[s.d][1];
+   while(r>=0&&r<H&&c>=0&&c<W){
+    if(r===b[0]&&c===b[1])return s.p.concat([[r,c]]);
+    if(g[r][c]!==-1)break;
+    if(s.t<2)for(let nd=0;nd<4;nd++){if((nd>>1)===(s.d>>1))continue;const k=(r*W+c)*4+nd;if(seen.has(k)&&seen.get(k)<=s.t+1)continue;seen.set(k,s.t+1);q.push({r,c,d:nd,t:s.t+1,p:s.p.concat([[r,c]])});}
+    r+=D[s.d][0];c+=D[s.d][1];}}
+  return null;
+ }
+ function cells(){const out=[];for(let r=1;r<=R;r++)for(let c=1;c<=C;c++)if(g[r][c]!==-1)out.push([r,c]);return out;}
+ function anyMove(){const cs=cells(),by={};cs.forEach(p=>(by[g[p[0]][p[1]]]=by[g[p[0]][p[1]]]||[]).push(p));
+  for(const k in by){const L=by[k];for(let i=0;i<L.length;i++)for(let j=i+1;j<L.length;j++){if(findPath(L[i],L[j]))return [L[i],L[j]];}}return null;}
+ function build(){
+  const {lv}=cfg();[R,C]=lv;const nt=lv[2],pairs=R*C/2;
+  const pool=shuffle(COMMON).slice(0,Math.max(0,nt-3));types=shuffle(cfg().ch.theme.concat(pool)).slice(0,nt);
+  const tiles=[];for(let i=0;i<pairs;i++){const t=i%nt;tiles.push(t,t);}
+  const sh=shuffle(tiles);g=Array.from({length:R+2},()=>Array(C+2).fill(-1));let k=0;for(let r=1;r<=R;r++)for(let c=1;c<=C;c++)g[r][c]=sh[k++];
+  if(!anyMove())return build();
+ }
+ function reshuffle(){const cs=cells(),vals=shuffle(cs.map(p=>g[p[0]][p[1]]));
+  for(let n=0;n<40;n++){cs.forEach((p,i)=>g[p[0]][p[1]]=vals[i]);if(anyMove())return;vals.splice(0,vals.length,...shuffle(vals));}}
+ // ---------- 그리기 ----------
+ function render(){
+  const b=$('#board');b.style.gridTemplateColumns=`repeat(${C},1fr)`;b.querySelectorAll('.cell,svg').forEach(e=>e.remove());
+  for(let r=1;r<=R;r++)for(let c=1;c<=C;c++){const v=g[r][c],e=document.createElement('button');e.type='button';e.className='cell'+(v===-1?' gone':'');e.dataset.r=r;e.dataset.c=c;
+   if(v!==-1){e.innerHTML=`<img src="${types[v].src}" alt="${types[v].name}" draggable="false">`;e.setAttribute('aria-label',types[v].name);}
+   e.onclick=()=>pick(r,c);b.append(e);}
+  head();
+ }
+ const el=(r,c)=>$(`#board .cell[data-r="${r}"][data-c="${c}"]`);
+ function head(){$('#left').textContent=`남은 그림 ${cells().length/2}쌍`;$('#hintBtn').textContent='💡 힌트 '+hints;$('#hintBtn').disabled=!hints||over;$('#shuffleBtn').textContent='🔀 섞기 '+shuffles;$('#shuffleBtn').disabled=!shuffles||over;}
+ function line(path){
+  const b=$('#board'),rb=b.getBoundingClientRect(),pt=([r,c])=>{if(r>=1&&r<=R&&c>=1&&c<=C){const x=el(r,c).getBoundingClientRect();return [x.left-rb.left+x.width/2,x.top-rb.top+x.height/2];}
+   const cl=Math.min(Math.max(c,1),C),rw=Math.min(Math.max(r,1),R),x=el(rw,cl).getBoundingClientRect(),dx=c<1?-1:c>C?1:0,dy=r<1?-1:r>R?1:0;return [x.left-rb.left+x.width/2+dx*x.width*.75,x.top-rb.top+x.height/2+dy*x.height*.75];};
+  const ns='http://www.w3.org/2000/svg',s=document.createElementNS(ns,'svg');s.setAttribute('class','path');const pl=document.createElementNS(ns,'polyline');pl.setAttribute('points',path.map(pt).map(p=>p.join(',')).join(' '));s.append(pl);b.append(s);setTimeout(()=>s.remove(),still?120:320);
+ }
+ function pick(r,c){
+  if(over||busy||g[r][c]===-1)return;
+  if(!sel){sel=[r,c];el(r,c).classList.add('sel');window.SejinSfx&&SejinSfx.play('pop');return;}
+  if(sel[0]===r&&sel[1]===c){el(r,c).classList.remove('sel');sel=null;return;}
+  const a=sel,p=findPath(a,[r,c]);el(a[0],a[1]).classList.remove('sel');
+  if(g[a[0]][a[1]]===g[r][c]&&p){
+   sel=null;busy=true;line(p);window.SejinSfx&&SejinSfx.play('ok');
+   g[a[0]][a[1]]=-1;g[r][c]=-1;
+   setTimeout(()=>{el(a[0],a[1]).classList.add('gone');el(r,c).classList.add('gone');busy=false;head();
+    if(!cells().length)return win();
+    if(!anyMove()){reshuffle();render();$('#tip').textContent='더 이을 곳이 없어서 그림을 새로 섞었어요.';}else $('#tip').textContent='';},still?0:220);
+  }else{mistakes++;window.SejinSfx&&SejinSfx.play('wrong');const e=el(r,c);if(!still){e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),320);}
+   $('#tip').textContent=g[a[0]][a[1]]===g[r][c]?'둘 사이에 길이 없어요. 길은 두 번까지만 꺾을 수 있어요.':'다른 그림이에요.';sel=[r,c];e.classList.add('sel');}
+ }
+ // ---------- 시작·끝 ----------
+ function start(n){
+  stage=n;const {ch,lv}=cfg();bar&&bar.current!==undefined;StageBar.splash(n,ch.name,`그림 ${lv[2]}종${lv[3]?' · '+lv[3]+'초':''}`);
+  $('#stage').style.backgroundImage=`url('assets/ribbon/ribbon-market-${ch.bg}-v1.jpg')`;
+  hints=3;shuffles=3;mistakes=0;sel=null;over=false;busy=false;clearInterval(tick);$('#doneCard').hidden=true;$('#tip').textContent='같은 그림 두 개를 차례로 눌러요. 두 번까지 꺾이는 빈 길이 있으면 사라져요.';
+  $('#sub').textContent=`${n}/${CH.length} ${ch.name} · 그림 ${lv[2]}종`;build();render();
+  const T=lv[3];$('#timer').hidden=$('#bar').hidden=!T;if(T){timeLeft=T;t0=Date.now();upT();tick=setInterval(()=>{timeLeft=T-(Date.now()-t0)/1000;if(timeLeft<=0){timeLeft=0;lose();}upT();},250);}
+ }
+ const upT=()=>{const T=cfg().lv[3];$('#timer').textContent='⏱ '+Math.ceil(timeLeft)+'초';$('#bar i').style.width=Math.max(0,timeLeft/T*100)+'%';};
+ function lose(){over=true;clearInterval(tick);head();window.SejinSfx&&SejinSfx.play('wrong');$('#doneIcon').textContent='⏳';$('#doneTitle').textContent='시간이 다 됐어요';$('#doneText').textContent='남은 그림을 다 잇지 못했어요. 다시 도전해 봐요!';$('#next').hidden=true;setTimeout(()=>{$('#doneCard').hidden=false;$('#again').focus();},still?0:500);}
+ function win(){
+  over=true;clearInterval(tick);head();const stars=mistakes<=2&&hints===3?3:mistakes<=7?2:1;
+  const res=StageBar.clear('ribbon',stage,stars),yarn=res.first?4+Math.min(stage,6)*2:2;   // 처음 클리어만 크게, 6단계 이후엔 더 늘지 않음
+  if(stage===4)SejinSave.clears.mark('ribbon');   // 4단계 클리어 = 변신 미션 조건(예전 리본 찾기와 같음), 5단계부터는 덤
+  const ribs=['ribbon-pink','ribbon-blue','ribbon-purple','ribbon-green'],gain={};for(let i=0;i<(res.first?2:1);i++){const id=ribs[rnd(ribs.length)];gain[id]=(gain[id]||0)+1;}
+  SejinSave.pushResult({game:'minigame',label:`장터 그림 잇기 ${stage}단계`,place:'이벤트 광장',first:res.first,yarn});
+  SejinSave.pushResult({game:'pickup',place:'이벤트 광장',items:gain});
+  bar.refresh();window.SejinSfx&&SejinSfx.play('win');
+  $('#doneIcon').innerHTML='<img src="assets/misc/playtest-market-clear-v1.png" alt="" style="width:84px;height:84px;object-fit:contain">';$('#doneTitle').textContent=`${stage}단계 클리어! ${StageBar.stars(stars)}`;
+  $('#doneText').innerHTML=(mistakes?`잘못 이은 곳 ${mistakes}번.<br>`:'한 번도 안 틀렸어요! ✨<br>')+`실뭉치 <b>+${yarn}개</b> · 🎀 리본 ${Object.values(gain).reduce((a,b)=>a+b,0)}개는 방에 가면 들어와요.`+(res.first&&stage<CH.length?'<br>다음 장터가 열렸어요!':'');
+  $('#next').hidden=stage>=CH.length;setTimeout(()=>{$('#doneCard').hidden=false;($('#next').hidden?$('#again'):$('#next')).focus();},still?0:600);
+ }
+ $('#hintBtn').onclick=()=>{if(over||busy||!hints)return;const m=anyMove();if(!m)return;hints--;document.querySelectorAll('.cell.hint').forEach(e=>e.classList.remove('hint'));m.forEach(p=>el(p[0],p[1]).classList.add('hint'));setTimeout(()=>document.querySelectorAll('.cell.hint').forEach(e=>e.classList.remove('hint')),2000);head();};
+ $('#shuffleBtn').onclick=()=>{if(over||busy||!shuffles)return;shuffles--;sel=null;reshuffle();render();$('#tip').textContent='그림을 섞었어요.';};
+ $('#again').onclick=()=>{$('#next').hidden=false;start(stage);};$('#next').onclick=()=>{$('#next').hidden=false;bar.current=stage+1;bar.refresh();start(stage+1);};
+ const done=SejinSave.stages.get().ribbon||{};let first=1;while(first<CH.length&&done[first])first++;
+ bar=StageBar.mount($('#stages'),{game:'ribbon',title:'장터 그림 잇기',names:CH.map(c=>c.name),subs:LV.map(l=>`그림 ${l[2]}종`),current:first,autoOpen:true,onPick:start});
+ $('#pickStage').onclick=()=>{$('#doneCard').hidden=true;bar.open();};
+ window.__market={findPath,get g(){return g;}};
+})();
+</script>
+<script src="sejin-hud.js"></script><script src="sejin-from.js"></script>
+</body>
+</html>

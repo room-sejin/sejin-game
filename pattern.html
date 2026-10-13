@@ -1,0 +1,157 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 뜨개 도안 채우기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#fbf3ea;--btn:#8fc3e0;--btn-d:#6fa6c4;--grid:#cfe3ec}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.page{max-width:620px;margin:0 auto;padding:12px 16px 24px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{border:0;background:#fff;color:var(--ink);font:inherit;font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px}
+.chip{flex:none;border:2px solid #fff;background:#fff;color:var(--ink);font:inherit;font-size:12px;font-weight:bold;padding:7px 11px;border-radius:14px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.chip:disabled{background:#f1e8de;color:#b3a396;box-shadow:none;cursor:default}
+.chip .ok{color:#6aa86a;margin-left:3px}.chip[aria-pressed=true] .ok{color:#fff}
+.card{background:#fff;border-radius:22px;padding:14px;box-shadow:0 6px 18px #88756714}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.head b{font-size:17px}.head span{font-size:12px;color:var(--sub)}
+.bar{height:8px;border-radius:6px;background:#f1e8de;overflow:hidden;margin-bottom:12px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f2a7b5,#c9b3e6);transition:width .2s}
+/* Knitting chart paper: pale blue grid, numbers in the stitches still to knit. */
+.cscroll{margin:0 auto;width:min(100%,460px);max-height:74vh;overflow:auto;border-radius:8px;-webkit-overflow-scrolling:touch}.cscroll.big{border:2px solid var(--grid)}
+.chart.big{width:calc(var(--cols)*var(--cell));border:0;border-radius:0}.chart.pan{touch-action:none;cursor:grab}.chart.pan:active{cursor:grabbing}
+.tools{display:none;justify-content:center;gap:8px;margin:0 0 8px}.tools.on{display:flex}.tools button{border:2px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-size:12px;font-weight:bold;padding:7px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);cursor:pointer}.tools button[aria-pressed=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.chart{display:grid;margin:0 auto;width:min(100%,460px);aspect-ratio:var(--ratio);background:#fffdf8;border:2px solid var(--grid);border-radius:8px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair}
+.cell{display:grid;place-items:center;border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);font-size:var(--num);color:#9fb7c2;font-weight:bold;line-height:1}
+.cell.paper{background:transparent;color:transparent}
+.cell.todo.hl{background:#fff3c4;color:#8a6f60}
+.cell.done{color:transparent;box-shadow:inset 0 0 0 1px #ffffff55}
+.cell.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.palette{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+.paint{display:flex;align-items:center;gap:7px;border:2px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-size:13px;font-weight:bold;padding:7px 11px 7px 8px;border-radius:14px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.paint i{width:26px;height:26px;border-radius:50%;border:2px solid #8a6f60;display:grid;place-items:center;font-style:normal;font-size:12px;color:#5b4a42;text-shadow:0 0 3px #fff}
+.paint small{font-weight:normal;color:var(--sub)}
+.paint[aria-pressed=true]{border-color:#e58c9c;background:#fff;box-shadow:0 0 0 3px #f2a7b555}
+.paint:disabled{opacity:.55;cursor:default}
+.tip{margin:12px 2px 0;font-size:12px;color:var(--sub);text-align:center;min-height:1.4em}
+.done-card{position:fixed;inset:0;display:grid;place-items:center;background:#6d5d5140;padding:16px;z-index:5}
+.done-card[hidden]{display:none}
+.done-card>div{background:#fffaf0;border-radius:24px;padding:22px 20px;text-align:center;max-width:360px;width:100%;box-shadow:0 10px 35px #88756733}
+.done-card h2{margin:6px 0;font-size:21px}.done-card p{color:var(--sub);font-size:14px;line-height:1.6;margin:8px 0 16px}
+.done-card canvas{width:120px;height:auto;image-rendering:pixelated;border-radius:8px;background:#fffdf8;border:2px solid var(--grid)}
+.acts{display:flex;flex-direction:column;gap:8px}
+.acts button,.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.spark{position:fixed;width:9px;height:9px;border-radius:50%;pointer-events:none;z-index:6}
+@media (prefers-reduced-motion:reduce){.cell.shake{animation:none}.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="place.html?place=workshop">‹ 공방으로</a><h1>뜨개 도안 채우기<small>번호에 맞는 실로 칸을 채워 도안을 완성해요</small></h1><a class="back" href="pattern-gallery.html">🖼️ 모아보기</a><a class="back" href="pattern-design.html">✏️ 만들기</a></div>
+ <div class="chips" id="chips" role="group" aria-label="도안 고르기"></div>
+ <section class="card" aria-label="도안">
+  <div class="head"><b id="name"></b><span id="count" role="status"></span></div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="tools" id="tools"><button id="panBtn" aria-pressed="false">✋ 화면 이동하기</button><button id="zoomOut">－</button><button id="zoomIn">＋</button></div>
+  <div class="cscroll" id="cscroll"><div class="chart" id="chart" aria-hidden="true"></div></div>
+  <div class="palette" id="palette" role="group" aria-label="실 색 고르기"></div>
+  <p class="tip" id="tip">실 색을 고르고, 같은 번호 칸을 누르거나 손가락으로 문질러 채워요.</p>
+ </section>
+</main>
+<div class="done-card" id="doneCard" hidden><div role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+ <canvas id="donePic" width="12" height="12" aria-hidden="true"></canvas>
+ <h2 id="doneTitle"></h2><p id="doneText"></p><div class="acts" id="doneActs"></div>
+</div></div>
+<script src="sejin-save.js"></script><script src="sejin-bgm.js"></script>
+<script src="pattern.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const {Chart}=SejinPattern;
+ const PATTERNS=SejinPattern.PATTERNS.concat(SejinPattern.HIDDEN,SejinPattern.COLORING,SejinSave.myPatterns.get()); // my own charts (pattern-design.html) come after the built-in ones
+ const progress=SejinSave.patterns.get();progress.done=progress.done||{};
+ // A pattern opens once the one before it has been finished.
+ // 숨은 도안 (friend set): opens when that friend's love is maxed (sejin-npc-v1).
+ const loveOf=id=>{try{const e=(JSON.parse(localStorage.getItem('sejin-npc-v1'))||{})[id]||{};return e.love!=null?e.love:(e.talks||0)*2;}catch(err){return 0;}};
+ const isOpen=i=>PATTERNS[i].reg?true:PATTERNS[i].coloring?(!PATTERNS[i-1]||!PATTERNS[i-1].coloring||!!progress.done[PATTERNS[i-1].id]||!!(window.SejinSave&&SejinSave.testMode)):PATTERNS[i].friend?(loveOf(PATTERNS[i].friend)>=SejinPattern.HIDDEN_LOVE||!!(window.SejinSave&&SejinSave.testMode)):i===0||!!PATTERNS[i].custom||!!progress.done[PATTERNS[i-1].id]||!!(window.SejinSave&&SejinSave.testMode);
+ let cell=18,pan=false;const setCell=()=>{const el=$('#chart');el.style.setProperty('--cols',chart.cols);el.style.setProperty('--cell',cell+'px');el.style.setProperty('--num',Math.max(8,Math.round(cell*.55))+'px');};
+ let chart=null,current=0,colour=1,painting=false,lastCell=-1,tipTimer=0;
+ function chips(){
+  $('#chips').innerHTML=PATTERNS.map((p,i)=>`<button class="chip" data-i="${i}" aria-pressed="${i===current}"${isOpen(i)?'':p.friend?` disabled title="숨은 도안 · ${p.friendName}와 호감도 ♥5가 되면 열려요"`:' disabled title="앞 도안을 먼저 완성해요"'}>${i+1}. ${isOpen(i)?(p.friend?'✨ ':'')+p.name:p.friend?'???':'잠김'}${progress.done[p.id]?'<span class="ok">✓</span>':''}</button>`).join('');
+  $('#chips').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>start(+b.dataset.i));
+ }
+ // 중간 저장: 큰 도안도 이어서 할 수 있게 채운 칸을 브라우저에 저장한다(완성하면 지움)
+ const WIP='sejin-pattern-wip-v1';
+ const wipAll=()=>{try{return JSON.parse(localStorage.getItem(WIP))||{};}catch(e){return {};}};
+ let wipTimer=0;
+ function saveWip(){clearTimeout(wipTimer);wipTimer=setTimeout(()=>{try{const a=wipAll(),p=PATTERNS[current];if(chart.complete)delete a[p.id];else a[p.id]=chart.cells.map((n,k)=>chart.filled[k]?1:0).join('');localStorage.setItem(WIP,JSON.stringify(a));}catch(e){}},300);}
+ function restoreWip(){try{const s=wipAll()[PATTERNS[current].id];if(!s||s.length!==chart.cells.length)return;let n=0;const els=$('#chart').children;for(let k=0;k<s.length;k++){if(s[k]==='1'&&chart.cells[k]&&chart.fill(k,chart.cells[k])==='ok'){els[k].className='cell done';els[k].style.background=chart.colours[chart.cells[k]-1].hex;n++;}}if(n)setTimeout(()=>tip('저장된 곳부터 이어서 해요! ('+n+'칸 채워져 있어요)'),50);}catch(e){}}
+ function start(i){
+  if(!isOpen(i))return;current=i;chart=new Chart(PATTERNS[i]);colour=1;
+  const el=$('#chart');el.style.gridTemplateColumns=`repeat(${chart.cols},1fr)`;el.style.setProperty('--ratio',chart.cols+'/'+chart.rowsN);
+  const big=chart.cols>24||chart.rowsN>24;el.classList.toggle('big',big);$('#cscroll').classList.toggle('big',big);$('#tools').classList.toggle('on',big);pan=false;$('#panBtn').setAttribute('aria-pressed','false');el.classList.remove('pan');
+  if(big){cell=Math.max(cell,14);setCell();}else{el.style.removeProperty('--cols');el.style.removeProperty('--cell');}
+  el.style.setProperty('--num',big?Math.max(8,Math.round(cell*.55))+'px':Math.max(9,Math.min(16,Math.round(300/chart.cols)))+'px');
+  el.innerHTML=chart.cells.map((n,k)=>`<div class="cell ${n?'todo':'paper'}" data-k="${k}">${n||''}</div>`).join('');
+  restoreWip();
+  $('#name').textContent=PATTERNS[i].name+' 도안';chips();palette();refresh();$('#doneCard').hidden=true;
+ }
+ function palette(){
+  $('#palette').innerHTML=chart.colours.map(c=>{const left=chart.left(c.number);
+   return `<button class="paint" data-n="${c.number}" aria-pressed="${c.number===colour}"${left?'':' disabled'} aria-label="${c.number}번 ${c.name}, ${left}칸 남음"><i style="background:${c.hex}">${c.number}</i>${c.name}<small>${left?left+'칸':'완료'}</small></button>`;}).join('');
+  $('#palette').querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{colour=+b.dataset.n;palette();highlight();});
+ }
+ function highlight(){$('#chart').querySelectorAll('.cell.todo').forEach(c=>c.classList.toggle('hl',chart.cells[+c.dataset.k]===colour));}
+ function refresh(){$('#count').textContent=`${chart.done} / ${chart.total}칸`;$('#bar').style.width=chart.done/chart.total*100+'%';highlight();}
+ function tip(t){$('#tip').textContent=t;clearTimeout(tipTimer);tipTimer=setTimeout(()=>$('#tip').textContent='실 색을 고르고, 같은 번호 칸을 누르거나 손가락으로 문질러 채워요.',1800);}
+ // Stitch one cell; while dragging, wrong cells are skipped quietly (a single tap explains).
+ function stitch(cell,tap){
+  const k=+cell.dataset.k;if(k===lastCell&&!tap)return;lastCell=k;
+  const r=chart.fill(k,colour);
+  if(r==='ok'){cell.className='cell done';cell.style.background=chart.colours[colour-1].hex;
+   if(!chart.left(colour)){const next=chart.colours.find(c=>chart.left(c.number));if(next)colour=next.number;}
+   palette();refresh();saveWip();if(chart.complete)finish();}
+  else if(r==='wrong'&&tap){cell.classList.remove('shake');void cell.offsetWidth;if(!still)cell.classList.add('shake');tip(`이 칸은 ${chart.cells[k]}번 색이에요.`);}
+ }
+ const cellAt=e=>{const el=document.elementFromPoint(e.clientX,e.clientY);return el&&el.classList&&el.classList.contains('cell')?el:null;};
+ const grid=$('#chart');
+ // Hand mode: dragging the chart moves the view (mouse and touch).
+ let hand=null;const sc=()=>document.getElementById('cscroll');
+ grid.addEventListener('pointerdown',e=>{if(pan){e.preventDefault();hand={x:e.clientX,y:e.clientY,l:sc().scrollLeft,t:sc().scrollTop};try{grid.setPointerCapture(e.pointerId);}catch(x){}return;}if(chart.complete)return;e.preventDefault();painting=true;lastCell=-1;try{grid.setPointerCapture(e.pointerId);}catch(err){}const c=cellAt(e);if(c)stitch(c,true);});
+ grid.addEventListener('pointermove',e=>{if(hand){sc().scrollLeft=hand.l-(e.clientX-hand.x);sc().scrollTop=hand.t-(e.clientY-hand.y);return;}if(!painting||pan)return;const c=cellAt(e);if(c)stitch(c,false);});
+ for(const ev of ['pointerup','pointercancel','lostpointercapture'])grid.addEventListener(ev,()=>{painting=false;hand=null;});
+ function sparkle(){if(still)return;const cs=['#f2a7b5','#f5d58a','#8fc3e0','#a9cfa4','#c9b3e6'];const r=$('#chart').getBoundingClientRect();
+  for(let i=0;i<24;i++){const s=document.createElement('i');s.className='spark';s.style.background=cs[i%5];s.style.left=r.left+r.width/2+'px';s.style.top=r.top+r.height/2+'px';document.body.append(s);
+   const a=Math.random()*Math.PI*2,d=80+Math.random()*120;s.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px) scale(0)`}],{duration:900,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>s.remove();}}
+ function finish(){
+  const p=PATTERNS[current],first=!progress.done[p.id],yarn=first?p.reward.first:p.reward.again;
+  progress.done[p.id]=(progress.done[p.id]||0)+1;SejinSave.patterns.set(progress);if(p.id==='sejin')SejinSave.clears.mark('pattern');   // the 5th chart clears the game (angel mission)
+  // The room adds the 실뭉치 and writes it in the diary next time it opens.
+  if(yarn)SejinSave.pushResult({game:'pattern',pattern:p.id,name:p.name,first,yarn});
+  sparkle();
+  const pic=$('#donePic');pic.width=chart.cols;pic.height=chart.rowsN;const g=pic.getContext('2d');
+  chart.cells.forEach((n,k)=>{if(!n)return;g.fillStyle=chart.colours[n-1].hex;g.fillRect(k%chart.cols,Math.floor(k/chart.cols),1,1);});
+  const next=PATTERNS[current+1]&&!PATTERNS[current+1].friend?PATTERNS[current+1]:null;
+  $('#doneTitle').textContent=p.name+' 도안 완성!';
+  const ga=w=>{const c=w.charCodeAt(w.length-1)-0xAC00;return w+'</b>'+(c>=0&&c<11172&&c%28?'이':'가');};
+  $('#doneText').innerHTML=(first?(p.friend?'✨ '+p.friendName+'가 준 숨은 도안이에요!<br>':'처음 완성한 도안이에요.<br>'):'')+(yarn?'실뭉치 <b>+'+yarn+'개</b>는 방에 가면 들어와요.':'내가 만든 도안은 처음 한 번만 실뭉치를 줘요.')+(chart.mistakes?'':'<br>한 번도 안 틀렸어요! ✨')+(first&&next?'<br>다음 도안 <b>'+ga(next.name)+' 열렸어요.':'');
+  $('#doneActs').innerHTML=(next?'<button data-next>다음 도안: '+next.name+'</button>':'')+'<button class="ghost" data-again>다시 채우기</button><a class="ghost" href="place.html?place=workshop">공방으로</a>';
+  $('#doneActs [data-next]')?.addEventListener('click',()=>start(current+1));$('#doneActs [data-again]').onclick=()=>start(current);
+  setTimeout(()=>{$('#doneCard').hidden=false;($('#doneActs button')||$('#doneActs a')).focus();},still?0:600);chips();
+ }
+ $('#panBtn').onclick=()=>{pan=!pan;$('#panBtn').setAttribute('aria-pressed',pan);$('#chart').classList.toggle('pan',pan);};
+ $('#zoomIn').onclick=()=>{cell=Math.min(40,cell+4);if(chart)setCell();};$('#zoomOut').onclick=()=>{cell=Math.max(10,cell-4);if(chart)setCell();};
+ // Start at the first pattern not finished yet (or the last one).
+ const firstTodo=PATTERNS.findIndex((p,i)=>isOpen(i)&&!progress.done[p.id]);
+ const qs=new URLSearchParams(location.search),myIdx=PATTERNS.findIndex(p=>p.id===(qs.get('my')||qs.get('p')));   // ?p=frienddoll 처럼 공방 '도안 등록'에서 바로 열기
+ start(myIdx>=0?myIdx:firstTodo<0?PATTERNS.length-1:firstTodo);
+})();
+</script>
+<script src="sejin-hud.js"></script></body>
+</html>

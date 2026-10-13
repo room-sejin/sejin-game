@@ -1,0 +1,181 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>방구석 세진이 · 선물 포장</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--btn:#f2a7b5;--btn-d:#d68a9a}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:linear-gradient(#fdeef1,#f6f0fb);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.page{max-width:520px;margin:0 auto;padding:12px 14px 22px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.stat{display:flex;gap:8px;margin-bottom:8px}.stat span{flex:1;background:#fff;border-radius:14px;padding:7px 10px;font-size:13px;font-weight:bold;text-align:center;box-shadow:0 2px 0 var(--line)}
+/* shop counter: customer + order ticket */
+.counter{position:relative;background:#fff8ec;border:3px solid #fff;border-radius:22px;box-shadow:0 6px 18px #88756722;padding:12px;min-height:128px;display:flex;gap:10px;align-items:center;overflow:hidden}
+.counter::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:#e9d3b4;border-top:3px solid #c9a97e}
+.cust{flex:none;width:76px;text-align:center;font-size:54px;line-height:1;transition:transform .5s}
+.cust.in{animation:walkin .6s ease-out}.cust.out{transform:translateX(160px);opacity:0;transition:transform .6s,opacity .6s}
+@keyframes walkin{from{transform:translateX(-120px);opacity:0}}
+.ticket{flex:1;background:#fff;border-radius:16px;padding:10px 12px;font-size:13.5px;line-height:1.55;box-shadow:0 3px 0 var(--line);position:relative;min-height:80px}
+.ticket::before{content:"";position:absolute;left:-8px;top:24px;border:8px solid transparent;border-left:0;border-right-color:#fff}
+.ticket b{padding:0 3px;border-radius:6px;background:#fff3cf}
+.pat{height:6px;border-radius:4px;background:#f1e8de;margin-top:8px;overflow:hidden}.pat i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#a9cfa4,#f5d58a,#f2a7b5);transition:width .2s linear}
+/* workbench: the gift being made */
+.bench{position:relative;margin-top:10px;background:#fffaf4;border:3px solid #fff;border-radius:20px;box-shadow:0 4px 12px #88756722;height:150px;display:grid;place-items:center}
+.gbox{position:relative;border-radius:10px;background:#efe3d2;border:3px solid #8a6f60;display:grid;place-items:center;transition:all .25s}
+.gbox .it{line-height:1;transition:all .25s}
+.gbox svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.empty{color:var(--sub);font-size:13px}
+.steps{display:flex;gap:4px;margin:10px 0 6px}
+.steps i{flex:1;text-align:center;font-style:normal;font-size:11px;font-weight:bold;padding:5px 0;border-radius:9px;background:#f1e8de;color:var(--sub)}
+.steps i.now{background:var(--btn);color:#fff}.steps i.done{background:#e3f3e1;color:#4f8a4f}
+.tray{background:#fff;border-radius:18px;padding:10px;box-shadow:0 4px 12px #8875670f;min-height:128px}
+.tray .ttl{font-size:12px;font-weight:bold;color:var(--sub);margin:0 0 8px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.opts button{border:3px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-weight:bold;font-size:12px;padding:8px 4px;border-radius:14px;box-shadow:0 3px 0 var(--line);cursor:pointer}
+.opts button .e{display:block;font-size:30px;line-height:1.1}.opts button i{display:block;width:30px;height:30px;border-radius:9px;margin:0 auto 3px;border:2px solid #8a6f60}
+.opts button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.opts button.sel{border-color:#f5c04a;background:#fff6d8}
+.row{display:flex;gap:8px;margin-top:8px}
+.row button{flex:1;border:0;font:inherit;font-weight:bold;font-size:14px;padding:12px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);cursor:pointer}
+.row .main{background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d)}.row button:disabled{opacity:.5;cursor:default}
+.msg{margin:8px 2px 0;font-size:13px;color:var(--sub);text-align:center;min-height:1.5em}
+.go{display:block;margin:12px auto 0;border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px 26px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}
+.go[hidden]{display:none}
+.react{position:absolute;left:0;right:0;top:12px;text-align:center;font-weight:bold;font-size:17px;z-index:3;pointer-events:none;animation:rp 1.6s ease-out forwards}
+@keyframes rp{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:none}85%{opacity:1}100%{opacity:0}}
+.done-card{position:fixed;inset:0;display:grid;place-items:center;background:#6d5d5140;padding:16px;z-index:5}.done-card[hidden]{display:none}
+.done-card>div{background:#fffaf0;border-radius:24px;padding:22px 20px;text-align:center;max-width:360px;width:100%;box-shadow:0 10px 35px #88756733}
+.done-card h2{margin:6px 0;font-size:21px}.done-card p{color:var(--sub);font-size:14px;line-height:1.6;margin:8px 0 16px}
+.acts{display:flex;flex-direction:column;gap:8px}
+.acts a,.acts button{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+@media (prefers-reduced-motion:reduce){.cust.in,.react{animation:none}.pat i{transition:none}}
+.slip{background:#fffdf4;border:2px dashed #d9bc92;border-radius:12px;padding:8px 11px 9px;box-shadow:0 2px 0 #ead9bd;color:#5b4a42}
+.slip-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1.5px solid #ead9bd;padding-bottom:5px;margin-bottom:5px}.slip-h span{font-weight:800;font-size:13.5px;letter-spacing:.5px}.slip-h em{font-style:normal;font-size:11.5px;color:#a08670}
+.slip-l{list-style:none;margin:0;padding:0;display:grid;gap:4px}.slip-l li{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}.slip-l li span{color:#8b766b;font-size:12px}.slip-l b{background:none;padding:0;display:inline-flex;align-items:center;gap:5px;font-size:13px}
+.sw{display:inline-block;width:18px;height:18px;border-radius:5px;border:2px solid #8a6f60;vertical-align:-4px}
+.szt{display:block;font-size:9.5px;font-weight:700;color:#8a7260;background:#fff4dc;border-radius:7px;padding:0 5px;margin:2px auto 0;width:max-content}.back-step{display:block;margin:6px auto 0;border:2px solid #d7c4b0;border-radius:12px;background:#fffaf3;color:#705746;font:inherit;font-size:12px;font-weight:700;padding:6px 12px;cursor:pointer}.back-step[hidden]{display:none}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="village.html">‹ 천사 마을로</a><h1>선물 포장<small>손님 주문대로 골라서 포장해 드려요</small></h1></div>
+ <div class="stat"><span id="cnt"></span><span id="score"></span></div>
+ <div class="counter" id="counter"><div class="cust" id="cust"></div><div class="ticket" id="ticket"><div id="tk">시작을 누르면 손님이 와요!</div><div class="pat"><i id="pat"></i></div></div></div>
+ <div class="bench" id="bench"><span class="empty">작업대</span></div>
+ <div class="steps" id="steps"></div>
+ <div class="tray"><p class="ttl" id="ttl"></p><button type="button" id="backStep" class="back-step" hidden>↩ 이전 단계 다시 고르기</button><div class="opts" id="opts"></div><div class="row" id="row"></div></div>
+ <p class="msg" id="msg"></p>
+ <button class="go" id="go">시작</button>
+</main>
+<div class="done-card" id="doneCard" hidden><div role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+ <div style="font-size:42px" id="doneIcon">🎁</div><h2 id="doneTitle"></h2><p id="doneText"></p><div class="acts" id="doneActs"></div>
+</div></div>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ // 선물 포장 (선물 가게) — 피자 가게 게임처럼: 손님이 오면 주문을 듣고 → 선물 진열대에서 선물을 골라 → 상자 → 포장지 → 리본을 고르고 → 손님에게 전달.
+ // 고르는 동안엔 틀려도 막지 않는다. 전달할 때 주문과 얼마나 같은지(점수)와 기다린 시간으로 손님이 별점과 팁을 준다.
+ const $=s=>document.querySelector(s),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const CUSTOMERS=5,PATIENCE=55,PASS=60;
+ const GIFTS=[{e:'🍪',n:'쿠키',s:0},{e:'💍',n:'반지',s:0},{e:'🕯️',n:'초',s:0},{e:'🌸',n:'꽃다발',s:1},{e:'📖',n:'동화책',s:1},{e:'🍓',n:'딸기 바구니',s:1},{e:'🧸',n:'곰인형',s:2},{e:'🪴',n:'화분',s:2},{e:'🧶',n:'털실 세트',s:2},{e:'💖',n:'하트 브로치',s:0},{e:'🐰',n:'작은 토끼 인형',s:0},{e:'👝',n:'뜨개 파우치',s:1},{e:'🫖',n:'찻잔 세트',s:1},{e:'🧣',n:'목도리',s:2},{e:'🌷',n:'꽃봉',s:2}];
+ window.WrapGifts=GIFTS;const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+ const SIZES=['작은 상자','중간 상자','큰 상자'],SIZEPX=[64,92,122];
+ const COLORS=[{n:'분홍',c:'#f2a7b5'},{n:'하늘',c:'#8fc3e0'},{n:'연두',c:'#a9cfa4'},{n:'보라',c:'#c9b3e6'},{n:'노랑',c:'#f5d58a'}];
+ const RIBBONS=COLORS.map((c,i)=>i===0?{n:'빨강',c:'#e0566d'}:c);
+ const WHO=['🧑','👧','👵','🧔','🐰','🐻','🦊','🐱'];
+ const pick=a=>a[Math.floor(Math.random()*a.length)];
+ let state='ready',idx=0,order=null,mk=null,step=0,left=0,tick=0,scores=[],tipTotal=0,stars=0;
+ const STEPNAMES=['① 선물','② 상자','③ 포장지','④ 리본','⑤ 전달'];
+ const PAPERS=['pink','blue','green','purple','yellow'];
+ Object.defineProperty(window,'WrapState',{get:()=>({order,mk,step,left,PATIENCE,state,COLORS,SIZES})});   // 작업실의 주문서·기다림 게이지가 읽는다
+ // ---- orders
+ function newOrder(){
+  const g=pick(GIFTS),paper=Math.floor(Math.random()*COLORS.length);let rib;do{rib=Math.floor(Math.random()*COLORS.length);}while(rib===paper);
+  const gi=GIFTS.indexOf(g),shelf=shuffle(GIFTS.map((_,i)=>i).filter(i=>i!==gi)).slice(0,8).concat(gi);order={g,shelf:shuffle(shelf),size:g.s,paper,rib,who:pick(WHO),line:pick(['안녕하세요!','어서 와요~','저기요!','실례합니다.'])};
+  mk={g:null,size:null,paper:null,rib:null};step=0;left=PATIENCE;moodLv=0;if(window.WrapUI&&WrapUI.mood)WrapUI.mood(0);$('#pat').parentElement.style.background='';
+  const c=$('#cust');c.textContent=order.who;c.className='cust in';if(window.WrapUI)WrapUI.customer(idx);
+  $('#tk').innerHTML=`<div class="slip"><div class="slip-h"><span>📝 주문서</span><em>${order.line}</em></div><ul class="slip-l"><li><span>🎁 선물</span><b>${order.g.e} ${order.g.n}</b></li><li><span>📦 상자</span><b>선물에 딱 맞는 크기</b></li><li><span>🧻 포장지</span><b><i class="sw" style="background:url(assets/wrap/wrap-paper-${PAPERS[order.paper]}-v1.png) center/cover"></i>${COLORS[order.paper].n}</b></li><li><span>🎀 리본</span><b><i class="sw" style="background:${RIBBONS[order.rib].c}"></i>${RIBBONS[order.rib].n}</b></li></ul></div>`;
+  $('#msg').textContent='';head();draw();
+ }
+ const head=()=>{$('#cnt').textContent=state==='ready'?`손님 ${CUSTOMERS}명을 맞아요`:`손님 ${Math.min(idx+1,CUSTOMERS)} / ${CUSTOMERS}`;$('#score').textContent=state==='ready'?'':`점수 ${scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0}`;$('#pat').style.width=Math.max(0,left/PATIENCE*100)+'%';};
+ // ---- workbench + tray
+ function bench(){
+  if(window.WrapUI){WrapUI.render(mk,step);return;}
+  const b=$('#bench');
+  if(mk.size===null&&mk.g===null){b.innerHTML='<span class="empty">작업대가 비어 있어요</span>';return;}
+  const size=mk.size===null?58:SIZEPX[mk.size],giftPx=mk.g?[26,34,46][mk.g.s]:0;
+  b.innerHTML=`<div class="gbox" style="width:${size}px;height:${size*.8}px;${mk.size===null?'border-style:dashed;background:none;':''}background-color:${mk.paper!==null?COLORS[mk.paper].c:'#efe3d2'}">${mk.g&&step<4?`<span class="it" style="font-size:${giftPx}px">${mk.g.e}</span>`:mk.g?`<span class="it" style="font-size:${giftPx}px;opacity:.0">${mk.g.e}</span>`:''}${mk.rib!==null?`<svg viewBox="0 0 100 80" preserveAspectRatio="none"><rect x="44" y="0" width="12" height="80" fill="${RIBBONS[mk.rib].c}" stroke="#8a6f60" stroke-width="1.5"/><rect x="0" y="34" width="100" height="12" fill="${RIBBONS[mk.rib].c}" stroke="#8a6f60" stroke-width="1.5"/></svg>`:''}</div>`;
+ }
+ function draw(){
+  $('#steps').innerHTML=STEPNAMES.map((n,i)=>`<i class="${i<step?'done':i===step?'now':''}">${n}</i>`).join('');
+  bench();
+  {const bs=$('#backStep');if(bs){bs.hidden=step<1||state!=='play';bs.textContent=['','↩ 선물 다시 고르기','↩ 상자 다시 고르기','↩ 포장지 다시 고르기','↩ 리본 다시 고르기'][step]||'';bs.onclick=()=>{if(state!=='play'||step<1)return;const k=['g','size','paper','rib'][step-1];mk[k]=null;step--;window.SejinSfx&&SejinSfx.play('pop');draw();};}}
+  const opts=$('#opts'),row=$('#row'),ttl=$('#ttl');row.innerHTML='';
+  const set=(t,html,fn)=>{ttl.textContent=t;opts.innerHTML=html;if(window.WrapUI)WrapUI.bind(opts,fn,()=>state==='play',step);else opts.querySelectorAll('button').forEach(b=>b.onclick=()=>fn(+b.dataset.v));};
+  if(step===0)set('선물 진열대 — 손님이 말한 선물을 꺼내요',order.shelf.map(i=>[GIFTS[i],i]).map(([g,i])=>`<button data-v="${i}"><span class="e">${g.e}</span>${g.n}<small class="szt">${['소형','중형','대형'][g.s]}</small></button>`).join(''),v=>{mk.g=GIFTS[v];window.SejinSfx&&SejinSfx.play('pop');step=1;draw();});
+  else if(step===1)set('상자 선반 — 선물이 딱 맞는 크기를 골라요',SIZES.map((n,i)=>`<button data-v="${i}"><span class="e" style="font-size:${18+i*8}px">📦</span>${n}<small class="szt">${['작은 선물용','중간 선물용','큰 선물용'][i]}</small></button>`).join(''),v=>{mk.size=v;window.SejinSfx&&SejinSfx.play('pop');step=2;draw();});
+  else if(step===2)set('포장지 — 색을 골라요',COLORS.map((c,i)=>`<button data-v="${i}"><i style="background:${c.c}"></i>${c.n}</button>`).join(''),v=>{mk.paper=v;window.SejinSfx&&SejinSfx.play('pop');step=3;draw();});
+  else if(step===3)set('리본 — 색을 골라요',RIBBONS.map((c,i)=>`<button data-v="${i}"><i style="background:${c.c}"></i>${c.n}</button>`).join(''),v=>{mk.rib=v;window.SejinSfx&&SejinSfx.play('ok');step=4;draw();});
+  else{ttl.textContent='다 됐어요! 손님에게 드려요';opts.innerHTML='';row.innerHTML='<button id="redo">처음부터 다시</button><button class="main" id="give">🎁 손님에게 드리기</button>';
+   if(window.WrapUI)WrapUI.setDelivery(deliver);
+   $('#redo').onclick=()=>{mk={g:null,size:null,paper:null,rib:null};step=0;draw();};$('#give').onclick=deliver;}
+ }
+ // ---- delivery: compare with the order
+ async function deliver(){
+  if(state!=='play')return;state='serve';clearInterval(tick);
+  $('#row').querySelectorAll('button').forEach(b=>b.disabled=true);
+  if(window.WrapUI)await WrapUI.deliver();
+  let pts=0;const parts=[];
+  if(mk.g===order.g){pts+=25;}else parts.push('선물이 달라요');
+  if(mk.size===order.size){pts+=25;}else parts.push('상자 크기가 안 맞아요');
+  if(mk.paper===order.paper){pts+=20;}else parts.push('포장지 색이 달라요');
+  if(mk.rib===order.rib){pts+=20;}else parts.push('리본 색이 달라요');
+  const speed=Math.round(Math.max(0,left/PATIENCE)*10);pts+=speed;
+  const mad=moodLv;if(mad===3){pts-=15;parts.push('오래 기다려서 화가 났어요');}else if(mad===2){pts-=6;parts.push('기다리다 지쳤어요');}pts=Math.max(0,pts);
+  const st=pts>=90?3:pts>=70?2:pts>=50?1:0,tip=Math.max(0,st-(mad>=2?1:0));   // tip in yarn
+  scores.push(pts);tipTotal+=tip;stars+=st;
+  const face=mad>=2&&st<3?'😠':st===3?'😍':st===2?'😊':st===1?'🙂':'😞';
+  const txt=mad>=2&&st>=1?'너무 늦었지만… 받을게요.':mad>=2?'이렇게 오래 기다렸는데 주문과도 달라요!':st===3?'완벽해요! 고마워요!':st===2?'마음에 들어요!':st===1?'음… 괜찮네요.':'이건 제가 주문한 게 아니에요…';
+  const cust=$('#cust');if(window.WrapUI)WrapUI.react(face);else cust.textContent=face;
+  const r=document.createElement('div');r.className='react';r.textContent=`${'★'.repeat(st)}${'☆'.repeat(3-st)} ${txt}`;$('#counter').append(r);setTimeout(()=>r.remove(),1700);
+  $('#msg').textContent=`${pts}점${tip?` · 팁 실뭉치 ${tip}`:''}${parts.length?' · '+parts.join(', '):' · 주문과 똑같아요!'}`;
+  window.SejinSfx&&SejinSfx.play(st>=2?'chime':st===1?'ok':'wrong');
+  head();
+  $('#row').innerHTML='';$('#opts').innerHTML='';$('#ttl').textContent='';
+  setTimeout(()=>{cust.classList.add('out');},still?0:1100);
+  setTimeout(()=>{idx++;if(idx>=CUSTOMERS)finish();else{state='play';newOrder();startTimer();}},still?200:1900);
+ }
+ // 손님 기분: 기다릴수록 나빠진다 (0 보통 → 1 급함 → 2 화남 → 3 폭발). 전달할 때 점수와 팁이 깎인다.
+ const MOOD=[null,{e:'😐',t:'저기… 아직인가요?'},{e:'😠',t:'너무 오래 걸려요!'},{e:'🤬',t:'더는 못 기다려요!!'}];
+ let moodLv=0;const moodOf=()=>{const r=left/PATIENCE;return r>.6?0:r>.3?1:r>0?2:3;};
+ function startTimer(){clearInterval(tick);tick=setInterval(()=>{left-=.1;if(left<0)left=0;const pt=$('#pat');pt.style.width=Math.max(0,left/PATIENCE*100)+'%';
+  const m=moodOf();if(m!==moodLv){moodLv=m;pt.parentElement.style.background=m>=2?'#f3c4c4':'';if(window.WrapUI&&WrapUI.mood)WrapUI.mood(m,MOOD[m]);if(m>=2&&window.SejinSfx)SejinSfx.play('wrong');}},100);}
+ function start(){state='play';idx=0;scores=[];tipTotal=0;stars=0;$('#go').hidden=true;$('#doneCard').hidden=true;newOrder();startTimer();}
+ function show(icon,title,text,acts){$('#doneIcon').textContent=icon;$('#doneTitle').textContent=title;$('#doneText').innerHTML=text;$('#doneActs').innerHTML=acts;setTimeout(()=>{$('#doneCard').hidden=false;},still?0:500);}
+ function finish(){
+  state='over';clearInterval(tick);
+  const avg=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length),win=avg>=PASS;
+  let first=false;try{const k='sejin-wrap-v2',c=JSON.parse(localStorage.getItem(k))||{};if(win&&!c.done){first=true;c.done=1;}c.best=Math.max(c.best||0,avg);localStorage.setItem(k,JSON.stringify(c));}catch(e){}
+  const yarn=(win?(first?12:4):Math.floor(avg/40))+tipTotal;
+  if(yarn)SejinSave.pushResult({game:'minigame',label:'선물 포장',place:'천사 마을',first,yarn});
+  if(win)SejinSave.pushResult({game:'pickup',place:'천사 마을',items:{'v-gift-box':1}});
+  window.SejinSfx&&SejinSfx.play(win?'win':'wrong');
+  const grade=avg>=90?'최고의 포장 장인!':avg>=75?'솜씨가 좋아요!':win?'합격이에요!':'조금 더 연습해요';
+  show(win?'🎁':'🥺',win?'가게 영업 성공!':'손님들이 아쉬워해요',`평균 <b>${avg}점</b> · 별 ${stars}/${CUSTOMERS*3}<br>${grade}${win?'<br>🎁 <b>천사의 선물 상자</b>를 받았어요!':''}${yarn?`<br>실뭉치 <b>+${yarn}개</b>(팁 ${tipTotal} 포함)는 방에 가면 들어와요.`:''}`,`<button id="rt">${win?'다시 하기':'다시 도전'}</button><a class="ghost" href="village.html">천사 마을로</a>`);
+  $('#rt').onclick=start;
+ }
+ $('#go').onclick=start;
+ $('#steps').innerHTML=STEPNAMES.map(n=>`<i>${n}</i>`).join('');head();
+ $('#cust').textContent='🛎️';$('#ttl').textContent='';
+})();
+</script>
+<script src="wrap-workbench.js"></script>
+<script src="wrap-spaces.js"></script>
+<script src="sejin-hud.js"></script><script src="sejin-from.js"></script>
+</body>
+</html>

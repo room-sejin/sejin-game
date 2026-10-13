@@ -1,0 +1,89 @@
+{
+  "id": "coloring-flowercup-v1",
+  "name": "꽃 찻잔",
+  "difficulty": "보통",
+  "palette": {
+    "A": [
+      "색 1",
+      "#67371f"
+    ],
+    "B": [
+      "색 2",
+      "#779b62"
+    ],
+    "C": [
+      "색 3",
+      "#bf7c47"
+    ],
+    "D": [
+      "색 4",
+      "#83c89c"
+    ],
+    "E": [
+      "색 5",
+      "#b2dfb6"
+    ],
+    "F": [
+      "색 6",
+      "#f5a2b2"
+    ],
+    "G": [
+      "색 7",
+      "#c6ade5"
+    ],
+    "H": [
+      "색 8",
+      "#fff1d4"
+    ]
+  },
+  "rows": [
+    "................................",
+    "................................",
+    "...............AA...............",
+    "...............AH...............",
+    "...............HHA..............",
+    "..............AHA...............",
+    "...............H..A.............",
+    ".................AH.............",
+    "..............AA.HA.............",
+    ".............AHA................",
+    "..............C.................",
+    "..........AAHHHHHHHHAA..........",
+    "........HHHHHHHHHHHHHHHH........",
+    "......AHHHCCCCCCCCCCCCHHHA......",
+    "......AHCCCHCCCCCCCCCCCCHADEE...",
+    "......AEAHCCCCCCCCCCCAAAEEEEEE..",
+    "......AEEEEEAAAAAAAEEEAEEE..AEA.",
+    ".......EHEEEEEEEEEEEEEAEEA..AE..",
+    ".......EEHEEEEEAEEEEEEAEE...BE..",
+    ".......AEEEEEAAHAAEEAGGAA..AEA..",
+    "......AAEEEBEEHFHEEBAFFGAAAEE...",
+    "....AHEHEEEEBEHFHEBEAGGGEEEA....",
+    "...HEHHHHEEEEEAHAEEEEGGGFHHEH...",
+    "..AEHHHHHHEEEEEAEEEEEEHHHHHHEA..",
+    "..AHHHHHHHHDEEEEEEEEDHHHHHHHHA..",
+    "...HEHHHHHHEHEEEEEEHEHHHHHHEH...",
+    "....HHEHHHHEEHHHHHHEEHHHHEHH....",
+    ".....AHHEEHHHAAAAAAHHHEEHHA.....",
+    ".......AHHHHHHHHHHHHHHHHA.......",
+    "..........AAAHHHHHHAAA..........",
+    "................................",
+    "................................"
+  ],
+  "sourceReference": "assets/sejin-coloring-flowercup-v1.png",
+  "gridSize": 32,
+  "filledCells": 433,
+  "colorCounts": {
+    "A": 84,
+    "B": 5,
+    "C": 39,
+    "D": 3,
+    "E": 134,
+    "F": 5,
+    "G": 9,
+    "H": 154
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+}

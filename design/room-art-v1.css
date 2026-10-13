@@ -1,0 +1,192 @@
+/* Mint/coral loft: keep scene coordinates tied to the 2:3 illustration. */
+:root{--wall:#fff4e6;--line:#e9d9c4;--btn:#8abbb0;--btn-d:#69988e}
+.room-theme-scene{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;z-index:0}
+.room-theme-scene:not([src]){display:none}
+/* Theme pictures that already contain Sejin: the character layer becomes an invisible tap area over the drawn Sejin. */
+#p-room .baked-sejin .sejin{background:none;left:var(--theme-sejin-x)!important;top:var(--theme-sejin-y);bottom:auto!important;width:22%!important;height:16%;transform:translate(-50%,-50%);animation:none;z-index:1}
+#p-room .baked-sejin .sejin .pose-img,#p-room .baked-sejin .sejin .look,#p-room .baked-sejin .spot{display:none}
+/* Separate character layer (sejin-character.js) over character-free backgrounds. */
+#p-room .room:not(.baked-sejin) .sejin{background:none;aspect-ratio:auto;height:auto;z-index:3;transition:opacity .22s}
+.sejin .pose-img{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-drag:none}
+.sejin .look,.stage-sejin .look{position:absolute;inset:0;pointer-events:none}
+.wear-layer{position:absolute;inset:0;width:100%;height:100%}
+.acc.anchor{visibility:hidden;height:1px}
+.sejin.fading{opacity:0}
+.spot{position:absolute;z-index:2;padding:0;margin:0;border:0;border-radius:16px;background:transparent;box-shadow:none;cursor:pointer}
+.spot:hover{background:#fff8dc40;filter:none}
+.spot:focus-visible{outline:3px dashed #9d7658;outline-offset:2px}
+/* Floor spot where Sejin stands: a soft dashed ring hints "tap here to get up". */
+.floor-spot[hidden]{display:none}
+.floor-spot::after{content:"";position:absolute;inset:18% 8%;border:2.5px dashed #9d7658b0;border-radius:50%;background:#fffaf0a0;box-shadow:0 0 0 4px #ffffff90;animation:floor-hint 1.8s ease-in-out infinite}
+@keyframes floor-hint{50%{opacity:.45;transform:scale(.94)}}
+@media (prefers-reduced-motion:reduce){.floor-spot::after{animation:none}}
+/* Cleaning by touch (room-cleaning.js): trash on the floor, a broom sweeps it away. */
+#p-room .dust{display:none}
+.trash-layer{position:absolute;inset:0;z-index:2;pointer-events:none}
+.trash{position:absolute;width:9%;padding:0;margin:0;border:0;background:none;box-shadow:none;transform:translateX(-50%);cursor:pointer;pointer-events:auto}
+.trash svg{display:block;width:100%;height:auto;filter:drop-shadow(0 2px 1px #0000001f)}
+.trash:hover{filter:none;transform:translateX(-50%) scale(1.08)}
+.trash:focus-visible{outline:3px dashed #9d7658;outline-offset:2px;border-radius:8px}
+.trash.sweeping{pointer-events:none}
+.broom{position:absolute;width:12%;transform:translate(-50%,0);transform-origin:50% 12%;pointer-events:none;z-index:1}
+.broom svg{display:block;width:100%;height:auto;margin-bottom:-6%}
+.puff{position:absolute;width:10px;height:10px;border-radius:50%;background:#e8dfd4;pointer-events:none}
+/* Closet preview */
+.look-stage{position:relative;height:150px;margin:0 0 8px;border-radius:16px;background:radial-gradient(ellipse at 50% 92%,#e7d9c3 0 34%,transparent 35%),#f8efe3;overflow:hidden}
+.stage-sejin{position:absolute;left:50%;bottom:8px;height:136px;max-width:92%;transform:translateX(-50%)}
+.stage-sejin>img{display:block;width:100%;height:100%;object-fit:contain}
+.pose-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.pose-chips button{padding:7px 11px;font-size:12px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line)}
+.pose-chips button[aria-pressed=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.miss-note{margin:0 2px 8px;padding:8px 10px;border-radius:10px;background:#fff3e6;color:#9a6b4f;font-size:12px}
+.cloth .cover{font-size:10px;opacity:.75}
+.cloth img{height:30px;width:auto}
+.theme-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 14px}
+.theme-tabs button{background:#fffaf3;color:#705847;padding:9px 13px;font-size:13px;border:1px solid #e4d4c2;box-shadow:none}
+.theme-tabs button[aria-selected=true]{background:#daebdf;border-color:#7faa94;color:#375d48}
+.theme-status{font-size:12px;color:#705847;margin:12px 0}
+.theme-preview{display:block;width:min(100%,230px);height:auto;border-radius:12px;margin:auto}
+.app{background:#fff4e6}
+/* Empty loft + separately placed furniture (furniture-ui.js). The fully furnished
+   illustration assets/sejin-room-pastel-clean-v1.png is kept as the previous look. */
+#p-room .room{flex:none;height:auto;min-height:0;aspect-ratio:2/3;background:#f6e7da url(../assets/rooms/house-fixed-v3-pencil.png) center/100% 100% no-repeat;isolation:isolate;--sw:100px}
+/* The house is a fixed scene. Only separately loaded furniture may change. */
+#p-room .room::after{display:none}
+.furniture-layer{position:absolute;inset:0;z-index:1;pointer-events:none}
+.placed-furniture{position:absolute;transform:translate(-50%,-50%);padding:0;border:0;border-radius:10px;background:none;box-shadow:none;pointer-events:none}
+.placed-furniture:hover{filter:none}
+.placed-furniture img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+.preset-note{margin:4px 2px 10px;padding:10px 12px;border-radius:12px;background:#edf6ef;color:var(--sub);font-size:12px;line-height:1.5}
+.furniture-empty{padding:24px 12px;border:1px dashed var(--line);border-radius:14px;text-align:center;color:var(--sub);font-size:12px;background:#fffdf8}
+.furniture-catalog button[aria-pressed=true]{outline:3px solid var(--btn);outline-offset:1px;background:#eef6f8}
+.room.editing .placed-furniture.selected{outline:3px solid var(--btn);outline-offset:2px;cursor:grabbing}
+.furniture-controls{margin:8px 12px 0;padding:10px 12px;border-radius:16px;background:#fffaf2;box-shadow:0 4px 14px #8875671a}
+.furniture-controls[hidden]{display:none}
+.edit-title{display:flex;align-items:center;justify-content:space-between}
+.edit-title button,.edit-actions button{padding:8px 12px;font-size:13px}
+#furnitureHint{margin:6px 0 8px;font-size:12px;color:var(--sub)}
+.edit-actions{display:flex;flex-wrap:wrap;gap:6px}
+.edit-actions button:disabled{background:#cbbfb2;box-shadow:0 3px 0 #b5a99c;cursor:default}
+.furniture-catalog{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.furniture-catalog button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;font-size:12px;background:var(--card);color:var(--ink);box-shadow:0 2px 0 var(--line)}
+.furniture-catalog img{width:100%;height:58px;object-fit:contain}
+.decor-cats{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 4px}
+.decor-cats button{flex:none;display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:20px;background:#fff;color:var(--sub);box-shadow:0 2px 0 var(--line);font-size:13px}
+.decor-cats button small{font-size:10px;font-weight:normal;opacity:.8}
+.decor-cats button[aria-selected=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.furniture-catalog .level{display:inline-block;padding:0 5px;margin-right:2px;border-radius:6px;background:#f1e4d3;color:var(--sub);font-size:10px}
+.decor-actions{display:flex;gap:8px}
+.decor-actions button{flex:1;padding:10px;font-size:13px}
+.decor-actions .clear-furniture{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.decor-actions button:disabled{opacity:.5;cursor:default}
+.placed-furniture.pop{animation:prop-pop .35s ease-out}
+@keyframes prop-pop{from{opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@media (prefers-reduced-motion:reduce){.placed-furniture.pop{animation:none}}
+.furniture-catalog small{color:var(--sub);font-weight:normal;font-size:11px}
+.start-layout,.legacy-decor{width:100%;padding:10px;margin:4px 0;font-size:13px}
+.legacy-decor{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.furniture-note{font-size:11px;line-height:1.6;color:var(--sub)}
+#p-room .window,#p-room .shelf,#p-room .bed,#p-room .bunting{display:none}
+#p-room .sejin{width:27%;left:46%;bottom:17%;z-index:1}
+#p-room .bubble{left:46%;bottom:40%;width:max-content;max-width:72%;z-index:2;font-size:12px;padding:7px 10px;background:#fffaf2f2}
+#p-room .bubble::after{border-top-color:#fffaf2}
+#p-room .side{top:17%;bottom:auto;right:8px}
+#p-room .tools{left:8px;right:8px;top:8px;gap:5px}
+#p-room .tool{padding:7px 8px;font-size:11px;background:#fffaf2ed}
+#p-room .rug{display:none;left:46%;bottom:16%;width:45%;height:7%;z-index:0}
+#p-room .deco-rug .rug{display:block}
+#p-room .shelf2{left:8%;bottom:44%;width:24%;z-index:1}
+#p-room .lights{top:29%;left:15%;width:65%;z-index:1}
+#p-room .dust{bottom:15%;z-index:1}
+#p-room .zz{left:59%;top:58%;z-index:2;text-shadow:0 1px 4px #70534d}
+#p-room .coin{left:calc(46% - 11px);bottom:28%}
+#p-room .plus{left:62%;bottom:40%}
+#p-room .gain{bottom:48%;font-size:12px}
+.needs{padding-top:12px}.care button{background:#fffaf4}
+.sheet{position:fixed;inset:0;max-width:400px;margin:auto;border-radius:0;z-index:20}
+.sheet-card{max-height:80dvh;box-shadow:0 -8px 32px #69544720}
+@media(max-width:440px){body{padding:0;background:#fff4e6}.note{padding:9px 14px;margin:0;font-size:10px}.phone{padding:0;border-radius:0;box-shadow:none}.app{border-radius:0;min-height:100dvh}.top{padding-top:10px}#p-room .room{margin:0 8px;border-radius:18px}.needs{gap:6px 14px}.care{gap:4px;padding-left:8px;padding-right:8px}.care button{font-size:11px}}
+
+/* Phone: use the full available width. Keep the house and its hit areas 2:3. */
+@media (max-width:739px){
+  body{padding:0;background:#fff4e6}
+  .note{padding:8px 14px;margin:0;font-size:10px}
+  .phone{max-width:100%;padding:0;border-radius:0;box-shadow:none}
+  .app{min-height:100dvh;border-radius:0}
+  #p-room .room{margin:0;border-radius:0}
+  .sheet{max-width:100%}
+  nav{padding-bottom:env(safe-area-inset-bottom)}
+  .tool{min-height:40px}
+}
+.room-sidebar[hidden]{display:none}
+/* Tablet and desktop: full-size illustration with controls alongside it. */
+@media (min-width:740px){
+  body{padding:16px 20px}
+  .phone{max-width:1040px;padding:0;background:transparent;box-shadow:none;border-radius:0}
+  .app{min-height:calc(100dvh - 64px);border-radius:24px;background:#fff4e6}
+  .top{padding:16px 24px;gap:24px}
+  .lv{max-width:360px}
+  .yarn{margin-left:auto}
+  #p-room.on{display:grid;grid-template-columns:minmax(0,1fr) 216px;align-items:start;gap:20px;padding:0 20px 20px}
+  #p-room .room{width:100%;max-width:640px;margin:0 auto;border-radius:18px}
+  .room-sidebar{display:flex;flex-direction:column;gap:20px;padding:18px 12px;background:#fffaf2;border:1px solid #e7dccd;border-radius:20px;position:sticky;top:16px}
+  #p-room .room-sidebar .tools{position:static;display:grid;grid-template-columns:1fr;gap:10px}
+  #p-room .room-sidebar .tool{min-height:46px;padding:12px;font-size:14px;justify-content:center;background:#e8f1e5}
+  #p-room .room-sidebar .side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .room-sidebar .side-btn{width:100%;height:58px;font-size:12px;background:#f9e7e9}
+  .room-sidebar .needs{grid-template-columns:1fr;padding:0 4px;gap:16px}
+  #p-room .room-sidebar .care{grid-template-columns:1fr 1fr;padding:0;gap:12px}
+  .room-sidebar .care button{min-height:70px;font-size:12px}
+  nav{border-radius:0 0 24px 24px}
+  nav button{min-height:66px;font-size:14px}
+  .sheet{max-width:none;align-items:center;justify-content:center;padding:24px}
+  .sheet-card{max-width:560px;max-height:85dvh;border-radius:24px;padding:24px}
+  .panel:not(#p-room){width:100%;max-width:760px;margin:0 auto;padding:12px 20px 28px}
+}
+@media (min-width:1100px){
+  .phone{max-width:1180px}
+  .app{display:grid;grid-template-columns:minmax(0,1fr) 100px;grid-template-rows:auto 1fr;overflow:visible}
+  .top{grid-column:1;grid-row:1}
+  .panel{grid-column:1;grid-row:2}
+  .app>nav{grid-column:2;grid-row:1 / 3;display:flex;flex-direction:column;gap:12px;padding:20px 10px;border-top:0;border-left:1px solid var(--line);border-radius:0 24px 24px 0}
+  nav button{border-radius:16px;padding:18px 8px}
+  nav button[aria-selected=true]{background:#e8f1e5}
+  #p-room.on{grid-template-columns:minmax(0,1fr) 240px;gap:28px}
+  .room-sidebar{padding:20px 16px}
+}
+@media (min-width:740px){
+  #p-room .room{max-width:clamp(380px,calc((100dvh - 160px) * 2 / 3),640px)}
+}
+@media (min-width:740px) and (max-height:760px){
+  .room-sidebar{gap:12px;padding:12px}
+  #p-room .room-sidebar .tools{grid-template-columns:repeat(3,1fr);gap:5px}
+  #p-room .room-sidebar .tool{font-size:11px;padding:8px 3px;flex-direction:column}
+  .room-sidebar .needs{grid-template-columns:1fr 1fr;gap:12px}
+}
+@media (min-width:740px) and (max-width:1099px){
+  .phone{max-width:calc(clamp(380px,calc((100dvh - 160px) * 2 / 3),640px) + 276px)}
+}
+@media (min-width:1100px){
+  .phone{max-width:calc(clamp(380px,calc((100dvh - 160px) * 2 / 3),640px) + 408px)}
+}
+
+/* Independent material colors over the fixed basic-room illustration. */
+.room-color-layer{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.room-color-layer[hidden]{display:none}
+.room-color-settings{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.room-color-settings h4{margin:0 0 6px;font-size:16px}
+.color-help{font-size:12px;color:var(--sub);margin:0 0 12px}
+.room-color-preview{display:block;width:min(100%,300px);height:auto;aspect-ratio:2/3;margin:0 auto 14px;border-radius:14px;border:2px solid var(--line);background:#fffdf8}
+.part-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.part-tabs button{flex:1 1 auto;padding:8px 10px;font-size:13px;font-weight:bold;background:#fffaf3;color:var(--ink);box-shadow:none;border:2px solid transparent;border-radius:12px}.part-tabs button[aria-selected=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}.part-swatches{margin-bottom:12px}
+.room-color-settings fieldset{border:0;padding:0;margin:0 0 16px;min-width:0}
+.room-color-settings legend{font-size:13px;font-weight:bold;margin-bottom:8px}
+.part-swatches{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.part-swatches button{display:flex;flex-direction:column;align-items:center;gap:5px;background:#fffaf3;color:var(--ink);box-shadow:none;border:2px solid transparent;padding:6px 0;min-height:56px;font-size:10px}
+.part-swatches button i{width:22px;height:22px;border-radius:50%;border:1px solid #8a6f6040}
+.part-swatches button[aria-pressed=true]{border-color:var(--btn-d);background:#edf6ef}
+.part-swatches button:disabled,.color-reset:disabled{opacity:.5;cursor:wait}
+.color-reset{width:100%;padding:12px;background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line)}
+.theme-preview[hidden]{display:none}
+
+.room-tabs{display:flex;gap:6px;margin-bottom:12px}.room-tabs button{flex:1;padding:10px;font-size:14px;font-weight:bold;background:#fffaf3;color:var(--ink);box-shadow:none;border:2px solid transparent;border-radius:12px}.room-tabs button[aria-selected=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.event-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.event-card{position:relative;display:grid;gap:2px;justify-items:center;text-align:center;padding:16px 8px 12px;border-radius:14px;background:#fffaf3;border:2px dashed #e0d3c4;opacity:.85}.event-card span{font-size:34px}.event-card b{font-size:13px}.event-card small{font-size:11px;color:var(--sub)}.event-card em{margin-top:4px;font-style:normal;font-size:11px;font-weight:bold;background:#e9e1d6;color:var(--sub);border-radius:9px;padding:1px 9px}

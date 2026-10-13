@@ -1,0 +1,429 @@
+[
+  {
+    "id": "coloring-strawberry-v2",
+    "name": "새콤 딸기",
+    "difficulty": "쉬움",
+    "palette": {
+      "A": [
+        "외곽선",
+        "#67371f"
+      ],
+      "B": [
+        "크림",
+        "#fff1d4"
+      ],
+      "C": [
+        "민트",
+        "#95d5b3"
+      ],
+      "F": [
+        "분홍",
+        "#f49bac"
+      ]
+    },
+    "rows": [
+      "................",
+      "................",
+      "................",
+      "......ACCA......",
+      ".....CCCCCC.....",
+      "...AAAAAAACCA...",
+      "...AFFFFFFFFA...",
+      "...AFFBFFFFA....",
+      "....AFFFFBFA....",
+      "....AFFFFFFA....",
+      "....AFFFFFFA....",
+      ".....AFBFFB.....",
+      ".....AFFFFA.....",
+      "......AAAA......",
+      "................",
+      "................"
+    ],
+    "sourceReference": "assets/sejin-coloring-strawberry-v2.png",
+    "gridSize": 16,
+    "filledCells": 79,
+    "colorCounts": {
+      "A": 27,
+      "C": 10,
+      "F": 38,
+      "B": 4
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+  },
+  {
+    "id": "coloring-gift-v2",
+    "name": "리본 선물",
+    "difficulty": "쉬움",
+    "palette": {
+      "A": [
+        "외곽선",
+        "#67371f"
+      ],
+      "E": [
+        "보라",
+        "#c6ade5"
+      ],
+      "F": [
+        "분홍",
+        "#f49bac"
+      ]
+    },
+    "rows": [
+      "....................",
+      "....................",
+      "....................",
+      "....AA.......AA.....",
+      "...AFFA.....AFFA....",
+      "...AFFFA..AAFFFA....",
+      "...AFFFFAAFFFFA.....",
+      "....AAAAFFFFAA......",
+      "...AAAAAFFFFAAAAA...",
+      "...AEEEEFFFFEEEEA...",
+      "...AFFFFFFFFFFFFA...",
+      "...AFFFFFFFFFFFFA...",
+      "...AEEEEEFFEEEEEA...",
+      "...AEEEEEFFEEEEEA...",
+      "...AEEEEEFFEEEEEA...",
+      "...AAAAAAFFAAAAAA...",
+      "...AAAAAAAAAAAAAA...",
+      "....................",
+      "....................",
+      "...................."
+    ],
+    "sourceReference": "assets/sejin-coloring-gift-v2.png",
+    "gridSize": 20,
+    "filledCells": 171,
+    "colorCounts": {
+      "A": 71,
+      "F": 62,
+      "E": 38
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+  },
+  {
+    "id": "coloring-yarnbasket-v2",
+    "name": "뜨개 바구니",
+    "difficulty": "보통",
+    "palette": {
+      "A": [
+        "외곽선",
+        "#67371f"
+      ],
+      "B": [
+        "크림",
+        "#fff1d4"
+      ],
+      "C": [
+        "민트",
+        "#95d5b3"
+      ],
+      "D": [
+        "하늘",
+        "#8fccec"
+      ],
+      "E": [
+        "보라",
+        "#c6ade5"
+      ],
+      "G": [
+        "금빛",
+        "#edc66b"
+      ]
+    },
+    "rows": [
+      "........................",
+      "........................",
+      "................AAA.....",
+      "..........AAAA..AGA.....",
+      ".........ADDDDA.AAA.AAA.",
+      "........ADBDDDDA.A..AGA.",
+      ".......ADDDBDDDDAA..AAA.",
+      ".......ADDDDBDDDAA...A..",
+      ".....AAAADDDDBAAAA..A...",
+      "...AACCCCAADAABEEEAAA...",
+      "...ACBCCCCADAEBEEEEAA...",
+      "..ACCCBCCCCAEEEBEEEEA...",
+      "..ACCCCBCCCAEEEEBEEEA...",
+      "..ACCCCCBCCAEEEEEBEEA...",
+      "..ACCCCCCBCAEEEEEEBEA...",
+      "..AAAAAAAAAAAAAAAAAAAA..",
+      "...AGGGGGGGGGGGGGGGGA...",
+      "...ABBBBBBBBBBBBBBBBA...",
+      "...ABBBBGBBBGBBBGBBA....",
+      "....ABGGGGGGGGGGGGBA....",
+      "....ABBBGBBBGBBBGBBA....",
+      ".....AAAAAAAAAAAAAA.....",
+      "........................",
+      "........................"
+    ],
+    "sourceReference": "assets/sejin-coloring-yarnbasket-v2.png",
+    "gridSize": 24,
+    "filledCells": 305,
+    "colorCounts": {
+      "A": 111,
+      "G": 36,
+      "D": 29,
+      "B": 56,
+      "C": 37,
+      "E": 36
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+  },
+  {
+    "id": "coloring-flowercup-v2",
+    "name": "꽃 찻잔",
+    "difficulty": "보통",
+    "palette": {
+      "A": [
+        "외곽선",
+        "#67371f"
+      ],
+      "B": [
+        "크림",
+        "#fff1d4"
+      ],
+      "C": [
+        "민트",
+        "#95d5b3"
+      ],
+      "E": [
+        "보라",
+        "#c6ade5"
+      ],
+      "F": [
+        "분홍",
+        "#f49bac"
+      ],
+      "G": [
+        "금빛",
+        "#edc66b"
+      ]
+    },
+    "rows": [
+      "................................",
+      "................................",
+      "................................",
+      "............A....A..............",
+      "............A...A...............",
+      "...........A....A...............",
+      "............A....A..............",
+      "................................",
+      "..........AAAAAAAAAA............",
+      ".......AAABBBBBBBBBBAAA.........",
+      "......ABBBAAAAAAAAAABBBA.AAA....",
+      ".....ABAAAAAAAAAAAAAAAABACCCA...",
+      ".....ABAAAGGGGGGGGGGAAABACCCA...",
+      "......ABBBAAAAAAAAAABBBAAC.CAA..",
+      "......AAAABBBBBBBBBBAAAAA...AA..",
+      "......ACCCAAAAAAAAAACCAAA...AA..",
+      "......ACCCCCCCCCCCCCCCAAA...AA..",
+      ".......ACCCCCBBBBCCCCCAAA...AA..",
+      ".......ACCCCBBBBBBCCCAAAA...AA..",
+      ".......ACCCCBBFFBBCCCAEEAC.CAA..",
+      ".......ACCCCBBFFBBCCCAEEACCCA...",
+      ".......ACCCCBBBBBBCCCAEEACCCA...",
+      ".......ACCCCCBBBBCCCCAAAAAAA....",
+      "........ACCCCCCCCCCCCA..........",
+      "........AACCCCCCCCCCAAAA........",
+      "....AAAACCAAAAAAAAAACCCCAAAA....",
+      "..AABCCCCCCCCCCCCCCCCCCCCCCBAA..",
+      "..AABBBBCCCCCCCCCCCCCCCCBBBBAA..",
+      "....AAAABBBBBBBBBBBBBBBBAAAA....",
+      "........AAAAAAAAAAAAAAAA........",
+      "................................",
+      "................................"
+    ],
+    "sourceReference": "assets/sejin-coloring-flowercup-v2.png",
+    "gridSize": 32,
+    "filledCells": 466,
+    "colorCounts": {
+      "A": 207,
+      "B": 90,
+      "C": 149,
+      "G": 10,
+      "F": 4,
+      "E": 6
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+  },
+  {
+    "id": "coloring-sejin-v2",
+    "name": "기본 세진이",
+    "difficulty": "어려움",
+    "palette": {
+      "A": [
+        "외곽선",
+        "#67371f"
+      ],
+      "B": [
+        "크림",
+        "#fff1d4"
+      ],
+      "D": [
+        "하늘",
+        "#8fccec"
+      ],
+      "F": [
+        "분홍",
+        "#f49bac"
+      ]
+    },
+    "rows": [
+      "........................................",
+      "........................................",
+      "........................................",
+      "........................................",
+      "........AAAAA..............AAAAA........",
+      ".......ABBBBBA............ABBBBBA.......",
+      "......ABBFFFBBA..........ABBFFFBBA......",
+      "......ABFFFFFBAAAAAAAAAAAABFFFFFBA......",
+      "......ABFFFFAAADDDDDDDDDDAAAFFFFBA......",
+      "......ABFFAADDDDDDDDDDDDDDDDAAFFBA......",
+      "......ABBADDDDDDDDDDDDDDDDDDDDABBA......",
+      ".......AADDDDDDDAAAAAAAADDDDDDDAA.......",
+      "......ADDDDDDAAABBBBBBBBAAADDDDDDA......",
+      "......ADDDDAABBBBBBBBBBBBBBAADDDDA......",
+      ".....ADDDAABBBBBBBBBBBBBBBBBBAADDDA.....",
+      ".....ADDDABBBBBBBBBBBBBBBBBBBBADDDA.....",
+      "....ADDDABBBBBBBBBBBBBBBBBBBBBBADDDA....",
+      "....ADDABBBBBBBBBBBBBBBBBBBBBBBBADDA....",
+      "....ADDABBBBBABBBBBBBBBBBBABBBBBADDA....",
+      "....ADDABBBBAAABBBBBBBBBBAAABBBBADDA....",
+      "....ADDABBBBAAABBBBBBBBBBAAABBBBADDA....",
+      ".....ADABBBBBABBBBAAAABBBBABBBBBADA.....",
+      ".....ADDABFFFBBBBBAAAABBBBBFFFBADDA.....",
+      "......ADDFFFFFBBBABABBABBBFFFFFDDA......",
+      "......ADDAFFFBBBBAAAAAABBBBFFFADDA......",
+      ".......AADDAABBBBBBFFBBBBBBAADDAA.......",
+      "......AAAADDDAAABBBBBBBBAAADDDAAAA......",
+      ".....AAADDAADDDDAAAAAAAADDDDAADDAAA.....",
+      "....ABBBADDDAAADDDDDDDDDDAAADDDABBBA....",
+      "....ABBBADDDADDAAAAAAAAAADDADDDABBBA....",
+      ".....AAADDDADDDDADDDDDDADDDDADDDAAA.....",
+      "......AAAAAADDDDADDDDDDADDDDAAAAAA......",
+      ".......ADDDADDDAAADDDDAAADDDADDDA.......",
+      "......ADDDDDAAABBBADDABBBAAADDDDDA......",
+      "......ADDDDDDAABBBADDABBBAADDDDDDA......",
+      ".......ADDDDA..AAAAAAAAAA..ADDDDA.......",
+      "........AAAA................AAAA........",
+      "........................................",
+      "........................................",
+      "........................................"
+    ],
+    "sourceReference": "assets/sejin-coloring-sejin-v2.png",
+    "gridSize": 40,
+    "filledCells": 890,
+    "colorCounts": {
+      "A": 293,
+      "B": 285,
+      "F": 52,
+      "D": 260
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+  },
+  {
+    "id": "coloring-angel-v2",
+    "name": "천사 세진이",
+    "difficulty": "어려움",
+    "palette": {
+      "A": [
+        "외곽선",
+        "#67371f"
+      ],
+      "B": [
+        "크림",
+        "#fff1d4"
+      ],
+      "D": [
+        "하늘",
+        "#8fccec"
+      ],
+      "F": [
+        "분홍",
+        "#f49bac"
+      ],
+      "G": [
+        "금빛",
+        "#edc66b"
+      ],
+      "I": [
+        "흰색",
+        "#fffdf3"
+      ]
+    },
+    "rows": [
+      "................................................",
+      "................................................",
+      "...................AAAAAAAAAA...................",
+      "................AAA..........AAA................",
+      "...............AGGG..........GGGA...............",
+      "................AAAGGGGGGGGGGAAA................",
+      "...................AAAAAAAAAA...................",
+      "................................................",
+      "............AAAAA..............AAAAA............",
+      "...........ABBBBBA............ABBBBBA...........",
+      "..........ABBFFFBBA..........ABBFFFBBA..........",
+      "..........ABFFFFFBAAAAAAAAAAAABFFFFFBA..........",
+      "..........ABFFFFAAADDDDDDDDDDAAAFFFFBA..........",
+      "..........ABFFAADDDDDDDDDDDDDDDDAAFFBA..........",
+      "..........ABBADDDDDDDDDDDDDDDDDDDDABBA..........",
+      "...........AADDDDDDDAAAAAAAADDDDDDDAA...........",
+      "..........ADDDDDDAAABBBBBBBBAAADDDDDDA..........",
+      "..........ADDDDAABBBBBBBBBBBBBBAADDDDA..........",
+      ".........ADDDAABBABBBBBABBBBBBBBBAADDDA.........",
+      ".........ADDDABBBBABBBABABBBBBABBBADDDA.........",
+      "........ADDDABBBBBBABABBBAABAABBBBBADDDA........",
+      "........ADDABBBBBBBBABBBBBBABBBBBBBBADDA........",
+      "........ADDABBBBBABBBBBBBBBBBBABBBBBADDA........",
+      "...AAA..ADDABBBBAAABBBBBBBBBBAAABBBBADDA..AA....",
+      "..AIIIA.ADDABBBBAAABBBBBBBBBBAAABBBBADDA.AIIAA..",
+      "..AIIIIA.ADABBBBBABBBBBBBBBBBBABBBBBADAAAIIIIA..",
+      "..AIIIIIAADDABFFFBBBBBBBBBBBBBBFFFBADDAIIIIIIA..",
+      "..AIBIIIIIADDFFFFFBBBBFBBFBBBBFFFFFDDAIIIIIIBA..",
+      "..AIIBBIIIADDAFFFBBBBBBFFBBBBBBFFFADDAIIIIBBIA..",
+      "...AIIIBIIIAADDAABBBBBBBBBBBBBBAADDAAIIIIBIIA...",
+      "...AIIIIBBAAAADDDAAABBBBBBBBAAADDDAAAAIBBIIIA...",
+      "....AIIIIAAADDAADDDDAAAAAAAADDDDAADDAAAIIIIA....",
+      ".....AAIABBBADDDAAADDDDDDDDDDAAADDDABBBAIAA.....",
+      ".......AABBBADDDADDAAAAAAAAAADDADDDABBBAA.......",
+      ".........AAADDDADDDDADDDDDDADDDDADDDAAA.........",
+      "..........AAAAADDDDDADDDDDDADDDDDAAAAA..........",
+      "...........ADDDDDDDAAADDDDAAADDDDDDDA...........",
+      "..........AADDDDDDABBBADDABBBADDDDDDAA..........",
+      "..........AADDDDDDABBBADDABBBADDDDDDAA..........",
+      "..........ADDDDDDDDAAADDDDAAADDDDDDDDA..........",
+      "..........AAAAAAAAAAAAAAAAAAAAAAAAAAAA..........",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "sourceReference": "assets/sejin-coloring-angel-v2.png",
+    "gridSize": 48,
+    "filledCells": 1088,
+    "colorCounts": {
+      "A": 366,
+      "G": 16,
+      "B": 298,
+      "F": 54,
+      "D": 278,
+      "I": 76
+    },
+    "gameConnected": false,
+    "visualApprovalPending": true,
+    "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+  }
+]

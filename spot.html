@@ -1,0 +1,123 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 공원 틀린 그림 찾기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#fbf3ea;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.page{max-width:620px;margin:0 auto;padding:12px 16px 24px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.card{background:#fff;border-radius:22px;padding:14px;box-shadow:0 6px 18px #88756714}
+.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.dots{display:flex;gap:6px;flex-wrap:wrap}.dots i{width:18px;height:18px;border-radius:50%;border:2px solid #d9b48a;background:#fff8ee}.dots i.on{background:#f2a7b5;border-color:#e58c9c}
+.head span{font-size:12px;color:var(--sub)}
+.pic{position:relative;width:100%;aspect-ratio:1448/1086;border-radius:14px;overflow:hidden;border:3px solid #fff;box-shadow:0 3px 10px #8875672a;margin-bottom:10px;touch-action:manipulation;cursor:pointer;background:#e9f3e2}
+.pic canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pic b{position:absolute;left:8px;top:6px;font-size:12px;background:#ffffffcc;border-radius:8px;padding:2px 8px;z-index:2}
+.ring{position:absolute;border:4px solid #e0566d;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 3px #fff8;z-index:2}
+.miss{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;pointer-events:none;color:#e0566d;font-weight:bold;font-size:24px;line-height:26px;text-align:center;animation:fade .6s forwards;z-index:2}
+@keyframes fade{to{opacity:0;transform:translateY(-10px)}}
+.tip{margin:4px 2px 0;font-size:12px;color:var(--sub);text-align:center;min-height:1.4em}
+.done-card{position:fixed;inset:0;display:grid;place-items:center;background:#6d5d5140;padding:16px;z-index:5}
+.done-card[hidden]{display:none}
+.done-card>div{background:#fffaf0;border-radius:24px;padding:22px 20px;text-align:center;max-width:360px;width:100%;box-shadow:0 10px 35px #88756733}
+.done-card h2{margin:6px 0;font-size:21px}.done-card p{color:var(--sub);font-size:14px;line-height:1.6;margin:8px 0 16px}
+.acts{display:flex;flex-direction:column;gap:8px}
+.acts button,.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+.acts .ghost{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+@media (prefers-reduced-motion:reduce){.miss{animation:none;opacity:0}}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" href="place.html?place=park">‹ 공원으로</a><h1>공원 틀린 그림 찾기<small id="sub">두 그림에서 다른 곳을 눌러 찾아요</small></h1></div>
+ <div id="stages"></div>
+ <section class="card">
+  <div class="head"><div class="dots" id="dots" aria-hidden="true"></div><span id="count" role="status"></span></div>
+  <div class="pic" id="a"><canvas></canvas><b>A</b></div>
+  <div class="pic" id="b"><canvas></canvas><b>B</b></div>
+  <p class="tip" id="tip"></p>
+ </section>
+</main>
+<div class="done-card" id="doneCard" hidden><div role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+ <div><img src="assets/misc/playtest-market-clear-v1.png" alt="" style="width:84px;height:84px;object-fit:contain"></div><h2 id="doneTitle">다 찾았어요!</h2><p id="doneText"></p>
+ <div class="acts"><button id="next">다음 스테이지</button><button class="ghost" id="again">다시 하기</button><button class="ghost" id="pickStage">스테이지 선택</button><a class="ghost" href="place.html?place=park">공원으로</a></div>
+</div></div>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script src="stage-bar.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const W=1448,H=1086;
+ // Stage 1 = picnic pair + 9 park scene pairs (the spring picnic scene was dropped as a duplicate of stage 1) (the old stages that put little sprites on one background were removed). 1 = two real pictures (differences found by comparing them pixel by pixel).
+ // 2-4 = a scene picture in which little things are added on one side only (spr = sprite, at x,y = centre in %, w = width in %, side = the picture that has it).
+ // Every difference is a circle (x, y, r in % of the picture width) that can be tapped on either picture.
+ const P='assets/sejin-prop-';
+ const STAGES=[
+  {name:'피크닉',a:'assets/spot/difference-picnic-a-v1.jpg',b:'assets/spot/difference-picnic-b-v1.jpg',diffs:[
+   {x:56.4,y:23.2,r:5.2},{x:9.1,y:29.8,r:8},{x:48.1,y:47.5,r:6.3},{x:20.7,y:67.4,r:4.6},{x:94.5,y:67.4,r:6.3}]},
+  // 10 park scenes: real A/B picture pairs (B was edited from A). Circles checked against the pixel differences; spot.html?debug=1 shows them.
+  {name:'연못가 산책',a:'assets/spot/spot-park-02-pond-v1.jpg',b:'assets/spot/spot-park-02-pond-b-v2.jpg',diffs:[{x:12,y:62,r:7},{x:89,y:40,r:6},{x:95,y:57,r:6},{x:32,y:52,r:6},{x:43,y:84,r:6}]},
+  {name:'꽃 정원 쉼터',a:'assets/spot/spot-park-03-garden-v1.jpg',b:'assets/spot/spot-park-03-garden-b-v2.jpg',diffs:[{x:42,y:25,r:8},{x:21.5,y:37,r:6},{x:73,y:50,r:9},{x:9,y:64,r:7},{x:42,y:56,r:5}]},
+  {name:'비 오는 정자',a:'assets/spot/spot-park-04-rain-v1.jpg',b:'assets/spot/spot-park-04-rain-b-v3.jpg',diffs:[{x:69,y:51,r:10},{x:88,y:55,r:10},{x:66,y:30,r:7},{x:50,y:47,r:6},{x:55,y:85,r:5}]},
+  {name:'해변 소풍',a:'assets/spot/spot-park-05-seaside-v1.jpg',b:'assets/spot/spot-park-05-seaside-b-v2.jpg',diffs:[{x:88,y:20,r:7},{x:72,y:65,r:9},{x:55,y:74,r:7},{x:20,y:86,r:6},{x:36,y:49,r:6}]},
+  {name:'가을 열매 공원',a:'assets/spot/spot-park-06-harvest-v1.jpg',b:'assets/spot/spot-park-06-harvest-b-v2.jpg',diffs:[{x:8.5,y:40,r:9},{x:88,y:43,r:8},{x:65,y:44,r:6},{x:82,y:69,r:7},{x:10,y:64,r:5}]},
+  {name:'등나무 뜨개 정원',a:'assets/spot/spot-park-07-wisteria-v1.jpg',b:'assets/spot/spot-park-07-wisteria-b-v2.jpg',diffs:[{x:24,y:47,r:10},{x:43,y:43,r:7},{x:56,y:68,r:9},{x:61,y:82,r:6},{x:86,y:90,r:9}]},
+  {name:'풍선 축제 공원',a:'assets/spot/spot-park-08-festival-v1.jpg',b:'assets/spot/spot-park-08-festival-b-v2.jpg',diffs:[{x:64,y:25,r:10},{x:83,y:26,r:10},{x:10,y:66,r:9},{x:53,y:76,r:7},{x:96,y:75,r:7}]},
+  {name:'겨울 뜨개 쉼터',a:'assets/spot/spot-park-09-snow-v1.jpg',b:'assets/spot/spot-park-09-snow-b-v2.jpg',diffs:[{x:9,y:35,r:9},{x:34,y:55,r:10},{x:51,y:55,r:7},{x:76,y:42,r:7},{x:88,y:79,r:8}]},
+  {name:'별빛 공원',a:'assets/spot/spot-park-10-stars-v1.jpg',b:'assets/spot/spot-park-10-stars-b-v2.jpg',diffs:[{x:57,y:15,r:7},{x:77,y:31,r:7},{x:83,y:70,r:10},{x:93,y:78,r:7},{x:16,y:21,r:6}]},
+ ];
+ const cache={},load=src=>cache[src]||(cache[src]=new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src;}));
+ let stage=1,found,mistakes,over,bar;
+ async function paint(cv,st,side){
+  cv.width=W;cv.height=H;const g=cv.getContext('2d');
+  if(!st.base){const im=await load(side==='a'?st.a:st.b);if(im)g.drawImage(im,0,0,W,H);return;}
+  const bg=await load(st.base);if(bg)g.drawImage(bg,0,0,W,H);
+  for(const d of st.diffs){if(d.side!==side)continue;const im=await load(d.spr);if(!im)continue;
+   const w=W*d.w/100,h=w*im.naturalHeight/im.naturalWidth;g.save();g.shadowColor='#5b4a4255';g.shadowBlur=6;g.shadowOffsetY=2;g.drawImage(im,W*d.x/100-w/2,H*d.y/100-h/2,w,h);g.restore();}
+ }
+ async function start(n){
+  stage=n;const st=STAGES[n-1];StageBar.splash(n,st.name,'다른 곳 '+st.diffs.length+'개');found=new Set();mistakes=0;over=false;
+  document.querySelectorAll('.ring,.miss').forEach(e=>e.remove());$('#doneCard').hidden=true;
+  $('#sub').textContent=`${n}/${STAGES.length} ${st.name} · 다른 곳 ${st.diffs.length}개를 눌러 찾아요`;
+  $('#tip').textContent='다른 곳을 찾으면 A나 B 어느 쪽이든 눌러요.';refresh();
+  await Promise.all([paint($('#a canvas'),st,'a'),paint($('#b canvas'),st,'b')]);
+ }
+ function refresh(){const st=STAGES[stage-1];$('#dots').innerHTML=st.diffs.map((_,i)=>`<i class="${found.has(i)?'on':''}"></i>`).join('');$('#count').textContent=`${found.size} / ${st.diffs.length}곳 찾음`;}
+ function ring(pic,d,r){const w=pic.clientWidth,e=document.createElement('div');e.className='ring';e.style.left=d.x+'%';e.style.top=d.y+'%';e.style.width=e.style.height=(r/100*w*2)+'px';pic.append(e);}
+ function tap(e){
+  if(over)return;const pic=e.currentTarget,r=pic.getBoundingClientRect(),px=(e.clientX-r.left)/r.width*100,py=(e.clientY-r.top)/r.height*100,st=STAGES[stage-1];
+  const k=st.diffs.findIndex((d,i)=>!found.has(i)&&Math.hypot(px-d.x,(py-d.y)*r.height/r.width)<=(d.r||d.w*.75+2));
+  if(k<0){mistakes++;const m=document.createElement('i');m.className='miss';m.textContent='✕';m.style.left=px+'%';m.style.top=py+'%';pic.append(m);window.SejinSfx&&SejinSfx.play('wrong');setTimeout(()=>m.remove(),700);$('#tip').textContent='앗, 여기는 같아요.';return;}
+  found.add(k);window.SejinSfx&&SejinSfx.play(found.size===st.diffs.length?'win':'ok');const d=st.diffs[k],rr=d.r||d.w*.75+2;ring($('#a'),d,rr);ring($('#b'),d,rr);refresh();$('#tip').textContent='찾았다!';
+  if(found.size===st.diffs.length)finish();
+ }
+ function finish(){
+  over=true;const st=STAGES[stage-1],stars=mistakes<=1?3:mistakes<=4?2:1;
+  const res=StageBar.clear('spot',stage,stars);
+  const yarn=res.first?4+Math.min(stage,6)*2:2;   // first clear only; stops growing after stage 6
+  if(stage===4)SejinSave.clears.mark('spot');   // clearing stage 4 counts as clearing the game (angel mission); later stages are extra
+  SejinSave.pushResult({game:'minigame',label:`공원 틀린 그림 찾기 ${stage}단계`,place:'공원',first:res.first,yarn});
+  bar.refresh();
+  $('#doneTitle').textContent=`${stage}단계 클리어! ${StageBar.stars(stars)}`;
+  $('#doneText').innerHTML=(mistakes?`잘못 누른 곳 ${mistakes}번.<br>`:'한 번도 안 틀렸어요! ✨<br>')+'실뭉치 <b>+'+yarn+'개</b>는 방에 가면 들어와요.'+(res.first&&stage<STAGES.length?'<br>다음 스테이지가 열렸어요!':'');
+  $('#next').hidden=stage>=STAGES.length;
+  setTimeout(()=>{$('#doneCard').hidden=false;($('#next').hidden?$('#again'):$('#next')).focus();},still?0:700);
+ }
+ if(new URLSearchParams(location.search).get('debug'))window.__debugRings=n=>{const st=STAGES[n-1];['a','b'].forEach(k=>st.diffs.forEach(d=>ring($('#'+k),d,d.r||d.w*.75+2)));};
+ $('#a').addEventListener('click',tap);$('#b').addEventListener('click',tap);
+ $('#again').onclick=()=>start(stage);$('#next').onclick=()=>{bar.current=stage+1;bar.refresh();start(stage+1);};
+ // Open the stage-select screen at the first stage that is not cleared yet; the game starts when a stage is picked.
+ const done=SejinSave.stages.get().spot||{};let first=1;while(first<STAGES.length&&done[first])first++;
+ bar=StageBar.mount($('#stages'),{game:'spot',title:'공원 틀린 그림 찾기',names:STAGES.map(s=>s.name),subs:STAGES.map(s=>s.diffs.length+'곳'),current:first,autoOpen:true,onPick:start});
+ $('#pickStage').onclick=()=>{$('#doneCard').hidden=true;bar.open();};
+})();
+</script>
+<script src="sejin-hud.js"></script><script src="sejin-from.js"></script>
+</body>
+</html>

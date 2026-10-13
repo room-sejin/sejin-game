@@ -1,0 +1,110 @@
+{
+  "id": "coloring-angel-v1",
+  "name": "천사 세진이",
+  "difficulty": "어려움",
+  "palette": {
+    "A": [
+      "색 1",
+      "#67371f"
+    ],
+    "B": [
+      "색 2",
+      "#e7b94d"
+    ],
+    "C": [
+      "색 3",
+      "#66b7df"
+    ],
+    "D": [
+      "색 4",
+      "#f89a9c"
+    ],
+    "E": [
+      "색 5",
+      "#8fccec"
+    ],
+    "F": [
+      "색 6",
+      "#ffc2b5"
+    ],
+    "G": [
+      "색 7",
+      "#b6e0f5"
+    ],
+    "H": [
+      "색 8",
+      "#fff3db"
+    ],
+    "I": [
+      "색 9",
+      "#fffdf3"
+    ]
+  },
+  "rows": [
+    "................................................",
+    "................................................",
+    ".....................AAAAAA.....................",
+    "..................ABBBBBBBBBBA..................",
+    ".................BBAA......AABB.................",
+    ".................BBAA.......ABB.................",
+    "..................ABBBAAABBBBAA.................",
+    ".............AAA....AAAAAAAA....AAA.............",
+    "............AIIIAA...AAAAA....AAIIIA............",
+    "...........AIIIIIAAAAEEEEEECA.AIIIIIA...........",
+    "..........AIIIDIIAAEEEEEEEEEEAAIIDIIIA..........",
+    "..........BIIDDDAEEEEEEEEEEEEEEAIDDIID..........",
+    "..........DIIDDAEEEEEEEEEEEEEEEEADDIID..........",
+    "..........AIIHAEEEEEEEEEEEEEEEEEEAHIIA..........",
+    "...........HIAEEEEEEAAAAAAAAEEEEEEAII...........",
+    "...........AAEEEEEAAIIIIIIIIAAEEEEEAA...........",
+    "...........AEEEEEAIIIIIIIIIIIIAEEEEEA...........",
+    "...........EEEEEFIIIAIIIIIIIIIIFEEEEEA..........",
+    "..........AEEEEAIIIIAIIIIIIAIIIIAEEEEA..........",
+    "..........EEEEAIIIIAHAIIDIIIAIIIIAEEEE..........",
+    ".........AEEEEHIHIAHIIAIAAIIIAAIIHEEEEA.........",
+    ".........AEEEAIIAFHHHHIIIHDDDIIAIIAEEEA.........",
+    ".........EEEEIIIDIIIHHHIIIHIIIIIDIIEEEE.........",
+    "........AEEEAIIAHIAAHHIIIIHIAAIIAIIAEEEA........",
+    "........AEEEIIAHIIAAHHIHHHHIAAIIIAIIEEEA........",
+    "........AEEEIIIIIHAAHHHHHHHIAAIIIIIIEEEA........",
+    "...AIIDA.EEEIAHFDDHIHIIHHHIIIHDDFIIIEEE.AFIHA...",
+    "..AIIIIIAAEEAHHDFFDIIIIHFHIIIDDFDIIAEEAAIIIIIA..",
+    "..AIIIIIIAEEAFAIDDIIIIIIIIIIIIDDIABAEEAIIIIIIA..",
+    "...AIIIIIIAEEEEAIIIIIIIIIIIIIIIIAEEEEAIIIIIIA...",
+    "....AIIIIIIIAEEEEAAAIIIIIIIIAAAEEEEAIIIIIIIA....",
+    "...AIIIIIIIIIAAAEEEECEEEECECEEEEAAAIIIIIIIIIA...",
+    "...AIIIIIHIIIAEEAEEEEEEEEEGEEEEAEEAIIIHIIIIIA...",
+    "...AIIIIIHHIAEEEEEEECIECCEICEEEEEEEAIHHIIIIIA...",
+    ".....AAIIIIAHEEECEEEEIEEEEIEEEECEEEHAIIIIAAA....",
+    "......IIIIIAHIEEEEEEAIEEEEIAEEEEEEHHAIIIII......",
+    "......AAAIIADHEAEEEEIIHEEHIIEEEEAEHAAIIAAA......",
+    ".........AIA.AAAEEEEHIAEEAIIEEEEAAA.AIA.........",
+    "..............AEEEEEEAEEEEAEEEEEEA..............",
+    "..............EEEEEEEEEEEEEEEEEEEE..............",
+    "..............AEEEEEEEEEEEEEEEEEEA..............",
+    "...............AAAEEEEEEEEEEEEAAA...............",
+    ".................AHHHHAAAAHHHHA.................",
+    "..................HECCA..AECEH..................",
+    "..................EEEEEAAEEEEE..................",
+    "..................AEEEA..AEEEA..................",
+    "................................................",
+    "................................................"
+  ],
+  "sourceReference": "assets/sejin-coloring-angel-v1.png",
+  "gridSize": 48,
+  "filledCells": 1160,
+  "colorCounts": {
+    "A": 256,
+    "B": 27,
+    "C": 13,
+    "D": 35,
+    "E": 379,
+    "F": 11,
+    "G": 1,
+    "H": 74,
+    "I": 364
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+}

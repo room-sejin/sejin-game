@@ -1,0 +1,71 @@
+{
+  "id": "coloring-yarnbasket-v2",
+  "name": "뜨개 바구니",
+  "difficulty": "보통",
+  "palette": {
+    "A": [
+      "외곽선",
+      "#67371f"
+    ],
+    "B": [
+      "크림",
+      "#fff1d4"
+    ],
+    "C": [
+      "민트",
+      "#95d5b3"
+    ],
+    "D": [
+      "하늘",
+      "#8fccec"
+    ],
+    "E": [
+      "보라",
+      "#c6ade5"
+    ],
+    "G": [
+      "금빛",
+      "#edc66b"
+    ]
+  },
+  "rows": [
+    "........................",
+    "........................",
+    "................AAA.....",
+    "..........AAAA..AGA.....",
+    ".........ADDDDA.AAA.AAA.",
+    "........ADBDDDDA.A..AGA.",
+    ".......ADDDBDDDDAA..AAA.",
+    ".......ADDDDBDDDAA...A..",
+    ".....AAAADDDDBAAAA..A...",
+    "...AACCCCAADAABEEEAAA...",
+    "...ACBCCCCADAEBEEEEAA...",
+    "..ACCCBCCCCAEEEBEEEEA...",
+    "..ACCCCBCCCAEEEEBEEEA...",
+    "..ACCCCCBCCAEEEEEBEEA...",
+    "..ACCCCCCBCAEEEEEEBEA...",
+    "..AAAAAAAAAAAAAAAAAAAA..",
+    "...AGGGGGGGGGGGGGGGGA...",
+    "...ABBBBBBBBBBBBBBBBA...",
+    "...ABBBBGBBBGBBBGBBA....",
+    "....ABGGGGGGGGGGGGBA....",
+    "....ABBBGBBBGBBBGBBA....",
+    ".....AAAAAAAAAAAAAA.....",
+    "........................",
+    "........................"
+  ],
+  "sourceReference": "assets/sejin-coloring-yarnbasket-v2.png",
+  "gridSize": 24,
+  "filledCells": 305,
+  "colorCounts": {
+    "A": 111,
+    "G": 36,
+    "D": 29,
+    "B": 56,
+    "C": 37,
+    "E": 36
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+}

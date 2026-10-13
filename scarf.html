@@ -1,0 +1,250 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>방구석 세진이 · 목도리 뜨기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#2e2733;color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;touch-action:none;user-select:none;-webkit-user-select:none;overscroll-behavior:none}
+.wrap{position:relative;max-width:440px;height:100dvh;margin:0 auto;background:linear-gradient(#e8f0fb,#fdeef1);overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hud{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:8px;align-items:center;z-index:3}
+.hud a{background:#fffffff0;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.hud span{background:#fffffff0;border-radius:12px;padding:7px 12px;font-size:13px;font-weight:bold;box-shadow:0 2px 0 var(--line)}
+.hud .sp{flex:1;background:none;box-shadow:none;padding:0}
+.pads{position:absolute;left:0;right:0;bottom:0;height:96px;display:flex;gap:6px;padding:0 8px 10px;z-index:3}
+.pad{flex:1;border:0;border-radius:18px 18px 10px 10px;font:inherit;font-weight:bold;font-size:15px;color:#fff;box-shadow:0 5px 0 #0003;cursor:pointer;opacity:.92;touch-action:none}
+.pad:nth-child(1){background:#e58c9c}.pad:nth-child(2){background:#7fb5d8}.pad:nth-child(3){background:#e3b84d}
+.pad.down{transform:translateY(3px);box-shadow:0 2px 0 #0003;filter:brightness(1.15)}
+.pad small{display:block;font-weight:normal;font-size:11px;opacity:.9;margin-top:2px}
+.start{position:absolute;inset:0;z-index:6;display:grid;place-items:center;background:#3a2a4a99;padding:16px}
+.start[hidden]{display:none}
+.start>div{background:#fffaf0;border-radius:24px;padding:20px 20px 18px;text-align:center;max-width:340px;box-shadow:0 10px 35px #0004}
+.start h2{margin:4px 0 6px;font-size:21px}.start p{margin:6px 0 14px;font-size:13.5px;line-height:1.6;color:var(--sub)}
+.btn{border:0;font:inherit;font-weight:bold;font-size:16px;padding:13px 28px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}
+.acts{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.acts a{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);text-decoration:none;cursor:pointer}
+.legend{display:flex;gap:6px;justify-content:center;margin:8px 0 12px;font-size:12px}.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:3px;border:2px solid #8a6f60}
+.lbl{font-size:12px;font-weight:bold;color:var(--sub);text-align:left;margin:10px 0 5px}
+.songs,.difs{display:flex;flex-direction:column;gap:6px}.difs{flex-direction:row}
+.song,.dif{position:relative;border:3px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;border-radius:14px;padding:8px 10px;text-align:left;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.song b,.dif b{display:block;font-size:14px}.song small,.dif small{display:block;font-size:11px;color:var(--sub);margin-top:2px}
+.song.sel,.dif.sel{border-color:var(--btn);background:#eaf4fa}.song.lock{opacity:.6;cursor:default}
+.dif{flex:1;text-align:center;padding:8px 4px}.dif em{position:absolute;right:4px;top:-8px;font-style:normal;font-size:10px;font-weight:bold;background:#a9cfa4;color:#fff;border-radius:8px;padding:1px 6px}
+.start>div{max-height:92dvh;overflow:auto}.btn{margin-top:12px}
+.acts .ghostb{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line);cursor:pointer}</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+ <canvas id="cv"></canvas>
+ <div class="hud"><a href="village.html">‹ 천사 마을로</a><span class="sp"></span><span id="hl"></span></div>
+ <div class="pads" id="pads"><button class="pad" data-l="0">왼쪽<small>A · ←</small></button><button class="pad" data-l="1">가운데<small>S · ↓</small></button><button class="pad" data-l="2">오른쪽<small>D · →</small></button></div>
+ <div class="start" id="start"><div id="sbox"></div></div>
+</div>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ // 목도리 뜨기 (구름 실 가게) — 리듬 게임. 위에서 떨어지는 실 구슬이 아래 줄에 닿을 때 같은 칸을 눌러요.
+ //  · 짧은 구슬 = 한 번 누르기 / 긴 실 = 누른 채로 끝까지 버티기
+ //  · 딱 맞으면 완벽(+2줄), 조금 어긋나면 좋아요(+1줄), 놓치면 실이 엉켜요(−1줄, 목숨 하나 감소). 목숨 5개가 다 없어지면 실패.
+ //  · 연속으로 맞추면 콤보! 노래 끝까지 간 뒤 목도리가 TARGET줄 이상이면 완성.
+ const $=s=>document.querySelector(s),cv=$('#cv'),ctx=cv.getContext('2d'),wrap=$('#wrap'),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const LANES=3,LEAD=2400;
+ let BPM=112,BEAT=60000/BPM,TRAVEL=1350,PERFECT=60,GOOD=125,LIVES=5,TARGET=130;   // 곡·난이도를 고르면 begin()에서 정해진다
+ // ---------- 곡 목록 (나중에 노래 파일이 오면 audio 에 파일 이름을 넣고 chart 를 곡의 박자에 맞게 만들면 된다) ----------
+ const SONGS=[
+  {id:'cloud',name:'구름 위 뜨개 노래',desc:'포근하고 경쾌한 기본 곡 · 약 30초',bpm:112,audio:null,chart:'basic'},
+  {id:'winter',name:'포근한 겨울 노래',desc:'노래가 오면 열려요',bpm:96,audio:null,chart:null,locked:true},
+  {id:'star',name:'별빛 자장가',desc:'노래가 오면 열려요',bpm:88,audio:null,chart:null,locked:true},
+ ];
+ // 난이도: 박자 빠르기·구슬이 떨어지는 시간·판정 폭·목숨·완성 목표(완벽만 쳤을 때 줄 수의 비율)·악보 단순화
+ const DIFFS=[
+  {id:'easy',name:'쉬움',bpm:.85,travel:1700,perfect:95,good:175,lives:7,ratio:.45,simple:true,first:8,again:3,desc:'느리고 넉넉해요 · 한 줄씩만'},
+  {id:'normal',name:'보통',bpm:1,travel:1350,perfect:60,good:125,lives:5,ratio:.56,simple:false,first:12,again:4,desc:'기본 난이도'},
+  {id:'hard',name:'어려움',bpm:1.15,travel:1120,perfect:48,good:100,lives:4,ratio:.7,simple:false,first:18,again:6,desc:'빠르고 좁아요'},
+  {id:'practice',name:'연습',bpm:.7,travel:2000,perfect:130,good:230,lives:99,ratio:.3,simple:true,first:0,again:0,practice:true,desc:'실패 없이 연습 · 보상은 없어요'},
+ ];
+ let songSel=0,diffSel=1;try{const p=JSON.parse(localStorage.getItem('sejin-scarf-pref'))||{};songSel=Math.min(SONGS.length-1,+p.song||0);diffSel=Math.min(DIFFS.length-1,+p.diff||1);if(SONGS[songSel].locked)songSel=0;}catch(e){}
+ const getRec=()=>{try{return JSON.parse(localStorage.getItem('sejin-scarf-v3'))||{};}catch(e){return {};}};
+ const COL=['#e58c9c','#7fb5d8','#e3b84d'],PAL=['#f2a7b5','#fff3d6','#8fc3e0','#fff3d6','#c9b3e6','#fff3d6'];
+ // ---------- the chart: [beat, lane, holdBeats] — gets busier every 8 beats ----------
+ function makeChart(simple){
+  const n=[];const add=(b,l,h=0)=>n.push({t:b*BEAT,l,h:h*BEAT,hit:false,miss:false,held:0,state:0});
+  const seq=[0,1,2,1,0,2,1,0];
+  for(let b=0;b<8;b++)add(b,seq[b]);                                    // 1. 한 박자에 하나
+  for(let b=8;b<16;b+=.5)add(b,seq[(b*2)%8]);                           // 2. 반 박자씩
+  for(let b=16;b<24;b++){add(b,seq[b%8]);if(b%2)add(b,(seq[b%8]+1)%3);} // 3. 두 줄 동시
+  for(let b=24;b<32;b+=2){add(b,seq[(b/2)%8],1.5);add(b+1.75,(seq[(b/2)%8]+2)%3);} // 4. 긴 실 + 짧은 구슬
+  for(let b=32;b<40;b+=.5){add(b,seq[(b*2)%8]);if(Math.floor(b)%2&&b%1===0)add(b,(seq[(b*2)%8]+1)%3);} // 5. 빠르게
+  for(let b=40;b<48;b+=2){add(b,seq[(b/2)%8],1);add(b+1.5,(seq[(b/2)%8]+1)%3);add(b+1.75,(seq[(b/2)%8]+2)%3);} // 6. 긴 실 + 빠른 두 알
+  for(let b=48;b<56;b+=.5){add(b,seq[(b*2+3)%8]);if(b%1===0&&Math.floor(b)%3===0)add(b,(seq[(b*2+3)%8]+2)%3);} // 7. 가장 빠른 구간
+  for(let b=56;b<60;b++){add(b,0);add(b,1);add(b,2);}                    // 마무리 세 줄
+  n.sort((a,b)=>a.t-b.t);
+  if(!simple)return n;
+  const out=[];let lastT=-1e9;for(const x of n){const onBeat=Math.abs(x.t/BEAT-Math.round(x.t/BEAT))<.01;if(!onBeat&&x.h===0)continue;if(Math.abs(x.t-lastT)<1)continue;out.push(x);lastT=x.t;}return out;
+ };
+ let celeb=null,W=360,H=640,dpr=1,notes=[],state='ready',t0=0,rows=0,lives=LIVES,combo=0,maxCombo=0,counts={p:0,g:0,m:0},down=[false,false,false],fx=[],judge=null,last=0;
+ function resize(){const r=wrap.getBoundingClientRect();dpr=Math.min(2,devicePixelRatio||1);W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+ addEventListener('resize',resize);resize();
+ // 틀 그림(assets/scarf/scarf-track-v2.png, 1024×1536)이 불러와지면 그림 속 세 칸에 맞춰 줄을 배치하고, 아니면 예전 배치를 쓴다.
+ const TRK=new Image();let trkOK=false;TRK.onload=()=>{trkOK=true;};TRK.src='assets/scarf/scarf-track-v2.png';
+ const TL=[185,413,645],TW=[197,200,198],TC=[283,513,744];   // 그림 속 세 칸의 왼쪽·폭·가운데 (그림 픽셀)
+ const geo=()=>{const S=Math.min(W/1024,H/1536);return{S,ox:(W-1024*S)/2,oy:(H-1536*S)/2};};
+ const laneX=l=>{if(!trkOK)return (W/LANES)*(l+.5);const g=geo();return g.ox+g.S*TC[l];};
+ const laneL=l=>{if(!trkOK)return l*W/LANES;const g=geo();return g.ox+g.S*TL[l];};
+ const laneWi=l=>{if(!trkOK)return W/LANES;return geo().S*TW[l];};
+ const laneW=()=>W/LANES;
+ const hitY=()=>{if(!trkOK)return H-130;const g=geo();return Math.min(H-120,g.oy+g.S*1130);};
+ const topY=()=>{if(!trkOK)return 84;const g=geo();return g.oy+g.S*285;};
+ const now=()=>performance.now()-t0-LEAD;       // song time (ms); notes at t hit the line at song time t
+ const yOf=t=>{const dt=t-now();return hitY()-(dt/TRAVEL)*(hitY()-topY());};   // note y for song time t
+ function intro(){
+  const rec=getRec();
+  const songs=SONGS.map((s,i)=>`<button class="song${i===songSel?' sel':''}${s.locked?' lock':''}" data-i="${i}"${s.locked?' disabled':''}><b>${s.locked?'🔒 ':'🎵 '}${s.name}</b><small>${s.desc}</small></button>`).join('');
+  const diffs=DIFFS.map((d,i)=>{const r=(rec[SONGS[songSel].id]||{})[d.id]||{};return `<button class="dif${i===diffSel?' sel':''}" data-d="${i}"><b>${d.name}</b><small>${d.desc}</small>${r.done?'<em>✔ 완성</em>':''}</button>`;}).join('');
+  $('#sbox').innerHTML=`<h2>🧣 목도리 뜨기</h2><p style="margin:2px 0 8px">떨어지는 <b>실 구슬</b>이 아래 줄에 닿을 때 같은 칸을 눌러요.<br><b>긴 실</b>은 끝까지 꾹 누르고 있어요!</p><div class="lbl">곡 고르기</div><div class="songs">${songs}</div><div class="lbl">난이도</div><div class="difs">${diffs}</div><button class="btn" id="go">시작!</button><div class="acts"><a href="village.html">천사 마을로</a></div>`;
+  document.querySelectorAll('.song').forEach(b=>b.onclick=()=>{songSel=+b.dataset.i;intro();});
+  document.querySelectorAll('.dif').forEach(b=>b.onclick=()=>{diffSel=+b.dataset.d;intro();});
+  $('#go').onclick=begin;$('#start').hidden=false;
+ }
+ function begin(){
+  const song=SONGS[songSel],df=DIFFS[diffSel];try{localStorage.setItem('sejin-scarf-pref',JSON.stringify({song:songSel,diff:diffSel}));}catch(e){}
+  BPM=Math.round(song.bpm*df.bpm);BEAT=60000/BPM;TRAVEL=df.travel;PERFECT=df.perfect;GOOD=df.good;LIVES=df.lives;
+  notes=makeChart(df.simple);
+  const maxRows=notes.reduce((s,n)=>s+2+(n.h>0?2:0),0);TARGET=Math.max(20,Math.round(maxRows*df.ratio));
+  rows=0;lives=LIVES;combo=0;maxCombo=0;counts={p:0,g:0,m:0};fx=[];judge=null;down=[false,false,false];
+  $('#start').hidden=true;state='play';t0=performance.now();last=performance.now();head();
+ } const head=()=>{$('#hl').textContent=`목도리 ${rows}/${TARGET}줄 · ${'🧶'.repeat(lives)}${'·'.repeat(LIVES-lives)}`;};
+ // ---------- input ----------
+ function press(l){
+  if(state!=='play')return;down[l]=true;padEl(l,true);
+  const t=now();let best=null,bd=1e9;
+  for(const n of notes){if(n.l!==l||n.hit||n.miss)continue;const d=Math.abs(n.t-t);if(d<bd){bd=d;best=n;}if(n.t-t>GOOD*2)break;}
+  if(!best||bd>GOOD){stray(l);return;}
+  best.hit=true;best.state=1;const perfect=bd<=PERFECT;
+  if(perfect){counts.p++;rows+=2;say('완벽!','#ffd23f');window.SejinSfx&&SejinSfx.play('ok');}
+  else{counts.g++;rows+=1;say('좋아요','#8fd3a0');window.SejinSfx&&SejinSfx.play('pop');}
+  combo++;maxCombo=Math.max(maxCombo,combo);burst(l,perfect?'#fff3a8':'#cfeacb');head();
+ }
+ // 구슬이 없는 곳을 누르면(박자 없이 마구 누르기 방지) 콤보가 끊기고 한 줄이 풀린다
+ function stray(l){ghost(l);combo=0;if(rows>0){rows--;head();}if(!judge||judge.t!=='헛!')say('헛!','#cfc6c0');}
+ function release(l){down[l]=false;padEl(l,false);}
+ function ghost(l){fx.push({k:'ring',l,t:0,c:'#ffffff88'});}
+ const padEl=(l,on)=>{const e=document.querySelector(`.pad[data-l="${l}"]`);if(e)e.classList.toggle('down',on);};
+ document.querySelectorAll('.pad').forEach(b=>{const l=+b.dataset.l;b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture?.(e.pointerId);press(l);});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,()=>release(l)));});
+ const KEYMAP={a:0,ArrowLeft:0,s:1,ArrowDown:1,d:2,ArrowRight:2,A:0,S:1,D:2};
+ addEventListener('keydown',e=>{if(e.repeat)return;const l=KEYMAP[e.key];if(l!==undefined){e.preventDefault();press(l);}});
+ addEventListener('keyup',e=>{const l=KEYMAP[e.key];if(l!==undefined)release(l);});
+ function say(t,c){judge={t,c,age:0};}
+ function burst(l,c){for(let i=0;i<10;i++){const a=Math.random()*Math.PI*2,s=60+Math.random()*120;fx.push({k:'sp',x:laneX(l),y:hitY(),vx:Math.cos(a)*s,vy:Math.sin(a)*s-40,age:0,c});}fx.push({k:'ring',l,t:0,c:'#fff'});}
+ // ---------- loop ----------
+ function frame(ts){
+  const dt=Math.min(.05,(ts-last)/1000);last=ts;
+  if(state==='play')update(dt);
+  if(celeb){celeb.t+=dt;for(const c of celeb.conf){c.x+=c.vx*dt;c.y+=c.vy*dt;c.r+=dt*6;if(c.y>H+20){c.y=-10;c.x=Math.random()*W;}}}
+  draw(dt);requestAnimationFrame(frame);
+ }
+ function update(dt){
+  const t=now();
+  for(const n of notes){
+   if(n.hit&&n.h>0&&n.state===1){   // long yarn: keep holding until its end
+    if(down[n.l]){n.held+=dt*1000;}
+    if(t>=n.t+n.h){n.state=2;if(n.held>=n.h*.75){rows+=2;say('쭉 이어졌어요! +2','#ffd23f');window.SejinSfx&&SejinSfx.play('chime');burst(n.l,'#fff3a8');head();}else{say('끊겼어요','#f2a7b5');combo=0;}}
+   }
+   if(!n.hit&&!n.miss&&t-n.t>GOOD){n.miss=true;counts.m++;combo=0;lives--;rows=Math.max(0,rows-1);say('엉켰어요!','#ff8a8a');window.SejinSfx&&SejinSfx.play('wrong');head();if(lives<=0)return finish(false);}
+  }
+  const end=notes.length?notes[notes.length-1].t+notes[notes.length-1].h+900:0;
+  if(t>end)finish(true);
+  fx=fx.filter(f=>{f.age=(f.age||0)+dt;if(f.k==='sp'){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=260*dt;return f.age<.6;}f.t+=dt;return f.t<.4;});
+  if(judge){judge.age+=dt;if(judge.age>.7)judge=null;}
+ }
+ function draw(dt){
+  ctx.clearRect(0,0,W,H);
+  const lw=laneW(),top=topY(),hy=hitY();
+  if(trkOK){const g=geo();ctx.fillStyle='#4a3b2c';ctx.fillRect(0,0,W,H);ctx.drawImage(TRK,g.ox,g.oy,1024*g.S,1536*g.S);}
+  // lanes
+  for(let l=0;l<LANES;l++){const x0=laneL(l),w0=laneWi(l),yb=trkOK?hy+90:H;ctx.fillStyle=l%2?'#ffffff44':'#ffffff22';ctx.fillRect(x0,top-20,w0,yb-top+20);ctx.fillStyle=COL[l]+(down[l]?'88':'33');ctx.fillRect(x0,hy-34,w0,68);}
+  ctx.strokeStyle='#8a6f6055';ctx.lineWidth=2;if(!trkOK)for(let l=1;l<LANES;l++){ctx.beginPath();ctx.moveTo(l*lw,top-20);ctx.lineTo(l*lw,H);ctx.stroke();}
+  // hit line + beat pulse
+  const t=state==='play'?now():0,beatPulse=state==='play'?1-((t%BEAT+BEAT)%BEAT)/BEAT:0;
+  ctx.strokeStyle='#8a6f60';ctx.lineWidth=4+beatPulse*3;ctx.beginPath();ctx.moveTo(trkOK?laneL(0):0,hy);ctx.lineTo(trkOK?laneL(2)+laneWi(2):W,hy);ctx.stroke();
+  for(let l=0;l<LANES;l++){ctx.strokeStyle=COL[l];ctx.lineWidth=3;ctx.beginPath();ctx.arc(laneX(l),hy,26+beatPulse*3,0,Math.PI*2);ctx.stroke();}
+  // scarf progress strip under the HUD
+  const sx=10,sy=50,sw=W-20,sh=22,fill=Math.min(1,rows/TARGET);
+  ctx.fillStyle='#fffffff0';rr(sx,sy,sw,sh,11);ctx.fill();
+  const cells=Math.floor((sw-8)*fill/8);for(let i=0;i<cells;i++){ctx.fillStyle=PAL[Math.floor(i/6)%PAL.length];ctx.fillRect(sx+4+i*8,sy+4,8,sh-8);ctx.fillStyle='#ffffff66';ctx.fillRect(sx+6+i*8,sy+7,3,sh-14);}
+  ctx.strokeStyle='#8a6f60';ctx.lineWidth=2;rr(sx,sy,sw,sh,11);ctx.stroke();
+  // notes (틀 그림이 있으면 세 칸 안쪽만 그린다)
+  ctx.save();if(trkOK){ctx.beginPath();ctx.rect(laneL(0),top,laneL(2)+laneWi(2)-laneL(0),hy+70-top);ctx.clip();}
+  for(const n of notes){
+   if(n.state===2&&t>n.t+n.h+200)continue;
+   const y=yOf(n.t);if(y<top-60)continue;if(y>H+40&&n.miss)continue;
+   const x=laneX(n.l);
+   if(n.h>0){const yEnd=yOf(n.t+n.h);ctx.fillStyle=COL[n.l]+(n.miss?'44':'cc');ctx.fillRect(x-13,Math.max(top-30,yEnd),26,Math.min(hy+14,y)-Math.max(top-30,yEnd));
+    ctx.strokeStyle='#8a6f60';ctx.lineWidth=2;ctx.strokeRect(x-13,Math.max(top-30,yEnd),26,Math.min(hy+14,y)-Math.max(top-30,yEnd));}
+   if(n.hit&&!n.h)continue;
+   if(n.hit&&n.h&&n.state===1&&y>hy)continue;
+   yarn(x,Math.min(y,hy+8),n.miss?'#cfc6c0':COL[n.l],n.hit?1.15:1);
+  }
+  ctx.restore();
+  // effects
+  for(const f of fx){if(f.k==='sp'){ctx.globalAlpha=Math.max(0,1-f.age/.6);ctx.fillStyle=f.c;ctx.beginPath();ctx.arc(f.x,f.y,4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}
+   else{ctx.globalAlpha=Math.max(0,1-f.t/.4);ctx.strokeStyle=f.c;ctx.lineWidth=4;ctx.beginPath();ctx.arc(laneX(f.l),hy,28+f.t*90,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;}}
+  // judgement + combo
+  if(judge){ctx.globalAlpha=Math.max(0,1-judge.age/.7);ctx.fillStyle=judge.c;ctx.strokeStyle='#5b4a42';ctx.lineWidth=4;ctx.font='bold 26px system-ui';ctx.textAlign='center';ctx.strokeText(judge.t,W/2,hy-86-judge.age*30);ctx.fillText(judge.t,W/2,hy-86-judge.age*30);ctx.globalAlpha=1;}
+  if(combo>=3){ctx.fillStyle='#5b4a42';ctx.font='bold 20px system-ui';ctx.textAlign='center';ctx.fillText(combo+' COMBO',W/2,hy-52);}
+  // 완성 연출
+  if(celeb){
+   const k=celeb.t,RB=['#ff8a8a','#ffb86b','#ffe36b','#9be59b','#7fc8ff','#b79bff'];
+   ctx.fillStyle='#ffffffcc';ctx.fillRect(0,0,W,H);
+   // rainbow arcs growing out from the middle
+   for(let i=0;i<RB.length;i++){const rad=(60+i*22)*Math.min(1,k*1.6)+Math.sin(k*3+i)*3;ctx.strokeStyle=RB[i];ctx.lineWidth=20;ctx.beginPath();ctx.arc(W/2,H*.52,rad*(W/360),Math.PI,0);ctx.stroke();}
+   // the rainbow scarf unrolls: coloured stripes waving
+   const sw=Math.min(W-60,300),sx=(W-sw)/2,sy=H*.56,shh=34,prog=Math.min(1,Math.max(0,(k-.3)/1.1));
+   for(let i=0;i<RB.length;i++){ctx.fillStyle=RB[i];const y=sy+i*(shh/RB.length)*1.2+Math.sin(k*5+i)*2;ctx.fillRect(sx,y,sw*prog,shh/RB.length*1.2+1);}
+   ctx.strokeStyle='#8a6f60';ctx.lineWidth=3;ctx.strokeRect(sx,sy,sw*prog,shh*1.2);
+   for(let i=0;i<8;i++){ctx.strokeStyle=RB[i%6];ctx.lineWidth=3;ctx.beginPath();const fx=sx+sw*prog-4-i*(sw*prog/9);ctx.moveTo(sx+8+i*(sw*prog/9),sy+shh*1.2);ctx.lineTo(sx+8+i*(sw*prog/9)+2,sy+shh*1.2+14);ctx.stroke();}
+   // confetti
+   for(const c of celeb.conf){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.r);ctx.fillStyle=c.c;ctx.fillRect(-c.s/2,-c.s/4,c.s,c.s/2);ctx.restore();}
+   // banner
+   const pop=Math.min(1,k*3),sc=1+Math.sin(Math.min(1,k*3)*Math.PI)*.25;
+   ctx.save();ctx.translate(W/2,H*.26);ctx.scale(sc*pop,sc*pop);ctx.textAlign='center';ctx.font='bold 38px system-ui';ctx.lineWidth=7;ctx.strokeStyle='#8a6f60';ctx.strokeText('완성했습니다!',0,0);ctx.fillStyle='#ffd23f';ctx.fillText('완성했습니다!',0,0);
+   ctx.font='bold 18px system-ui';ctx.lineWidth=5;ctx.strokeText(celeb.got,0,38);ctx.fillStyle='#fff';ctx.fillText(celeb.got,0,38);ctx.restore();
+   // sparkles around the scarf
+   for(let i=0;i<10;i++){const a=k*2+i*.63,x=W/2+Math.cos(a)*(110+i*6),y=H*.56+Math.sin(a*1.3)*50;ctx.fillStyle='#fff6a8';ctx.font='18px system-ui';ctx.fillText('✦',x,y);}
+  }  // lead-in countdown
+  if(state==='play'&&t<0){ctx.fillStyle='#5b4a42';ctx.font='bold 54px system-ui';ctx.textAlign='center';const c=Math.ceil(-t/800);ctx.fillText(c>0?String(Math.min(3,c)):'',W/2,H*.4);}
+ }
+ function yarn(x,y,c,s){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.fillStyle=c;ctx.strokeStyle='#8a6f60';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,21,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='#ffffffaa';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,13,.4,2.6);ctx.stroke();ctx.beginPath();ctx.arc(2,0,7,3.4,5.6);ctx.stroke();ctx.restore();}
+ function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);}
+ // ---------- result ----------
+ function finish(clear){
+  if(state!=='play')return;state='over';
+  const total=counts.p+counts.g+counts.m,acc=total?Math.round((counts.p*1+counts.g*.6)/total*100):0;
+  const win=clear&&rows>=TARGET&&lives>0;
+  const grade=!win?'—':acc>=92?'S':acc>=80?'A':'B';
+  const song=SONGS[songSel],df=DIFFS[diffSel];let first=false;try{const rec=getRec();const r=((rec[song.id]=rec[song.id]||{})[df.id]=rec[song.id][df.id]||{});if(win&&!r.done){first=true;r.done=1;}r.best=Math.max(r.best||0,rows);localStorage.setItem('sejin-scarf-v3',JSON.stringify(rec));}catch(e){}
+  const yarnReward=df.practice?0:win?(first?df.first:df.again)+(grade==='S'?4:grade==='A'?2:0):Math.floor(rows/25);
+  if(yarnReward)SejinSave.pushResult({game:'minigame',label:'목도리 뜨기',place:'천사 마을',first,yarn:yarnReward});
+  const got=df.id==='easy'?{id:'v-cloud-scarf',name:'구름 실 목도리',emoji:'🧣',spr:'items/item-cloudscarf-v1.png'}:{id:'s-rainbow-scarf',name:'무지개 목도리',emoji:'🌈',spr:'items/item-rainbowscarf-v1.png'};   // 쉬움=구름 실 목도리, 보통·어려움=무지개 목도리
+  if(win&&!df.practice)SejinSave.pushResult({game:'pickup',place:'천사 마을',items:{[got.id]:1}});   // 완성하면 무지개 목도리를 받는다
+  const card=()=>{
+   $('#sbox').innerHTML=`<div style="font-size:42px">${win?`<img src="assets/${got.spr}" alt="" style="width:110px;height:110px;object-fit:contain">`:clear?'🧶':'🥺'}</div><h2>${win?'목도리가 완성됐어요!':clear?'조금 짧아요…':'실이 엉켜 버렸어요'}</h2><p>뜬 줄 <b>${rows}줄</b> / 목표 ${TARGET}줄<br>완벽 ${counts.p} · 좋아요 ${counts.g} · 놓침 ${counts.m} · 최고 콤보 ${maxCombo}${win?`<br>등급 <b style="font-size:22px">${grade}</b>`:''}${win&&!df.practice?`<br><span style="display:inline-block;margin-top:6px;background:#fff3cf;border-radius:12px;padding:6px 12px;font-weight:bold;color:#5b4a42"><img src="assets/${got.spr}" alt="" style="width:26px;height:26px;object-fit:contain;vertical-align:middle"> ${got.name}를 얻었어요! (가방 · 선물하기 · 팔기)</span>`:''}${yarnReward?`<br>실뭉치 <b>+${yarnReward}개</b>는 방에 가면 들어와요.`:''}</p><button class="btn" id="go">${win?'다시 하기':'다시 도전'}</button><div class="acts"><a href="village.html">천사 마을로</a></div>`;
+   $('#sbox').querySelector('.acts').insertAdjacentHTML('afterbegin','<button class="ghostb" id="pick">곡 · 난이도 다시 고르기</button>');
+   $('#go').onclick=begin;$('#pick').onclick=intro;$('#start').hidden=false;
+  };
+  if(!win){window.SejinSfx&&SejinSfx.play('wrong');card();return;}
+  // 완성 연출: 무지개가 번지고 색종이가 쏟아지며 '완성했습니다!' 배너와 무지개 목도리가 펼쳐진다
+  state='celebrate';celeb={t:0,got:got.emoji+' '+got.name+' 획득',conf:Array.from({length:70},()=>({x:Math.random()*W,y:-Math.random()*H*.6,vx:(Math.random()-.5)*60,vy:90+Math.random()*160,r:Math.random()*6,c:['#f2a7b5','#8fc3e0','#f5d58a','#c9b3e6','#a9cfa4','#ffffff'][Math.floor(Math.random()*6)],s:4+Math.random()*6}))};
+  window.SejinSfx&&SejinSfx.play('win');setTimeout(()=>window.SejinSfx&&SejinSfx.play('chime'),700);
+  setTimeout(()=>{celeb=null;state='over';card();},still?200:3600);
+ } intro();head();requestAnimationFrame(frame);
+})();
+</script>
+<script src="sejin-hud.js"></script><script src="sejin-from.js"></script>
+</body>
+</html>

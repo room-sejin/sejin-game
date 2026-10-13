@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방구석 세진이 · 우체통</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#fbf3ea;--btn:#8fc3e0;--btn-d:#6fa6c4;--pink:#f2a7b5;--lav:#c9b3e6}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+.page{max-width:640px;margin:0 auto;padding:12px 16px 32px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.hero{display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,#fdeef1,#ebe4f7);border-radius:20px;padding:12px 14px;margin-bottom:12px}
+.hero .mb{font-size:38px;line-height:1}.hero p{margin:0;font-size:13px;line-height:1.5}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.tabs button{border:2px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-size:12.5px;font-weight:bold;padding:9px 2px;border-radius:14px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--btn);color:#fff;box-shadow:0 2px 0 var(--btn-d)}
+.card{background:#fff;border-radius:20px;padding:14px;box-shadow:0 6px 18px #88756714;margin-bottom:12px}
+.card h2{margin:0 0 4px;font-size:16px}.card .hint{margin:0 0 10px;font-size:12px;color:var(--sub);line-height:1.5}
+label{display:block;font-size:12px;font-weight:bold;color:var(--sub);margin:10px 0 4px}
+input[type=text],input[type=email],textarea{width:100%;font:inherit;font-size:14px;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:#fffdf8;color:var(--ink)}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+.count{text-align:right;font-size:11px;color:var(--sub);margin-top:2px}
+.stars{display:flex;gap:4px}.stars button{border:0;background:none;font-size:30px;line-height:1;cursor:pointer;color:#e3d6c6;padding:0 2px}.stars button.on{color:#f5c04a}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips button{border:2px solid #fff;background:#fffaf4;color:var(--ink);font:inherit;font-size:12px;font-weight:bold;padding:6px 10px;border-radius:12px;box-shadow:0 2px 0 var(--line);cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--lav);color:#fff;box-shadow:0 2px 0 #a48fcf}
+.send{width:100%;margin-top:12px;border:0;font:inherit;font-weight:bold;font-size:15px;padding:13px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}
+.send:disabled{opacity:.5}
+.msg{margin:8px 0 0;font-size:12.5px;color:#5b8a5b;min-height:1.3em;text-align:center}
+.list{display:flex;flex-direction:column;gap:10px}
+.note{background:#fffaf4;border-radius:16px;padding:11px 12px;border:1px solid var(--line)}
+.note .meta{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--sub);margin-bottom:4px;flex-wrap:wrap}
+.note .meta b{color:var(--ink);font-size:12px}.note .st{color:#f5c04a;letter-spacing:1px}
+.note .tag{background:var(--lav);color:#fff;border-radius:8px;padding:0 6px;font-weight:bold}
+.note .tag.ex{background:#cfc2b5}
+.note p{margin:0;font-size:13.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.note .acts{display:flex;gap:6px;margin-top:8px}.note .acts button,.note .acts a{border:0;font:inherit;font-size:11.5px;font-weight:bold;padding:5px 9px;border-radius:9px;background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line);cursor:pointer;text-decoration:none}
+.faq details{background:#fffaf4;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px}.faq summary{font-weight:bold;font-size:13.5px;cursor:pointer}.faq details p{margin:8px 0 0;font-size:13px;line-height:1.6;color:#6b5a50}
+.news{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}.news:last-child{border:0}.news time{flex:none;font-size:11px;color:var(--sub);width:48px;padding-top:2px}.news b{font-size:13.5px}.news p{margin:2px 0 0;font-size:12.5px;color:#6b5a50;line-height:1.5}
+.empty{text-align:center;color:var(--sub);font-size:13px;padding:16px 4px;line-height:1.6}
+.notice{background:#fff7e0;border-radius:14px;padding:10px 12px;font-size:12px;color:#7a6440;line-height:1.55;margin-bottom:12px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}.tools button,.tools a{flex:1;min-width:130px;border:0;font:inherit;font-weight:bold;font-size:13px;padding:10px;border-radius:12px;background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line);cursor:pointer;text-align:center;text-decoration:none}
+.tools .go{background:var(--pink);color:#fff;box-shadow:0 2px 0 #d68a9a}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" id="back" href="place.html?place=plaza">‹ 광장으로</a><h1>우체통<small>후기 · 건의·문의 · 소식·도움말 · 메모</small></h1></div>
+ <div class="hero"><span class="mb" aria-hidden="true">💌</span><p>게임을 해 보고 느낀 점, 바라는 점, 궁금한 점을 적어 주세요. 세진이 우체통에 차곡차곡 모아 둘게요.</p></div>
+ <div class="notice" id="notice"></div>
+ <div class="tabs" role="tablist" id="tabs"></div>
+ <div id="view"></div>
+</main>
+<script src="sejin-save.js"></script><script src="sejin-bgm.js"></script>
+<script src="sejin-promo.js"></script>
+<script src="sejin-save.js"></script><script src="sejin-bgm.js"></script>
+<script src="sejin-promo.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s);
+ const KEY='sejin-mailbox-v1',LINKS=(window.SejinPromo&&window.SejinPromo.links)||{};
+ const load=()=>{try{const v=JSON.parse(localStorage.getItem(KEY));return Array.isArray(v)?v:[];}catch(e){return [];}};
+ const store=v=>{try{localStorage.setItem(KEY,JSON.stringify(v.slice(-200)));return true;}catch(e){return false;}};
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const date=t=>{const d=new Date(t);return `${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`;};
+ const TABS=[
+  {id:'help',icon:'📖',name:'소식·도움말',title:'소식과 도움말'},
+  {id:'idea',icon:'💡',name:'건의·문의',title:'건의 · 문의',hint:'바라는 점, 불편한 점, 궁금한 점을 적어 주세요. 인형 구매·제작 문의도 괜찮아요.',ph:'예: 친구 캐릭터가 더 많았으면 좋겠어요. / 세진이 인형은 어디서 살 수 있나요?'},
+  {id:'review',icon:'⭐',name:'후기',title:'게임 후기 남기기',hint:'해 본 게임이 어땠는지 별점과 한마디를 남겨 주세요.',ph:'예: 뜨개 달리기 배경이 너무 예뻐요!'},
+  {id:'memo',icon:'📝',name:'내 메모',title:'내 뜨개 메모장',hint:'나만 보는 메모예요. 도안 아이디어, 하고 싶은 일을 적어 두세요.',ph:'예: 다음에는 분홍 실로 토끼를 떠 보자.'},
+ ];
+ const TAGS={review:['그림이 예뻐요','뜨개 달리기','도안 만들기','귀여운 캐릭터','쉬워요','어려워요','더 하고 싶어요'],idea:['게임 아이디어','불편한 점','오류 신고','궁금한 점','인형 구매·제작 문의','기타'],memo:[]};
+ // Example reviews so the board does not look empty; they are labelled as examples and are not from real players.
+ const EXAMPLES=[
+  {stars:5,name:'예시 · 뜨개 친구',text:'세진이가 달리다가 실을 모으는 게 귀여워요. (이건 예시 후기예요)',tags:['뜨개 달리기']},
+  {stars:4,name:'예시 · 도안 좋아하는 사람',text:'도안 채우기가 차분해서 좋아요. 내가 도안을 만들 수 있는 것도 신기해요. (예시)',tags:['도안 만들기']},
+ ];
+ // What is really in the game today (update this list when something new is added).
+ const NEWS=[
+  ['10.1','세진이가 천사로 변신해요','마을(지도)의 게임 다섯 개를 모두 한 번씩 클리어하면 산책로에서 세진이가 천사로 변신하고, 구름 위 천사 마을에 갈 수 있어요.'],
+  ['10.1','리본이 소지품이 됐어요','광장에서 주운 리본은 가방에 들어가고, 공방 소품 재료가 돼요. 공원·산책로에서 채집한 재료로 소품을 만들어 친구에게 선물해 보세요.'],
+  ['10.1','우체통이 열렸어요','이벤트 광장의 우체통에서 후기와 건의, 문의를 남길 수 있어요.'],
+  ['10.1','도안을 64×64칸까지 만들 수 있어요','공방의 도안 만들기에서 크게 그리고, 모아보기에서 한꺼번에 볼 수 있어요.'],
+  ['10.1','달리기 맵이 새 그림으로 바뀌었어요','친구 인형·실 가게·공원·천사 스테이지마다 배경과 장애물이 달라졌어요.'],
+  ['10.1','새 미니게임이 생겼어요','공원 틀린 그림 찾기(4단계), 광장 리본 찾기(4단계), 친구네 집 부탁 퍼즐(5단계)을 스테이지별로 해 볼 수 있어요.'],
+  ['10.1','친구들이 놀러 왔어요','강아지 친구, 햄스터 사장님, 토끼 친구와 이야기할 수 있어요.'],
+ ];
+ const FAQ=[
+  ['어떻게 천사로 변신하나요?','마을에 있는 게임을 모두 클리어해야 해요: 공방 ‘세진이 얼굴’ 도안 완성, 실 가게에서 세진이 인형 만들기, 공원 틀린 그림 4단계, 광장 리본 찾기 4단계, 친구네 집 부탁 퍼즐 5단계 (마지막 단계까지). 다 하면 산책로에서 ‘변신하기’ 버튼이 켜지고, 변신하면 천사 마을로 갈 수 있어요.'],
+  ['리본은 어디에 쓰나요?','공방에서 소품을 만들 때 재료로 쓰고, 친구에게 선물하거나 실 가게에 팔 수 있어요. 리본은 광장의 리본 찾기에서만 얻어요.'],
+  ['실뭉치는 어떻게 모으나요?','인형을 완성하거나 미니게임을 클리어하고, 도안을 완성하고, 친구와 이야기하거나 소품을 만들어 실 가게에 팔면 모여요. 달리기 중에 줍는 실은 그 판에서만 쓰여요. 실뭉치는 방에 가면 들어와요.'],
+  ['에너지가 없어요.','2분마다 1씩 저절로 차고, 낮잠을 자면 +40 채워져요. 가방에서 열리는 실뭉치 가게의 에너지 음료로도 채울 수 있어요. 세진이 인형 연습 판은 에너지가 들지 않아요.'],
+  ['어떤 장소는 들어갈 수 없어요.','인형을 완성하면 열려요. 친구 인형 → 친구네 집, 실 가게 사장님 → 실 가게, 공원 친구 → 공원, 천사 세진이(세진이가 변신한 모습) → 산책로예요. 집·이벤트 광장·공방은 처음부터 열려 있어요.'],
+  ['내가 만든 도안은 어디서 볼 수 있어요?','공방의 뜨개 도안 채우기 목록 맨 뒤와, “모아보기”에서 볼 수 있어요. 고치거나 지우는 것은 도안 만들기에서 해요.'],
+  ['게임 기록은 어디에 저장되나요?','지금 쓰는 기기의 브라우저에 저절로 저장돼요. 다른 기기나 다른 브라우저에서는 보이지 않고, 브라우저의 사이트 데이터를 지우면 함께 사라져요. 시크릿(비공개) 창에서는 저장되지 않을 수 있어요.'],
+  ['진짜 세진이 인형은 살 수 있나요?','방의 “인형 가게” 탭에서 소개해요. 판매 주소는 준비되는 대로 연결돼요. 게임 속 실뭉치로는 살 수 없어요.'],
+ ];
+ let tab='help',rating=0,picked=new Set(),msg='';
+ const mail=()=>LINKS.contactEmail,form=()=>LINKS.feedbackForm;
+ function notice(){
+  $('#notice').hidden=tab==='help';
+  $('#notice').innerHTML=(mail()||form())
+   ?'쓴 글은 이 기기에 보관돼요. <b>“운영자에게 보내기”</b>를 누르면 글이 운영자에게 전달돼요.'
+   :'쓴 글은 <b>이 기기(브라우저)에만</b> 저장돼요. 운영자에게 바로 전달되는 주소는 아직 연결 전이에요. 전하고 싶은 글은 “모두 복사”로 복사해서 인스타그램 DM 등으로 보내 주세요.';
+ }
+ function tabs(){$('#tabs').innerHTML=TABS.map(t=>`<button role="tab" data-t="${t.id}" aria-selected="${t.id===tab}">${t.icon}<br>${t.name}</button>`).join('');
+  $('#tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;rating=0;picked=new Set();msg='';render();});}
+ const mine=t=>load().filter(n=>n.type===t||(t==='idea'&&n.type==='ask'));
+ function noteHtml(n,ex){
+  return `<div class="note"><div class="meta">${n.stars?`<span class="st">${'★'.repeat(n.stars)}${'☆'.repeat(5-n.stars)}</span>`:''}<b>${esc(n.name||'나')}</b>${ex?'<span class="tag ex">예시</span>':''}${(n.tags||[]).map(g=>`<span class="tag">${esc(g)}</span>`).join('')}${ex?'':`<span>· ${date(n.at)}</span>`}</div><p>${esc(n.text)}</p>${n.contact?`<div class="meta" style="margin-top:4px">답장 받을 곳: ${esc(n.contact)}</div>`:''}${ex?'':`<div class="acts"><button data-del="${n.id}">지우기</button>${n.type!=='memo'&&(mail()||form())?sendLink(n):''}</div>`}</div>`;
+ }
+ function body(n){return `[${(TABS.find(x=>x.id===n.type)||{}).name||n.type}] ${n.stars?('별점 '+n.stars+'/5\n'):''}${n.tags&&n.tags.length?('태그: '+n.tags.join(', ')+'\n'):''}${n.text}${n.contact?('\n연락처: '+n.contact):''}\n(방구석 세진이 · ${date(n.at)})`;}
+ function sendLink(n){
+  if(mail())return `<a href="mailto:${encodeURIComponent(mail())}?subject=${encodeURIComponent('[방구석 세진이] '+((TABS.find(x=>x.id===n.type)||{}).name||''))}&body=${encodeURIComponent(body(n))}">운영자에게 보내기</a>`;
+  return `<a href="${esc(form())}" target="_blank" rel="noopener">운영자에게 보내기</a>`;
+ }
+ function renderHelp(){
+  $('#view').innerHTML=`<div class="card"><h2>📢 새 소식</h2><p class="hint">지금까지 게임에 들어온 것들이에요.</p>${NEWS.map(n=>`<div class="news"><time>${n[0]}</time><div><b>${esc(n[1])}</b><p>${esc(n[2])}</p></div></div>`).join('')}</div>
+   <div class="card faq"><h2>❓ 자주 묻는 질문</h2><p class="hint">궁금한 점이 여기에 없다면 “건의·문의” 탭에 남겨 주세요.</p>${FAQ.map(f=>`<details><summary>${esc(f[0])}</summary><p>${esc(f[1])}</p></details>`).join('')}</div>`;
+ }
+ function render(){
+  tabs();notice();if(tab==='help')return renderHelp();
+  const T=TABS.find(t=>t.id===tab),list=mine(tab).slice().reverse();
+  const isReview=tab==='review',isIdea=tab==='idea',isMemo=tab==='memo';
+  $('#view').innerHTML=`<div class="card"><h2>${T.icon} ${T.title}</h2><p class="hint">${T.hint}</p>
+   ${isReview?`<label>별점</label><div class="stars" id="stars">${[1,2,3,4,5].map(i=>`<button data-s="${i}" class="${i<=rating?'on':''}" aria-label="${i}점">★</button>`).join('')}</div>`:''}
+   ${TAGS[tab].length?`<label>${isReview?'어떤 점이 좋았나요? (여러 개 선택)':'종류'}</label><div class="chips" id="chips">${TAGS[tab].map(g=>`<button data-g="${esc(g)}" aria-pressed="${picked.has(g)}">${g}</button>`).join('')}</div>`:''}
+   <label for="txt">${isMemo?'메모':'내용'}</label><textarea id="txt" maxlength="500" placeholder="${T.ph}"></textarea><div class="count"><span id="cnt">0</span> / 500</div>
+   ${isMemo?'':`<label for="nick">이름 (선택)</label><input type="text" id="nick" maxlength="12" placeholder="비워 두면 ‘뜨개 친구’로 남겨져요">`}
+   ${isIdea?`<label for="contact">답장 받을 곳 (선택)</label><input type="text" id="contact" maxlength="60" placeholder="이메일이나 인스타그램 아이디">`:''}
+   <button class="send" id="send" disabled>${isMemo?'메모 저장하기':'우체통에 넣기'}</button><p class="msg" id="msg" role="status">${esc(msg)}</p></div>
+   <div class="card"><h2>${isMemo?'내 메모':'내가 남긴 글'} <small style="font-weight:normal;color:var(--sub);font-size:12px">${list.length}개</small></h2>
+   <div class="list">${list.length?list.map(n=>noteHtml(n,false)).join(''):'<div class="empty">아직 쓴 글이 없어요.<br>첫 번째 글을 넣어 볼까요?</div>'}</div>
+   ${isReview?`<h2 style="margin-top:16px">다른 친구들 후기 <small style="font-weight:normal;color:var(--sub);font-size:12px">예시</small></h2><div class="list">${EXAMPLES.map(n=>noteHtml(Object.assign({type:'review'},n),true)).join('')}</div><p class="hint" style="margin-top:8px">위 두 개는 이해를 돕는 예시예요. 실제 후기는 이 기기에 모여요.</p>`:''}
+   ${!isMemo&&list.length?`<div class="tools" style="margin-top:12px"><button id="copy">모두 복사</button></div>`:''}</div>`;
+  const txt=$('#txt'),send=$('#send');
+  const check=()=>{$('#cnt').textContent=txt.value.length;send.disabled=txt.value.trim().length<(isMemo?1:5)||(isReview&&!rating);};
+  txt.oninput=check;
+  if(isReview)$('#stars').querySelectorAll('button').forEach(b=>b.onclick=()=>{rating=+b.dataset.s;$('#stars').querySelectorAll('button').forEach(x=>x.classList.toggle('on',+x.dataset.s<=rating));check();});
+  if($('#chips'))$('#chips').querySelectorAll('button').forEach(b=>b.onclick=()=>{const g=b.dataset.g;picked.has(g)?picked.delete(g):(isReview?picked.add(g):(picked=new Set([g])));$('#chips').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',picked.has(x.dataset.g)));});
+  send.onclick=()=>{
+   const text=txt.value.trim(),all=load();
+   const n={id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),at:Date.now(),type:tab,text,tags:[...picked],stars:isReview?rating:0,name:isMemo?'나':(($('#nick')||{}).value||'').trim()||'뜨개 친구',contact:isIdea?$('#contact').value.trim():''};
+   all.push(n);if(!store(all)){msg='저장하지 못했어요. 브라우저 저장 공간을 확인해 주세요.';$('#msg').textContent=msg;return;}
+   msg=isMemo?'메모를 저장했어요.':'우체통에 넣었어요. 고마워요! 💌';rating=0;picked=new Set();render();
+  };
+  $('#view').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(!confirm('이 글을 지울까요?'))return;store(load().filter(n=>n.id!==b.dataset.del));msg='';render();});
+  const cp=$('#copy');if(cp)cp.onclick=async()=>{const t=mine(tab).map(body).join('\n\n---\n\n');try{await navigator.clipboard.writeText(t);cp.textContent='복사했어요!';}catch(e){prompt('아래 글을 복사해 주세요',t);}};
+  check();
+ }
+ const from=new URLSearchParams(location.search).get('from');if(from==='room')$('#back').href='design/raising-mockup.html',$('#back').textContent='‹ 방으로';
+ const want=new URLSearchParams(location.search).get('tab');if(TABS.some(t=>t.id===want))tab=want;
+ render();
+})();
+</script>
+</body>
+</html>

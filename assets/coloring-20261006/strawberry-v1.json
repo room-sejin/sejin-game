@@ -1,0 +1,58 @@
+{
+  "id": "coloring-strawberry-v1",
+  "name": "새콤 딸기",
+  "difficulty": "쉬움",
+  "palette": {
+    "A": [
+      "색 1",
+      "#67371f"
+    ],
+    "B": [
+      "색 2",
+      "#579c80"
+    ],
+    "C": [
+      "색 3",
+      "#ef496e"
+    ],
+    "D": [
+      "색 4",
+      "#93d6ae"
+    ],
+    "E": [
+      "색 5",
+      "#fff1cd"
+    ]
+  },
+  "rows": [
+    "................",
+    "........AA......",
+    ".......DDA......",
+    "....DDADBAAA....",
+    "....ADDDADDDA...",
+    ".....CABDBAA....",
+    "...ACCCCABCCA...",
+    "...CCCCCCCCCC...",
+    "...CCCECCCCCC...",
+    "...CCCCCCCECC...",
+    "...ACCCCCCCCA...",
+    "....CCECCCCC....",
+    ".....CCCCCC.....",
+    ".....ACCCCA.....",
+    "......AAA.......",
+    "................"
+  ],
+  "sourceReference": "assets/sejin-coloring-strawberry-v1.png",
+  "gridSize": 16,
+  "filledCells": 102,
+  "colorCounts": {
+    "A": 23,
+    "B": 4,
+    "C": 60,
+    "D": 12,
+    "E": 3
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "생성 원화를 읽어 칸별 대표색을 분석한 도안 시안. 원본 PNG는 수정하지 않음. 원화의 모든 미세 픽셀과 일대일 대응하는 변환은 아님."
+}

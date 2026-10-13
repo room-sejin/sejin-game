@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>방구석 세진이 · 조각 맞추기</title>
+<style>
+:root{--ink:#5b4a42;--sub:#8b766b;--line:#e9d8c8;--bg:#f6f0fb;--btn:#8fc3e0;--btn-d:#6fa6c4}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;touch-action:manipulation}
+.page{max-width:520px;margin:0 auto;padding:12px 16px 24px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:#fff;color:var(--ink);font-size:13px;font-weight:bold;padding:8px 12px;border-radius:12px;box-shadow:0 2px 0 var(--line);text-decoration:none;white-space:nowrap}
+.top h1{flex:1;margin:0;font-size:20px}.top h1 small{display:block;font-size:11px;font-weight:normal;color:var(--sub)}
+.cnt{background:#fff;border-radius:12px;padding:6px 12px;font-weight:bold;font-size:13px;box-shadow:0 2px 0 var(--line)}
+/* the frame: slots are shown as faint dashed cells; the faint picture helps */
+.board{position:relative;width:100%;margin:0 auto;border-radius:16px;background:#fff;border:3px solid #fff;box-shadow:0 6px 18px #8875671f;overflow:hidden;touch-action:none}
+.board .ghost{position:absolute;inset:0;background-size:100% 100%;opacity:.22;transition:opacity .15s}.board.peek .ghost{opacity:.95}
+.peekb{display:block;margin:10px auto 0;border:0;font:inherit;font-weight:bold;font-size:13px;padding:9px 16px;border-radius:12px;background:#fff;color:var(--ink);box-shadow:0 2px 0 var(--line);cursor:pointer}   /* 밑그림은 아주 흐리게 — 조각만 보고 맞추는 게 어렵게 */
+.slot{position:absolute;border:1.5px dashed #cdbfe0}
+.piece{position:absolute;background-repeat:no-repeat;border-radius:6px;box-shadow:0 1px 0 #0003,0 3px 8px #4a3a5a33;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.piece.placed{cursor:default;box-shadow:none;border-radius:0;animation:snap .25s}
+.piece.picked{outline:4px solid #f5c04a;outline-offset:2px}
+.piece.picked{outline:4px solid #f5c04a;outline-offset:2px}
+.piece.drag{z-index:20;cursor:grabbing;box-shadow:0 8px 20px #4a3a5a55;transform:scale(1.06)}
+.piece.shake{animation:shake .35s}
+@keyframes snap{50%{transform:scale(1.07)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.tray{position:relative;margin-top:12px;border-radius:16px;background:#ece3f7;min-height:120px;padding:10px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.tip{margin:10px 2px 0;font-size:12px;color:var(--sub);text-align:center;min-height:1.4em}
+.done-card{position:fixed;inset:0;display:grid;place-items:center;background:#6d5d5140;padding:16px;z-index:30}.done-card[hidden]{display:none}
+.done-card>div{background:#fffaf0;border-radius:24px;padding:22px 20px;text-align:center;max-width:360px;width:100%;box-shadow:0 10px 35px #88756733}
+.done-card h2{margin:6px 0;font-size:21px}.done-card p{color:var(--sub);font-size:14px;line-height:1.6;margin:8px 0 16px}
+.acts{display:flex;flex-direction:column;gap:8px}
+.acts a,.acts button{border:0;font:inherit;font-weight:bold;font-size:15px;padding:12px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);text-decoration:none;cursor:pointer}
+.acts .ghostb{background:#fff;color:var(--ink);box-shadow:0 3px 0 var(--line)}
+.glow{animation:glow 1s ease-out}
+@keyframes glow{0%{filter:brightness(1.6)}100%{filter:none}}
+@media (prefers-reduced-motion:reduce){.piece.placed,.piece.shake,.glow{animation:none}}
+</style>
+</head>
+<body>
+<main class="page">
+ <div class="top"><a class="back" id="back" href="village.html">‹ 천사 마을로</a><h1 id="title">조각 맞추기<small id="sub"></small></h1><div class="cnt" id="cnt"></div></div>
+ <div class="board" id="board"></div>
+ <div class="tray" id="tray" aria-label="남은 조각"></div>
+ <p class="tip" id="tip">조각을 끌어서 알맞은 자리에 놓아요. 흐릿한 그림이 힌트예요.</p>
+ <button class="peekb" id="peek" type="button">👁 완성 그림 보기 (누르고 있기)</button>
+</main>
+<div class="done-card" id="doneCard" hidden><div role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+ <div style="font-size:42px">🧩</div><h2 id="doneTitle">완성!</h2><p id="doneText"></p><div class="acts" id="doneActs"></div>
+</div></div>
+<script src="sejin-save.js"></script><script src="sejin-sfx.js"></script>
+<script>
+(()=>{
+ 'use strict';
+ const $=s=>document.querySelector(s),still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ // ?pieces=4|6|9|12|16|20|24|30 (2×2 … 6×5) · ?pic=file in assets/ · ?place=village place id (saved as solved in sejin-village-v1) · ?back=link
+ const Q=new URLSearchParams(location.search);
+ const N=[4,6,9,12,16,20,24,30].includes(+Q.get('pieces'))?+Q.get('pieces'):4;
+ const GRID={4:[2,2],6:[3,2],9:[3,3],12:[4,3],16:[4,4],20:[5,4],24:[6,4],30:[6,5]}[N],COLS=GRID[0],ROWS=GRID[1];
+ const PIC='assets/'+(Q.get('pic')||'character/angel-village-map-v2.jpg').replace(/[^\w.\-\/]/g,'').replace(/[.][.]/g,'');   // placeholder picture until the character pattern pictures exist
+ const PLACE=Q.get('place')||'',BACK=Q.get('back')||'village.html';
+ const NAMES=Q.get('name')||'조각 그림';
+ $('#back').href=BACK;$('#sub').textContent=NAMES+' · 조각 '+N+'개';
+ const img=new Image();
+ img.onload=start;img.onerror=start;img.src=PIC;
+ let placed=0,boardW=0,cellW=0,cellH=0;
+ function start(){
+  const ratio=(img.naturalWidth&&img.naturalHeight)?img.naturalWidth/img.naturalHeight:4/3;
+  const board=$('#board');boardW=board.clientWidth;const h=boardW/ratio;board.style.height=h+'px';cellW=boardW/COLS;cellH=h/ROWS;
+  board.innerHTML=`<div class="ghost" style="background-image:url('${PIC}')"></div>`+Array.from({length:N},(_,i)=>`<div class="slot" style="left:${(i%COLS)*cellW}px;top:${Math.floor(i/COLS)*cellH}px;width:${cellW}px;height:${cellH}px"></div>`).join('');
+  const order=Array.from({length:N},(_,i)=>i).sort(()=>Math.random()-.5);
+  const tray=$('#tray');tray.innerHTML='';
+  order.forEach(i=>{
+   const p=document.createElement('div');p.className='piece';p.dataset.i=i;
+   const k=N>=16?.9:.62,w=cellW*k,hh=cellH*k;p.style.cssText=`position:relative;width:${w}px;height:${hh}px;background-image:url('${PIC}');background-size:${COLS*w}px ${ROWS*hh}px;background-position:${-(i%COLS)*w}px ${-Math.floor(i/COLS)*hh}px;`;
+   drag(p,i);tray.append(p);
+  });
+  head();
+  $('#board').addEventListener('click',boardTap);
+ }
+  {const pk=$('#peek'),bd=$('#board'),on=()=>bd.classList.add('peek'),off=()=>bd.classList.remove('peek');pk.addEventListener('pointerdown',on);['pointerup','pointerleave','pointercancel'].forEach(ev=>pk.addEventListener(ev,off));pk.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();bd.classList.toggle('peek');}});}
+ const head=()=>{$('#cnt').textContent=`${placed} / ${N}`;};
+ function drag(p,i){
+  p.addEventListener('pointerdown',e=>{
+   if(p.classList.contains('placed'))return;e.preventDefault();
+   const r=p.getBoundingClientRect();const ox=e.clientX-r.left,oy=e.clientY-r.top;
+   // floating copy at full board-cell size follows the pointer
+   const f=document.createElement('div');f.className='piece drag';f.style.cssText=`position:fixed;left:0;top:0;width:${cellW}px;height:${cellH}px;background-image:url('${PIC}');background-size:${COLS*cellW}px ${ROWS*cellH}px;background-position:${-(i%COLS)*cellW}px ${-Math.floor(i/COLS)*cellH}px;pointer-events:none`;
+   document.body.append(f);p.style.opacity='.25';
+   const move=(x,y)=>{f.style.transform=`translate(${x-cellW/2}px,${y-cellH/2}px) scale(1.06)`;};move(e.clientX,e.clientY);
+   const mv=ev=>move(ev.clientX,ev.clientY);
+   const up=ev=>{
+    removeEventListener('pointermove',mv);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);
+    const b=$('#board').getBoundingClientRect(),cx=ev.clientX-b.left,cy=ev.clientY-b.top;
+    const col=Math.floor(cx/cellW),row=Math.floor(cy/cellH);
+    f.remove();p.style.opacity='';
+    if(Math.hypot(ev.clientX-e.clientX,ev.clientY-e.clientY)<10){pick(p,i);return;}   // 거의 안 움직였으면 끌기가 아니라 '고르기'
+    if(cx>=0&&cy>=0&&col<COLS&&row<ROWS&&row*COLS+col===i)put(p,i);
+    else{ window.SejinSfx&&SejinSfx.play('wrong');if(cx>=-20&&cy>=-20&&cx<=boardW+20&&cy<=b.height+20){$('#tip').textContent='앗, 그 자리가 아니에요. 그림을 잘 봐요!';}if(!still){p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');} }
+   };
+   addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up);
+  });
+ }
+ // 끌기가 어려운 사람용: 아래 조각을 한 번 눌러 고른 뒤, 들어갈 칸을 누르면 놓인다 (맞는 칸이어야만 놓임 — 더블클릭 자동 맞추기는 없음)
+ let picked=null;
+ function pick(p,i){document.querySelectorAll('.piece.picked').forEach(x=>x.classList.remove('picked'));if(picked&&picked.i===i){picked=null;$('#tip').textContent='조각을 끌어서 알맞은 자리에 놓아요.';return;}picked={p,i};p.classList.add('picked');$('#tip').textContent='이제 이 조각이 들어갈 칸을 눌러요.';}
+ function boardTap(ev){
+  if(!picked)return;
+  const b=$('#board').getBoundingClientRect(),cx=ev.clientX-b.left,cy=ev.clientY-b.top,col=Math.floor(cx/cellW),row=Math.floor(cy/cellH);
+  if(col>=0&&row>=0&&col<COLS&&row<ROWS&&row*COLS+col===picked.i){const q=picked;picked=null;q.p.classList.remove('picked');put(q.p,q.i);}
+  else{window.SejinSfx&&SejinSfx.play('wrong');$('#tip').textContent='앗, 그 칸이 아니에요. 그림을 잘 봐요!';}
+ }
+ function put(p,i){picked=null;
+  p.remove();const d=document.createElement('div');d.className='piece placed';d.style.cssText=`left:${(i%COLS)*cellW}px;top:${Math.floor(i/COLS)*cellH}px;width:${cellW}px;height:${cellH}px;background-image:url('${PIC}');background-size:${COLS*cellW}px ${ROWS*cellH}px;background-position:${-(i%COLS)*cellW}px ${-Math.floor(i/COLS)*cellH}px`;
+  $('#board').append(d);placed++;head();window.SejinSfx&&SejinSfx.play(placed<N?'ok':'win');$('#tip').textContent=placed<N?'딱 맞아요! 다음 조각도 찾아봐요.':'';
+  if(placed===N)win();
+ }
+ function win(){
+  $('#board').querySelector('.ghost').style.opacity='0';$('#board').classList.add('glow');
+  const first=(()=>{try{const v=JSON.parse(localStorage.getItem('sejin-village-v1'))||{};return !(v.solved&&v.solved[PLACE]);}catch(e){return true;}})();
+  if(PLACE){try{const v=JSON.parse(localStorage.getItem('sejin-village-v1'))||{};v.solved=v.solved||{};v.solved[PLACE]=Date.now();localStorage.setItem('sejin-village-v1',JSON.stringify(v));}catch(e){}}
+  const yarn=first?10:2;SejinSave.pushResult({game:'minigame',label:'조각 맞추기 '+NAMES,place:'천사 마을',first,yarn});
+  $('#doneTitle').textContent='조각을 다 맞췄어요!';
+  $('#doneText').innerHTML=(PLACE&&first?`${NAMES}의 입구가 열렸어요!<br>`:'')+`실뭉치 <b>+${yarn}개</b>는 방에 가면 들어와요.`;
+  $('#doneActs').innerHTML=`<a href="${BACK}">${BACK.indexOf('village')===0?'천사 마을로 돌아가기':'돌아가기'}</a><button class="ghostb" id="again">한 번 더</button>`;
+  $('#again').onclick=()=>location.reload();
+  setTimeout(()=>{$('#doneCard').hidden=false;$('#doneActs a').focus();},still?0:900);
+ }
+})();
+</script>
+<script src="sejin-hud.js"></script></body>
+</html>

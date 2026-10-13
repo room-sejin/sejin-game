@@ -1,0 +1,79 @@
+{
+  "id": "coloring-flowercup-v2",
+  "name": "꽃 찻잔",
+  "difficulty": "보통",
+  "palette": {
+    "A": [
+      "외곽선",
+      "#67371f"
+    ],
+    "B": [
+      "크림",
+      "#fff1d4"
+    ],
+    "C": [
+      "민트",
+      "#95d5b3"
+    ],
+    "E": [
+      "보라",
+      "#c6ade5"
+    ],
+    "F": [
+      "분홍",
+      "#f49bac"
+    ],
+    "G": [
+      "금빛",
+      "#edc66b"
+    ]
+  },
+  "rows": [
+    "................................",
+    "................................",
+    "................................",
+    "............A....A..............",
+    "............A...A...............",
+    "...........A....A...............",
+    "............A....A..............",
+    "................................",
+    "..........AAAAAAAAAA............",
+    ".......AAABBBBBBBBBBAAA.........",
+    "......ABBBAAAAAAAAAABBBA.AAA....",
+    ".....ABAAAAAAAAAAAAAAAABACCCA...",
+    ".....ABAAAGGGGGGGGGGAAABACCCA...",
+    "......ABBBAAAAAAAAAABBBAAC.CAA..",
+    "......AAAABBBBBBBBBBAAAAA...AA..",
+    "......ACCCAAAAAAAAAACCAAA...AA..",
+    "......ACCCCCCCCCCCCCCCAAA...AA..",
+    ".......ACCCCCBBBBCCCCCAAA...AA..",
+    ".......ACCCCBBBBBBCCCAAAA...AA..",
+    ".......ACCCCBBFFBBCCCAEEAC.CAA..",
+    ".......ACCCCBBFFBBCCCAEEACCCA...",
+    ".......ACCCCBBBBBBCCCAEEACCCA...",
+    ".......ACCCCCBBBBCCCCAAAAAAA....",
+    "........ACCCCCCCCCCCCA..........",
+    "........AACCCCCCCCCCAAAA........",
+    "....AAAACCAAAAAAAAAACCCCAAAA....",
+    "..AABCCCCCCCCCCCCCCCCCCCCCCBAA..",
+    "..AABBBBCCCCCCCCCCCCCCCCBBBBAA..",
+    "....AAAABBBBBBBBBBBBBBBBAAAA....",
+    "........AAAAAAAAAAAAAAAA........",
+    "................................",
+    "................................"
+  ],
+  "sourceReference": "assets/sejin-coloring-flowercup-v2.png",
+  "gridSize": 32,
+  "filledCells": 466,
+  "colorCounts": {
+    "A": 207,
+    "B": 90,
+    "C": 149,
+    "G": 10,
+    "F": 4,
+    "E": 6
+  },
+  "gameConnected": false,
+  "visualApprovalPending": true,
+  "samplingNote": "고정 격자에 직접 정의한 칸별 도안. 생성 원화 재축소/자동샘플링 없음. 원화와 격자 도안은 별도 파일."
+}
