@@ -56,9 +56,11 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
  let BPM=112,BEAT=60000/BPM,TRAVEL=1350,PERFECT=60,GOOD=125,LIVES=5,TARGET=130;   // 곡·난이도를 고르면 begin()에서 정해진다
  // ---------- 곡 목록 (나중에 노래 파일이 오면 audio 에 파일 이름을 넣고 chart 를 곡의 박자에 맞게 만들면 된다) ----------
  const SONGS=[
-  {id:'cloud',name:'구름 위 뜨개 노래',desc:'포근하고 경쾌한 기본 곡 · 약 30초',bpm:112,audio:null,chart:'basic'},
-  {id:'winter',name:'포근한 겨울 노래',desc:'노래가 오면 열려요',bpm:96,audio:null,chart:null,locked:true},
-  {id:'star',name:'별빛 자장가',desc:'노래가 오면 열려요',bpm:88,audio:null,chart:null,locked:true},
+  {id:'cloud',name:'구름 위 뜨개 노래',desc:'포근하고 경쾌한 기본 곡 · 약 30초',bpm:112,audio:'assets/scarf/song-cloud-v1.mp3',chart:'basic'},
+  {id:'winter',name:'포근한 겨울 노래',desc:'눈 내리는 날의 종소리 · 약 30초',bpm:112,audio:'assets/scarf/song-winter-v1.mp3',chart:'basic'},
+  {id:'star',name:'별빛 자장가',desc:'천천히 흐르는 조용한 곡 · 약 45초',bpm:77,audio:'assets/scarf/song-lullaby-v1.mp3',chart:'basic'},
+  {id:'polka',name:'콩콩 오르골 폴카',desc:'통통 튀는 신나는 곡 · 약 30초',bpm:112,audio:'assets/scarf/song-polka-v1.mp3',chart:'basic'},
+  {id:'moon',name:'달빛 오르골',desc:'느리고 잔잔한 곡 · 약 45초',bpm:80,audio:'assets/scarf/song-moon-v1.mp3',chart:'basic'},
  ];
  // 난이도: 박자 빠르기·구슬이 떨어지는 시간·판정 폭·목숨·완성 목표(완벽만 쳤을 때 줄 수의 비율)·악보 단순화
  const DIFFS=[
@@ -99,6 +101,12 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
  const laneW=()=>W/LANES;
  const hitY=()=>{if(!trkOK)return H-130;const g=geo();return Math.min(H-120,g.oy+g.S*1130);};
  const topY=()=>{if(!trkOK)return 84;const g=geo();return g.oy+g.S*285;};
+ // 곡 재생: 카운트다운이 끝나는 순간(곡 시간 0) 시작. 난이도의 빠르기 배율만큼 재생 속도도 바꿈. 소리 크기는 방 설정의 '배경음'을 따른다.
+ let songAu=null,songGo=false;
+ const songVol=()=>{try{const v=localStorage.getItem('sejin-bgm-v1');if(v==null)return .5;if(v==='off')return 0;if(v==='low')return .25;if(v==='mid')return .5;return Math.max(0,Math.min(1,(+v||0)/100));}catch(e){return .5;}};
+ function stopSong(){if(songAu){try{songAu.pause();}catch(e){}songAu=null;}songGo=false;}
+ function prepSong(song,df){stopSong();const v=songVol();if(!song.audio||v<=0)return;try{songAu=new Audio(song.audio);songAu.preload='auto';songAu.playbackRate=df.bpm;songAu.preservesPitch=true;songAu.volume=Math.min(1,v);}catch(e){songAu=null;}}
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSong();});addEventListener('pagehide',stopSong);
  const now=()=>performance.now()-t0-LEAD;       // song time (ms); notes at t hit the line at song time t
  const yOf=t=>{const dt=t-now();return hitY()-(dt/TRAVEL)*(hitY()-topY());};   // note y for song time t
  function intro(){
@@ -113,7 +121,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
  function begin(){
   const song=SONGS[songSel],df=DIFFS[diffSel];try{localStorage.setItem('sejin-scarf-pref',JSON.stringify({song:songSel,diff:diffSel}));}catch(e){}
   BPM=Math.round(song.bpm*df.bpm);BEAT=60000/BPM;TRAVEL=df.travel;PERFECT=df.perfect;GOOD=df.good;LIVES=df.lives;
-  notes=makeChart(df.simple);
+  notes=makeChart(df.simple);prepSong(song,df);
   const maxRows=notes.reduce((s,n)=>s+2+(n.h>0?2:0),0);TARGET=Math.max(20,Math.round(maxRows*df.ratio));
   rows=0;lives=LIVES;combo=0;maxCombo=0;counts={p:0,g:0,m:0};fx=[];judge=null;down=[false,false,false];
   $('#start').hidden=true;state='play';t0=performance.now();last=performance.now();head();
@@ -143,7 +151,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
  // ---------- loop ----------
  function frame(ts){
   const dt=Math.min(.05,(ts-last)/1000);last=ts;
-  if(state==='play')update(dt);
+  if(state==='play'){if(songAu&&!songGo&&now()>=0){songGo=true;songAu.currentTime=0;songAu.play().catch(()=>{});}update(dt);}
   if(celeb){celeb.t+=dt;for(const c of celeb.conf){c.x+=c.vx*dt;c.y+=c.vy*dt;c.r+=dt*6;if(c.y>H+20){c.y=-10;c.x=Math.random()*W;}}}
   draw(dt);requestAnimationFrame(frame);
  }
@@ -223,7 +231,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
  function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);}
  // ---------- result ----------
  function finish(clear){
-  if(state!=='play')return;state='over';
+  if(state!=='play')return;state='over';stopSong();
   const total=counts.p+counts.g+counts.m,acc=total?Math.round((counts.p*1+counts.g*.6)/total*100):0;
   const win=clear&&rows>=TARGET&&lives>0;
   const grade=!win?'—':acc>=92?'S':acc>=80?'A':'B';
