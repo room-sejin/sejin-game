@@ -752,7 +752,7 @@ function renderWork(){
  const test=SejinSave.testMode;
  $('#workList').innerHTML=(test?'<p class="miss-note">테스트 모드: 모든 스테이지가 열려 있어요. 끄려면 주소 끝에 ?test=off 를 붙여 열어 주세요.</p>':'')+DOLL_BOOK.map((d,i)=>{const made=dolls[d.id],open=test||i===0||dolls[DOLL_BOOK[i-1].id],place=PLACES.find(p=>p.unlock===d.id);
   const info=[d.stage+' 스테이지',d.yarn?'한 판에 실 '+d.yarn+'개':'',made?made+'개 완성':'',place?(made?place.name+' 열림':'완성하면 '+place.name+' 열림'):''].filter(Boolean).join(' · ');
-  const thumb=d.art?'<i class="doll"></i>':open?'<i class="doll" style="filter:grayscale(1) opacity(.45)"></i>':'?';
+  const thumb=d.art?'<i class="doll"></i>':(made&&d.card)?`<span role="img" aria-label="${d.name} 그림" style="display:block;width:48px;height:48px;background:url(../assets/${d.card}) center/contain no-repeat"></span>`:open?'<i class="doll" style="filter:grayscale(1) opacity(.45)"></i>':'?';
   const go=`<a class="play" href="../knit.html${i?'?doll='+d.id:''}">${made?'또 뜨기':'뜨개 시작'}</a>`;
   return `<div class="item${open?'':' locked'}"><div class="thumb">${thumb}</div><div style="flex:1;min-width:0"><b>${d.name}</b> ${'★'.repeat(i+1)}${d.example?' <small>(예시)</small>':''}<p>${open?info:obj(DOLL_BOOK[i-1].name)+' 먼저 완성하면 열려요'}</p></div>${open?go:'<button disabled>잠김</button>'}</div>`;}).join('');
 }
