@@ -14,7 +14,7 @@
   image:'assets/character/base-v1.png',
   links:{
    instagram:'https://www.instagram.com/room_sejin/',   // 예: 'https://www.instagram.com/아이디'
-   store:'https://roomsejin.com',       // 판매 사이트(카페24) — 메인 주소
+   store:null,       // 쇼핑몰 오픈 전엔 null(배너 숨김). 오픈하면 'https://roomsejin.com' 으로
    contactEmail:'sejin7283@gmail.com', // 우체통 글을 받을 이메일 (예: 'me@example.com'). 있으면 '운영자에게 보내기'가 메일 앱을 열어요
    feedbackForm:null, // 또는 구글 폼 같은 설문 주소 (이메일 대신)
   },
