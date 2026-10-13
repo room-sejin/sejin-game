@@ -15,7 +15,7 @@ body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-famil
 .map{position:relative;aspect-ratio:1330/1182;border-radius:22px;overflow:hidden;border:3px solid #fff;box-shadow:0 8px 24px #8875671f;background:#dcd4f0}
 .map>img.bg{position:absolute;inset:0;width:100%;height:100%}
 .hit{position:absolute;border:0;background:transparent;border-radius:16px;cursor:pointer;padding:0}
-.hit:hover,.hit:focus-visible{background:#ffffff33;outline:3px solid #fff}
+.hit:focus-visible{outline:3px solid #fff}
 .hit .pin{position:absolute;left:50%;top:-6px;transform:translateX(-50%);background:#fff;border-radius:999px;padding:2px 8px;font-size:13px;box-shadow:0 2px 0 var(--line);white-space:nowrap;font-weight:bold;color:var(--ink);font-family:inherit}
 .me{position:absolute;left:50%;bottom:8%;width:11%;transform:translateX(-50%);pointer-events:none;filter:drop-shadow(0 3px 0 #0000001a)}
 .me img{width:100%;display:block}
@@ -40,7 +40,7 @@ body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-famil
 @keyframes tw{50%{opacity:.15}}@keyframes up{to{transform:translate(-50%,-200%) scale(1.4);opacity:0}}
 .hh{color:#fff;font-size:14px;text-align:center}.hh small{display:block;opacity:.8;font-size:12px;margin-top:2px}
 .hx{border:0;font:inherit;font-weight:bold;padding:10px 20px;border-radius:14px;background:#fff;color:var(--ink);cursor:pointer}
-@media (prefers-reduced-motion:reduce){.hv .sp{animation:none}}.hit.on{background:#ffffff2e;outline:3px solid #fff}
+@media (prefers-reduced-motion:reduce){.hv .sp{animation:none}}
 .card .enter{margin-top:10px;border:0;font:inherit;font-weight:bold;font-size:14px;padding:11px 20px;border-radius:14px;background:var(--btn);color:#fff;box-shadow:0 3px 0 var(--btn-d);cursor:pointer}</style>
 </head>
 <body>
@@ -79,7 +79,7 @@ body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-famil
   if(!picked)card.innerHTML=`<b>천사 마을에 도착했어요 🪽</b><p>${nx?`건물을 눌러 앞으로 가 봐요. 닫힌 곳은 집 앞에서 조각을 찾고, 별 광장 안내자에게 가져가면 열려요. (열린 곳 ${done}/4 · 다음: <b>${nx.name}</b>)`:'마을의 모든 곳이 열렸어요! 열린 곳을 눌러 안으로 들어가 보세요.'}</p>`;}
  function fly(s){const [tx,ty]=s.at;me.style.transition=still?'none':'left .9s ease-in-out, bottom .9s ease-in-out';me.style.left=tx+'%';me.style.bottom=(100-ty)+'%';bubble.style.left=Math.max(30,Math.min(70,tx))+'%';bubble.style.top=Math.max(14,ty-11)+'%';}
  function pick(s){
-  picked=s;fly(s);const st=statusOf(s);bubble.textContent=st.say;window.SejinSfx&&SejinSfx.play('move');
+  picked=s;fly(s);const st=statusOf(s);bubble.textContent=st.say;
   page.querySelectorAll('.hit').forEach(h=>h.classList.toggle('on',SPOTS[+h.dataset.i]===s));
   card.innerHTML=`<b>${s.icon} ${s.name}</b><p>${st.text}</p><button class="enter" id="enter">${st.btn}</button>`;
   document.getElementById('enter').onclick=()=>{location.href=url(s);};
