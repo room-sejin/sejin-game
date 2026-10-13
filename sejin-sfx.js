@@ -13,13 +13,14 @@
  const SETS={
   pop:()=>{tone(620,0,.09,'triangle');},
   hop:()=>{tone(520,0,.1,'sine',.04);},
+  move:()=>{tone(330,0,.25,'sine',.05);tone(440,.05,.2,'sine',.03);},
   ok:()=>{tone(660,0,.1,'triangle');tone(880,.09,.14,'triangle');},
   wrong:()=>{tone(220,0,.16,'sawtooth',.07);tone(180,.1,.18,'sawtooth',.06);},
   chime:()=>{[784,988,1175,1568].forEach((f,i)=>tone(f,i*.08,.35,'sine',.1));},
   win:()=>{[523,659,784,1047].forEach((f,i)=>tone(f,i*.11,.3,'triangle',.12));tone(1319,.5,.5,'sine',.1);},
  };
 // 파일 효과음: FILES에 이름을 적고 assets/sfx/sfx-<이름>-v1.mp3 를 넣으면 그 소리를 우선 쓰고, 못 불러오면 위 합성음으로 대체. (라이선스 확인된 소리만 넣을 것 — NEXT_WINDOW.md 효과음 규칙)
- const FILES=['pop','ok','chime','win','wrong','hop'],LOUD={hop:.8},base=(document.currentScript&&document.currentScript.src||'').replace(/[^/]*$/,''),aud={};
+ const FILES=['pop','ok','chime','win','wrong','hop','move'],LOUD={hop:.8,move:.9},base=(document.currentScript&&document.currentScript.src||'').replace(/[^/]*$/,''),aud={};
  FILES.forEach(n=>{const a=new Audio(base+'assets/sfx/sfx-'+n+'-v1.mp3');a.preload='auto';a.addEventListener('canplaythrough',()=>{aud[n]=a;});a.addEventListener('error',()=>{delete aud[n];});});
  function playFile(n){const a=aud[n];if(!a)return false;try{const c=a.cloneNode();c.volume=Math.min(1,.6*gain()*(LOUD[n]||1));c.play().catch(()=>{});return true;}catch(e){return false;}}
  window.SejinSfx={play(n){if(muted())return;try{if(playFile(n))return;(SETS[n]||SETS.pop)();}catch(e){}},getVol,setVol(v){try{localStorage.setItem(VK,String(v));localStorage.setItem('sejin-mute-v1',v>0?'0':'1');}catch(e){}},setMute(v){try{localStorage.setItem('sejin-mute-v1',v?'1':'0');if(!v&&getVol()===0)localStorage.setItem(VK,'50');}catch(e){}}};

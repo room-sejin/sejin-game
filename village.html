@@ -79,7 +79,7 @@ body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-famil
   if(!picked)card.innerHTML=`<b>천사 마을에 도착했어요 🪽</b><p>${nx?`건물을 눌러 앞으로 가 봐요. 닫힌 곳은 집 앞에서 조각을 찾고, 별 광장 안내자에게 가져가면 열려요. (열린 곳 ${done}/4 · 다음: <b>${nx.name}</b>)`:'마을의 모든 곳이 열렸어요! 열린 곳을 눌러 안으로 들어가 보세요.'}</p>`;}
  function fly(s){const [tx,ty]=s.at;me.style.transition=still?'none':'left .9s ease-in-out, bottom .9s ease-in-out';me.style.left=tx+'%';me.style.bottom=(100-ty)+'%';bubble.style.left=Math.max(30,Math.min(70,tx))+'%';bubble.style.top=Math.max(14,ty-11)+'%';}
  function pick(s){
-  picked=s;fly(s);const st=statusOf(s);bubble.textContent=st.say;window.SejinSfx&&SejinSfx.play('pop');
+  picked=s;fly(s);const st=statusOf(s);bubble.textContent=st.say;window.SejinSfx&&SejinSfx.play('move');
   page.querySelectorAll('.hit').forEach(h=>h.classList.toggle('on',SPOTS[+h.dataset.i]===s));
   card.innerHTML=`<b>${s.icon} ${s.name}</b><p>${st.text}</p><button class="enter" id="enter">${st.btn}</button>`;
   document.getElementById('enter').onclick=()=>{location.href=url(s);};
