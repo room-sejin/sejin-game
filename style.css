@@ -28,3 +28,5 @@
 
 /* 폰: 게임 화면을 세로로 크게(남는 아래 공간 활용) */
 @media(max-width:600px){canvas{aspect-ratio:auto;height:clamp(340px,calc(100dvh - 340px),118vw)}}
+
+#overlay .actions .armed{background:#e58c9c!important;color:#fff!important;animation:armpulse .5s ease-in-out infinite alternate}@keyframes armpulse{to{transform:scale(1.04)}}@media (prefers-reduced-motion:reduce){#overlay .actions .armed{animation:none}}

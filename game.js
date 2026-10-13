@@ -123,13 +123,23 @@ function drawWorkshop(floor){
 }
 function resize(){const box=canvas.getBoundingClientRect();viewWidth=box.width/box.height>1.2?960:640;runner.spacing=viewWidth<800&&runner.stageId!=='sejin'?.7:1;viewHeight=viewWidth*box.height/box.width;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(box.width*dpr);canvas.height=Math.round(box.height*dpr);}
 new ResizeObserver(resize).observe(canvas);
-function begin(){if(!ready||stageLocked)return;
+let endMode=false;
+function begin(){if(!ready||stageLocked)return;endMode=false;
  if(COST&&energy<COST){showTired();return;}
  if(YCOST&&yarnHave()<YCOST){overlay.hidden=false;trophy.hidden=true;$('#eyebrow').textContent='NEED YARN';$('#title').textContent='실뭉치가 모자라요';$('#message').innerHTML='인형을 뜨려면 실뭉치 <b>'+YCOST+'개</b>가 필요해요 (지금 '+yarnHave()+'개).<br>실 가게에 소품을 팔거나 미니게임, 친구와 대화로 모아 보세요.';toRoom.hidden=false;return;}
  if(COST){window.SejinSave.pushResult({game:'energy',use:COST});energy-=COST;}
  if(YCOST)window.SejinSave.pushResult({game:'spend',cost:YCOST});
  runner.reset();cd=reduced?1:3;popups=[];prevCoins=0;paused=false;shown='';menuOpen=false;menu.hidden=true;overlay.hidden=true;trophy.hidden=true;toRoom.hidden=true;$('#announcement').textContent='뜨개 시작. 화면 또는 스페이스바로 실을 뛰어넘으세요.';canvas.focus({preventScroll:true});last=0;}
 start.addEventListener('click',begin);
+// 결과 화면 버튼(다시 뜨기·다음 스테이지·방으로)은 두 번 눌러야 넘어간다: 첫 번째는 '한 번 더!' 표시만.
+let armedBtn=null,armTimer=0;
+function disarm(){if(armedBtn){armedBtn.textContent=armedBtn.dataset.orig;armedBtn.classList.remove('armed');armedBtn=null;}clearTimeout(armTimer);}
+overlay.addEventListener('click',e=>{const b=endMode&&e.target.closest('#start,#nextStage,#toRoom');if(!b)return;
+ if(armedBtn===b){disarm();return;}
+ e.preventDefault();e.stopImmediatePropagation();disarm();
+ b.dataset.orig=b.textContent;b.textContent='한 번 더 눌러요!';b.classList.add('armed');armedBtn=b;armTimer=setTimeout(disarm,2500);window.SejinSfx&&SejinSfx.play('pop');
+},true);
+
 canvas.addEventListener('pointerdown',e=>{if(e.isPrimary&&e.button===0){e.preventDefault();runner.jump();}});
 // Settings menu: pauses the run; resume, restart or go back to the room.
 function openMenu(){if(runner.status!=='running'||menuOpen)return;menuOpen=true;menu.hidden=false;state.textContent='잠깐 멈춤';$('#menuInfo').textContent='완성도 '+Math.floor(runner.progress*100)+'% · 하트 '+runner.health+'개';$('#resume').focus({preventScroll:true});}
@@ -140,7 +150,7 @@ document.addEventListener('keydown',e=>{
  if(e.code==='Escape'){if(menuOpen)closeMenu();else openMenu();return;}
  if(DUCK_KEYS.includes(e.code)&&runner.stage.extras&&!menuOpen){e.preventDefault();if(!e.repeat)runner.duck(true);return;}
  if(e.code==='ArrowUp'&&runner.status==='running'&&!menuOpen){e.preventDefault();if(!e.repeat)runner.jump();return;}
- if(e.code!=='Space'||e.repeat||menuOpen||e.target.tagName==='BUTTON'||e.target.tagName==='A')return;e.preventDefault();if(runner.status==='running')runner.jump();else if(!stageLocked)begin();});
+ if(e.code!=='Space'||e.repeat||menuOpen||e.target.tagName==='BUTTON'||e.target.tagName==='A')return;e.preventDefault();if(runner.status==='running')runner.jump();else if(!stageLocked){if(endMode)start.click();else begin();}});
 document.addEventListener('keyup',e=>{if(DUCK_KEYS.includes(e.code))runner.duck(false);});
 // Harder stages: big on-screen 점프 / 숙이기 buttons (hold 숙이기) and a yarn counter in the HUD.
 let pad=null,yarnChip=null;
@@ -425,7 +435,7 @@ function showResult(){window.SejinSfx&&SejinSfx.play(runner.status==='clear'?'wi
  // After a clear the next stage is offered right away (it is open once this doll is finished).
  const nextDoll=DOLLS[dollIndex+1],nextBtn=$('#nextStage'),cleared=NEED?madeDoll:clear;
  if(nextBtn){if(cleared&&nextDoll){nextBtn.hidden=false;nextBtn.href=stageHref(nextDoll);nextBtn.textContent='다음 스테이지: '+nextDoll.name;}else nextBtn.hidden=true;}
- start.focus({preventScroll:true});
+ endMode=true;start.focus({preventScroll:true});
 }
 // 시작 3-2-1 카운트다운과 실 +1 팝업
 let cd=0,popups=[],prevCoins=0;
