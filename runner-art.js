@@ -300,6 +300,14 @@ function wall3(id,S,floor){
    const book=gi('home-bookcase-v25');if(!book)return false;
    blit(book,o.x+o.w/2,floor,o.w,o.h,0,0);return true;
   }
+  // 책장처럼 크게 키운 '큰 장애물'(코스 배치의 v 값): 실 선반(실 가게)·구름 탑(천사)·긴 통나무(공원). 부딪히는 크기 = o.w × o.h 그대로, 그림은 비율을 지켜 그 칸에 맞춘다.
+  const BIGP={shop:['yarndisplay','shop-yarn-display-v29'],angel:['lilaccolumn','angel-lilac-column-v29'],park:['tree','park-tree']};
+  if(BIGP[set]&&o.v===BIGP[set][0]){
+   const big=gi(BIGP[set][1]);if(!big)return false;
+   const ar=(big.br-big.bl)/(big.bb-big.bt);let h=o.h,w=h*ar;
+   if(w>o.w*1.1){w=o.w*1.1;h=w/ar;}
+   blit(big,o.x+o.w/2,floor,w,h,0,0);return true;
+  }
   if(set==='park'&&o.kind==='ruler')name='park-flower-log-v29';
   else if(set==='angel'&&(o.kind==='triangle'||o.kind==='scissors'))name='angel-lilac-column-v29';
   else if(!(FRESH[set]||[]).includes(o.kind))return false;
