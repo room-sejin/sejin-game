@@ -80,7 +80,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   if(ax){P.vx=ax*270;target=null;}else if(target!==null){P.vx=Math.max(-430,Math.min(430,(target-P.x)*9));}else P.vx*=.9;
   P.x+=P.vx*dt;if(P.x<-P.w/2)P.x=W-P.w/2;if(P.x>W-P.w/2)P.x=-P.w/2;
   const prevBottom=P.y+P.h;P.vy+=(meters()>448?1350:1500)*dt;P.y+=P.vy*dt;   // 별나라에서는 중력이 조금 약해져 둥실
-  if(P.vy>0){for(const p of plats){if(p.gone)continue;if(prevBottom<=p.y+4&&P.y+P.h>=p.y&&P.x+P.w*.75>p.x&&P.x+P.w*.25<p.x+p.w){P.vy=-780;P.y=p.y-P.h;window.SejinSfx&&SejinSfx.play('pop');fxs.push({k:'ring',x:P.x+P.w/2,y:p.y,t:0,life:.35});if(p.type==='brk'){p.gone=true;fxs.push({k:'poof',x:p.x+p.w/2,y:p.y,t:0,life:.5});}break;}}}
+  if(P.vy>0){for(const p of plats){if(p.gone)continue;if(prevBottom<=p.y+4&&P.y+P.h>=p.y&&P.x+P.w*.75>p.x&&P.x+P.w*.25<p.x+p.w){P.vy=-780;P.y=p.y-P.h;window.SejinSfx&&SejinSfx.play('hop');fxs.push({k:'ring',x:P.x+P.w/2,y:p.y,t:0,life:.35});if(p.type==='brk'){p.gone=true;fxs.push({k:'poof',x:p.x+p.w/2,y:p.y,t:0,life:.5});}break;}}}
   for(const p of plats)if(p.type==='move'){p.x+=p.dir*p.sp*dt;if(p.x<4||p.x+p.w>W-4)p.dir*=-1;}
   const mid=H*.42;if(P.y<mid){const d=mid-P.y;P.y=mid;climbed+=d;plats.forEach(p=>p.y+=d);stars.forEach(s=>s.y+=d);}
   plats=plats.filter(p=>p.y<H+30&&!p.gone);stars=stars.filter(s=>!s.got&&s.y<H+30);
