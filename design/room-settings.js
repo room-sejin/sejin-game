@@ -52,6 +52,7 @@
    <div class="row" style="display:block"><span>기록 내보내기 · 가져오기<small>다른 브라우저나 기기에서 이어서 하려면 아래 글자를 복사해 두었다가 붙여 넣어요</small></span>
     <textarea id="sBox" aria-label="기록 데이터" placeholder="여기에 내보낸 기록을 붙여 넣고 '가져오기'를 눌러요"></textarea>
     <div class="acts"><button class="b" id="sExp">내 기록 보기·복사</button><button class="b ghost" id="sImp">가져오기</button></div></div>
+   <div class="row"><span>방문 통계<small>방문 수만 세어요. 누가 왔는지·개인 정보는 모으지 않아요${window.SejinStats&&SejinStats.isOwner()?' · 이 브라우저는 통계에서 제외돼 있어요':''}</small></span>${(window.SejinStats&&(SejinStats.isOwner()||test))?`<button class="b ghost" id="sOwn">${SejinStats.isOwner()?'내 접속 포함하기':'내 접속 제외하기'}</button>`:''}</div>
    <div class="row"><span>테스트 모드<small>${test?'켜짐 — 모든 잠금이 열려 있어요':'꺼짐'}</small></span><button class="b ghost" id="sTest">${test?'끄기':'켜기'}</button></div>
    <div class="row"><span>처음부터 다시 하기<small>모든 기록이 지워져요</small></span><button class="b warn" id="sReset">지우기</button></div>
    <button class="b ghost close" id="sClose">닫기</button></div>`;
@@ -66,6 +67,7 @@
    let o;try{o=JSON.parse(v);if(o.game!=='sejin'||!o.data)throw 0;}catch(e){settings('기록 형식이 맞지 않아요. 내보낸 글자를 그대로 붙여 넣어 주세요.');return;}
    if(!confirm('이 기기의 현재 기록이 가져온 기록으로 바뀌어요. 계속할까요?'))return;
    keys().forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});Object.entries(o.data).forEach(([k,val])=>{if(k.startsWith('sejin-')&&typeof val==='string')set(k,val);});location.reload();};
+  if($('#sOwn'))$('#sOwn').onclick=()=>{SejinStats.setOwner(!SejinStats.isOwner());location.reload();};
   $('#sTest').onclick=()=>{if(window.SejinSave)SejinSave.testMode=!test;location.reload();};
   let armed=false;$('#sReset').onclick=()=>{if(!armed){armed=true;$('#sReset').textContent='정말 지울까요?';return;}keys().forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});location.reload();};
   $('#sClose').onclick=close;

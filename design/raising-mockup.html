@@ -785,4 +785,5 @@ render();
 <script src="room-cleaning.js"></script>
 <script src="room-care.js"></script>
 <script src="room-responsive.js"></script><script src="room-colors.js"></script><script src="room-settings.js"></script><script src="room-pou.js"></script><script>(()=>{const b=document.getElementById('sfxBtn');if(!b)return;const off=()=>{try{return localStorage.getItem('sejin-mute-v1')==='1';}catch(e){return false;}};const show=()=>{b.textContent=off()?'🔇':'🔊';};show();b.onclick=()=>{window.SejinSfx&&SejinSfx.setMute(!off());show();if(!off())window.SejinSfx&&SejinSfx.play('ok');};})();
-</script></body></html>
+</script><script src="../sejin-stats.js"></script>
+</body></html>
